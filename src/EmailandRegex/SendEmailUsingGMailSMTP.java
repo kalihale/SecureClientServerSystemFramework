@@ -26,16 +26,16 @@
 ////
 ////	// -- set the gmail host URL
 ////	final static private String host = "smtp.gmail.com";
-////	final static private String port = "587";
+////	final static private String port = "###";
 ////
 ////	// -- You must have a valid gmail username/password pair to use
 ////	// gmail as a SMTP service
-////	final static private String gmailusername = "gooeysqwad@gmail.com";
-////	final static private String gmailpassword = "ThisIsGooeySqwad";
+////	final static private String gmailusername = "xxx@gmail.com";
+////	final static private String gmailpassword = "password";
 ////
 ////	public static void main(String[] args) {
 ////        // -- comma separated values of to email addresses
-////        String to = "kalihale@callutheran.edu";
+////        String to = "kalihale@xxx";
 ////		sendMail(to);
 ////	}
 ////
