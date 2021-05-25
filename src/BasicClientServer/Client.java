@@ -64,8 +64,8 @@ public class Client {
 	 */
 	public static void main(String[] args) {
 
-		String host = "75.83.50.5";
-		int port = 3306;
+		String host = "localhost";
+		int port = 8000;
 		// -- instantiate a Client object
 		//    the constructor will attempt to connect to the server
 		Client client = new Client(host, port);

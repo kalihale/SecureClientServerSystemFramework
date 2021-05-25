@@ -16,6 +16,7 @@ public class ServerDataBase
     // -- connect to the world database
     // -- this is the connector to the database, default port is 3306
     //    <<Your schema name here>> is the schema (database) you created using the workbench
+   //  <@  "jdbc:mysql://<<IP_address_here>>:<<port_here>>/<<schema_name_here>>?useSSL=false"
     private static String userdatabaseURL = "jdbc:mysql://localhost:3306/serverdata?useSSL=false";
 
     // -- this is the username/password, created during installation and in MySQL Workbench
@@ -23,6 +24,9 @@ public class ServerDataBase
     //    (DBA sets all which works fine)
     private static String user = "root";
     private static String pw = "root";
+
+    //  <@  https://www.codejava.net/java-se/jdbc/jdbc-examples-for-calling-stored-procedures-mysql
+    //      How to call a procedure using Java
 
     public static String getInfo(String name) throws SQLException
     {

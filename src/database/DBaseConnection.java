@@ -34,7 +34,7 @@ public class DBaseConnection {
     //    When you add a user make sure you give them the appropriate Administrative Roles
     //    (DBA sets all which works fine)
     private String user = "root";
-    private String password = "root";
+    private String password = "rosegarden";
 
 	public DBaseConnection() {
 		String sqlcmd; 
