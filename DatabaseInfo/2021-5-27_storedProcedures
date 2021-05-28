@@ -1,0 +1,55 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addNewClub`(
+IN clubname varchar(45),
+IN clubdesc varchar(100),
+IN clubsubject varchar(45)
+)
+BEGIN
+insert into clubs(clubName, fk_clubSubject, clubDescription) values(clubname, (select idclubSubject from clubSubject where clubsubject = clubSubject.clubSubject), clubdesc);
+END
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addNewClubSubject`(
+IN clubsubject varchar(45)
+)
+BEGIN
+insert into clubSubject(clubSubject) values(clubsubject);
+END
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addNewStudent`(
+IN studentFirstName varchar(45),
+IN studentLastName varchar(45),
+IN studentBirthdate date
+)
+BEGIN
+insert into students(studentFirstName, studentLastName, studentBirthdate) values(studentFirstName, studentLastName, studentBirthdate);
+END
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addStudentToClub`(
+IN studentFN varchar(45),
+IN studentLN varchar(45),
+IN club varchar(45)
+)
+BEGIN
+insert into studentsInClubs(fk_student, fk_club) values ((select studentID from students where students.studentFirstName = studentFN and students.studentLastName = studentLN),
+(select clubID from clubs where clubs.clubName = club));
+END
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `whichClubsIsAStudentIn`(
+IN firstname varchar(45),
+IN lastname varchar(45)
+)
+BEGIN
+select students.studentFirstName, students.studentLastName, b.clubName, b.clubDescription, b.clubSubject
+ from students inner join (select a.clubName, a.clubDescription, a.clubSubject, studentsInClubs.fk_student from studentsInClubs inner join 
+ (select clubs.clubID, clubs.clubName, clubs.clubDescription, clubSubject.clubSubject
+ from clubs inner join clubSubject where clubs.fk_clubSubject = clubSubject.idclubSubject) a where a.clubID = studentsInClubs.fk_club) b
+where b.fk_student = students.studentID and students.studentFirstName = firstname and students.studentLastName = lastname order by students.studentLastName;
+END
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `whichStudentsAreInAClub`(
+IN clubName varchar(45)
+)
+BEGIN
+select s.studentFirstName, s.studentLastName from clubs c inner join 
+(select sic.fk_club, s.studentFirstName, s.studentLastName from studentsInClubs sic inner join students s where s.studentID = sic.fk_student) s
+where c.clubID = s.fk_club and c.clubName = clubName;
+END

@@ -2,7 +2,6 @@ package BasicClientServer;
 
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.Set;
 
 /**
  * @author reinhart
@@ -38,7 +37,7 @@ public class CommandProtocol {
 			// -- no response to the client is necessary
 			na.close();
 			ch.getServer().removeID(ch.getID());
-			ch.Stop();
+			ch.stop();
 		}
 		else if (cmd.equals("hello")) {
 				

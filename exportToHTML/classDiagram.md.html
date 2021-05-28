@@ -1,0 +1,153 @@
+<html>
+<head>
+<title>classDiagram.md</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #5e7aa3; font-style: italic;}
+.s1 { color: #e0e2e4;}
+</style>
+</head>
+<body bgcolor="#21282d">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+classDiagram.md</font>
+</center></td></tr></table>
+<pre><span class="s0">```mermaid</span>
+<span class="s0">classDiagram</span>
+<span class="s0">ClientGUI ..&gt; JavaFX : &lt;&lt;extends&gt;&gt;</span>
+<span class="s0">ClientGUI &quot;1&quot;*--|&gt;&quot;1&quot; Client</span>
+<span class="s0">Client *--|&gt; NetworkAccess : &lt;&lt;private&gt;&gt;</span>
+<span class="s0">NetworkAccess &lt;|--* ClientHandler : &lt;&lt;private&gt;&gt;</span>
+<span class="s0">ClientHandler *--|&gt; UserHandler</span>
+<span class="s0">ClientHandler &lt;|--* Server</span>
+<span class="s0">Server *--|&gt; ServerSocket : &lt;&lt;private&gt;&gt;</span>
+<span class="s0">ClientHandler ..&gt; CommandProtocol : &lt;&lt;uses statically&gt;</span>
+<span class="s0">CommandProtocol ..&gt; ServerDataBase : &lt;&lt;uses&gt;&gt;</span>
+<span class="s0">Server &quot;1&quot;*--|&gt;&quot;1&quot; ServerGUI</span>
+<span class="s0">ServerGUI ..&gt; JavaFX : &lt;&lt;extends&gt;&gt;</span>
+<span class="s0">ServerGUI ..&gt; UserDataBase : &lt;&lt;uses&gt;&gt;</span>
+<span class="s0">UserHandler ..&gt; UserDataBase : &lt;&lt;uses&gt;&gt;</span>
+<span class="s0">ClientHandler ..&gt; Thread : &lt;&lt;extends&gt;&gt;</span>
+<span class="s0">class ClientGUI{</span>
+    <span class="s0">-username : String</span>
+    <span class="s0">-minheight : int</span>
+    <span class="s0">-minwidth : int</span>
+    <span class="s0">-BG : background</span>
+    <span class="s0">-BTgray : String</span>
+    <span class="s0">-BTgreen : String</span>
+    <span class="s0">-sendit : String</span>
+    <span class="s0">-usefulInfo : Boolean</span>
+    <span class="s0">-client : Client</span>
+    <span class="s0">-ip : String</span>
+    <span class="s0">-port : int</span>
+    <span class="s0">+start(Stage primaryStage) void</span>
+    <span class="s0">-disconnected() void</span>
+    <span class="s0">-login() void</span>
+    <span class="s0">-home() void</span>
+    <span class="s0">-passwordChange() void</span>
+    <span class="s0">-forgotPassword() void</span>
+    <span class="s0">-register() void</span>
+    <span class="s0">-closeWindowEventHome() void</span>
+    <span class="s0">-closeWindowEventElse() void</span>
+<span class="s0">}</span>
+<span class="s0">class Client{</span>
+    <span class="s0">-networkaccess : NetworkAccess</span>
+    <span class="s0">+Client(String ip, int port)</span>
+    <span class="s0">+disconnect() void</span>
+    <span class="s0">+sendString(String info) String</span>
+<span class="s0">}</span>
+<span class="s0">class NetworkAccess{</span>
+    <span class="s0">-socket : Socket</span>
+    <span class="s0">-datain : BufferedReader</span>
+    <span class="s0">-dataout : DataOutputStream</span>
+    <span class="s0">+NetworkAccess(String ip, int port)</span>
+    <span class="s0">+NetworkAccess(Socket socket)</span>
+    <span class="s0">+readString() String</span>
+    <span class="s0">+sendString(String _msg, boolean acknowledge) String</span>
+<span class="s0">}</span>
+<span class="s0">class ClientHandler{</span>
+    <span class="s0">-networkAccess : NetworkAccess</span>
+    <span class="s0">-clientHandler : ClientHandler</span>
+    <span class="s0">-go : boolean</span>
+    <span class="s0">-name : String</span>
+    <span class="s0">-id : int</span>
+    <span class="s0">-server : Server</span>
+    <span class="s0">-userHandler : UserHandler</span>
+    <span class="s0">+ClientHandler(int id, Socket socket, Server server)</span>
+    <span class="s0">+toString() String</span>
+    <span class="s0">+getName() String</span>
+    <span class="s0">+getServer() Server</span>
+    <span class="s0">+run() void</span>
+    <span class="s0">+Stop() void</span>
+    <span class="s0">+getID() int</span>
+<span class="s0">}</span>
+<span class="s0">class CommandProtocol{</span>
+    <span class="s0">-commands : Hashmap</span>
+    <span class="s0">+processCommand(String cmd, NetworkAccess na, ClientHandler ch) void</span>
+<span class="s0">}</span>
+<span class="s0">class ServerDataBase{</span>
+    <span class="s0">-conn : Connection</span>
+    <span class="s0">-stmt : Statement</span>
+    <span class="s0">-rset : ResultSet</span>
+    <span class="s0">-sqlcmd : String</span>
+    <span class="s0">-result : String</span>
+    <span class="s0">-userdatabaseURL : String</span>
+    <span class="s0">-user : String</span>
+    <span class="s0">-pw : String</span>
+    <span class="s0">+getInfo(String name) String</span>
+<span class="s0">}</span>
+<span class="s0">class UserHandler{</span>
+    <span class="s0">-username : String</span>
+    <span class="s0">-reply : String</span>
+    <span class="s0">+process(String process) String</span>
+    <span class="s0">-login(String username, String password) String</span>
+    <span class="s0">-logout(String username) String</span>
+    <span class="s0">-userRegistration(String userinfo) String</span>
+    <span class="s0">-changePassword(String userinfo) String</span>
+    <span class="s0">-verifyEmailFormat(String email) boolean</span>
+    <span class="s0">-verifyPassFormat(String password) boolean</span>
+    <span class="s0">-forgotPassword(String password) boolean</span>
+    <span class="s0">-sendMail(String to, String newPassword) boolean</span>
+    <span class="s0">-generateRandomPassword() String</span>
+<span class="s0">}</span>
+<span class="s0">class Server{</span>
+    <span class="s0">-PORT : int = 8000</span>
+    <span class="s0">-running : boolean</span>
+    <span class="s0">-nextID : into</span>
+    <span class="s0">-clientConnections : Vector&lt;ClientHandler&gt;</span>
+    <span class="s0">+Server()</span>
+    <span class="s0">-listen() void</span>
+    <span class="s0">+peerConnection(Socket socket) void</span>
+    <span class="s0">-removeID(int id) void</span>
+    <span class="s0">+getConnectedUsers() int</span>
+<span class="s0">}</span>
+<span class="s0">class ServerGUI{</span>
+    <span class="s0">-server : Server</span>
+    <span class="s0">-BTGRAY : String</span>
+    <span class="s0">-serverRunning : boolean</span>
+    <span class="s0">+start(Stage primaryStage) void</span>
+<span class="s0">}</span>
+<span class="s0">class UserDataBase{</span>
+    <span class="s0">-conn : Connection</span>
+    <span class="s0">-stmt : Statement</span>
+    <span class="s0">-rset : ResultSet</span>
+    <span class="s0">-sqlcmd : String</span>
+    <span class="s0">-result : String</span>
+    <span class="s0">-userdatabaseURL : String</span>
+    <span class="s0">-user : String</span>
+    <span class="s0">-pw : String</span>
+    <span class="s0">-getInfo(String username) String[]</span>
+    <span class="s0">+login(String username, String password) String</span>
+    <span class="s0">+logout(String username)</span>
+    <span class="s0">+registration(String username, String password, String email) String</span>
+    <span class="s0">+changePassword(String username, String oldPassword, String newPassword) String</span>
+    <span class="s0">+changePassword(String email, String newPassword) boolean</span>
+    <span class="s0">+getRegisteredUsers() int</span>
+    <span class="s0">+getLoggedInUsers() String</span>
+    <span class="s0">+getLoggedInNum() int</span>
+    <span class="s0">+getLockedUsers() String</span>
+<span class="s0">}</span>
+<span class="s0">```</span></pre>
+</body>
+</html>
