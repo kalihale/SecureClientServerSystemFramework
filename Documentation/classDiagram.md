@@ -124,6 +124,7 @@ class ServerDataBase{
     -pw : String
     +getInfo(String username) String
 }
+
 class Server{
     -PORT : int = 8000
     -running : boolean
