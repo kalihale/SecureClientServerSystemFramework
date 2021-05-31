@@ -1,7 +1,7 @@
 Generic Client-Side Sequence Diagram
 ```mermaid
 sequenceDiagram
-User ->> ClientGUI: "Information"
+USER ->> ClientGUI: "Information"
 activate ClientGUI
 ClientGUI ->> Client: "Information"
 deactivate ClientGUI
@@ -16,8 +16,9 @@ NetworkAccess -->> Client: "reply"
 activate Client
 deactivate NetworkAccess
 Client -->> ClientGUI: "reply"
-deactivate Client
 activate ClientGUI
+ClientGUI -->> USER: "reply"
+deactivate Client
 deactivate ClientGUI
 ```
 Login Diagram - Server Side
@@ -153,6 +154,7 @@ end
 UserDataBase -->> UserHandler: Password Successfully Changed
 deactivate UserDataBase
 UserHandler -->> ClientHandler: response
+deactivate UserHandler
 ClientHandler ->> NetworkAccess: send(response)
 activate NetworkAccess
 NetworkAccess ->> CLIENT SIDE: send(response)
@@ -209,6 +211,7 @@ end
 deactivate UserDataBase
 AdminGUI ->> USER: reply
 deactivate AdminGUI
+deactivate Server
 ```
 Create connection
 ```mermaid
@@ -218,16 +221,20 @@ participant NetworkAccess
 participant ClientHandler
 participant Server
 activate Server
-activate Client
 Server ->> ClientHandler: connect(ID, socket, server)
 activate ClientHandler
 ClientHandler ->> NetworkAccess: NewNetworkAccess(socket)
 activate NetworkAccess
+activate Client
 Client ->> NetworkAccess: NetworkAccess("ip", int port)
 opt clientSocket(ip,port).equals(serverSocket(ip,port))
 NetworkAccess ->> ClientHandler: UpdateServerConnections
 end
+deactivate Client
 ClientHandler ->> Server: UpdateServerConnections
+deactivate Server
+deactivate ClientHandler
+deactivate NetworkAccess
 ```
 Disconnect Client
 ```mermaid

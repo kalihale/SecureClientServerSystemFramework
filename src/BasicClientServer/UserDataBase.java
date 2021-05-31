@@ -21,7 +21,7 @@ public class UserDataBase
     // -- connect to the world database
     // -- this is the connector to the database, default port is 3306
     //    <<Your schema name here>> is the schema (database) you created using the workbench
-    private static String userdatabaseURL = "jdbc:mysql://localhost:3306/userdata?useSSL=false";
+    private static final String userdatabaseURL = "jdbc:mysql://localhost:3306/userdata?useSSL=false";
 
     // -- this is the username/password, created during installation and in MySQL Workbench
     //    When you add a user make sure you give them the appropriate Administrative Roles
