@@ -49,6 +49,7 @@ public class Client {
 		networkaccess.close();		
 	}
 
+	//  <@  TODO This probably shouldn't return Object...
 	public Object sendObject(Object info)
 	{
 		Object reply = networkaccess.sendObject(info, true);

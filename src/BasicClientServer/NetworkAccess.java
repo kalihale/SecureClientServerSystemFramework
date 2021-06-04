@@ -37,6 +37,7 @@ public class NetworkAccess {
 			// -- wrap the socket in stream I/O objects
 			//    these are for passing String types over the network
 			//    there are other stream types (Object stream) that can be used
+			//  <@  TODO idk what's going on but it's getting stuck here
 			datain = new ObjectInputStream(socket.getInputStream());
 			dataout = new ObjectOutputStream(socket.getOutputStream());
 			
@@ -98,6 +99,7 @@ public class NetworkAccess {
 //			throw e;
 //		}
 //	}
+	//  <@  TODO this probably should return Object, but should probably also check instanceof
 	public Object readObject() throws IOException, ClassNotFoundException
 	{
 		try

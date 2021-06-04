@@ -41,6 +41,7 @@ public class ClientGUI extends Application
     {
         disconnected();
     }
+    //  <@
     private void disconnected()
     {
         Stage disconnectedStage = new Stage();
@@ -332,15 +333,16 @@ public class ClientGUI extends Application
         });
         btSearch.setOnAction(actionEvent ->
         {
+            //  <@  TODO fix this
             sendIt = new QueriesClass();
             Object reply = client.sendObject(taSearch.getText());
         });
 
 
         //  <@  Column constraints
-        ColumnConstraints column0, column1, column2;
-        column0 = column1 = column2 = new ColumnConstraints();
-        homePane.getColumnConstraints().addAll(column0, column1, column2);
+        ColumnConstraints column0, column1, column2, column3;
+        column0 = column1 = column2 = column3 = new ColumnConstraints();
+        homePane.getColumnConstraints().addAll(column0, column1, column2, column3);
 
         //  <@  Row constraints
         RowConstraints row0, row1, row2, row3, row4, row5, row6;
@@ -417,7 +419,7 @@ public class ClientGUI extends Application
 
             if(!taOldPass.getText().equals(taNewPass.getText()))
             {
-                String reply = client.sendString("u/p/thisuser/" + taOldPass.getText() + "/" + taNewPass.getText());
+                Object reply = client.sendObject("u/p/thisuser/" + taOldPass.getText() + "/" + taNewPass.getText());
                 if(reply.equals("passwordChangeSuccess"))
                 {
                     Stage passwordYay = new Stage();
@@ -545,7 +547,7 @@ public class ClientGUI extends Application
         });
         btEmail.setOnAction(actionEvent ->
         {
-            String reply = client.sendString("u/f/" + taEmail.getText());
+            Object reply = client.sendObject("u/f/" + taEmail.getText());
             if(reply.equals("forgotPasswordSuccessful"))
             {
                 Stage emailYay = new Stage();
@@ -654,10 +656,10 @@ public class ClientGUI extends Application
 
 
             if(!(taUsername.getText().equals("")) && !(taPw.getText().equals("")) && !(taEmail.getText().equals(""))){
-                sendIt = "u/R/" + taUsername.getText() + "/" + taPw.getText() + "/" + taEmail.getText();
-                String reply = client.sendString(sendIt);
-                System.out.println(reply);
-                if(reply.equals("RegistrationSuccessful"))
+//                sendIt = "u/R/" + taUsername.getText() + "/" + taPw.getText() + "/" + taEmail.getText();
+//                String reply = client.sendString(sendIt);
+//                System.out.println(reply);
+                if(true)
                 {
                     login();
                     registerStage.close();
@@ -739,7 +741,7 @@ public class ClientGUI extends Application
 
     private <T extends Event> void closeWindowEventLoggedIn(T t)
     {
-        String reply = client.sendString("u/o/thisuser");
+        Object reply = client.sendObject("u/o/thisuser");
         client.disconnect();
         System.exit(0);
     }

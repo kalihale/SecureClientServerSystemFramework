@@ -1,8 +1,9 @@
 package BasicClientServer;
 
+import ObjectsToPass.User;
+
 import java.io.IOException;
 import java.net.Socket;
-import java.util.Arrays;
 
 
 public class ClientHandler extends Thread {
@@ -99,11 +100,13 @@ public class ClientHandler extends Thread {
 				String reply = "";
 				Object cmd = networkaccess.readObject();
 
-				if(cmd.charAt(0) == 'u')
+				//  <@  TODO
+				if(cmd instanceof User)
 				{
-					reply = this.userHandler.process(cmd);
-					System.out.println("ClientHandler sending: " + reply);
-					networkaccess.sendString(reply, false);
+					System.out.println("cmd is instance of User");
+//					reply = this.userHandler.process(cmd);
+//					System.out.println("ClientHandler sending: " + reply);
+//					networkaccess.sendString(reply, false);
 				}
 				
 				// -- if it is not the termination message, send it back adding the
@@ -121,10 +124,11 @@ public class ClientHandler extends Thread {
 				//    this is where all the server side Use Cases will be handled
 				else
 				{
-					CommandProtocol.processCommand(cmd, networkaccess, this);
+					System.out.println("cmd is not instance of user");
+//					CommandProtocol.processCommand(cmd, networkaccess, this);
 				}
 			} 
-			catch (IOException e) {
+			catch (IOException | ClassNotFoundException e) {
 				
 				e.printStackTrace();
 				go = false;
