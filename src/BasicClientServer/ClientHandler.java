@@ -128,7 +128,7 @@ public class ClientHandler extends Thread {
 //					CommandProtocol.processCommand(cmd, networkaccess, this);
 				}
 			} 
-			catch (IOException | ClassNotFoundException e) {
+			catch (IOException e) {
 				
 				e.printStackTrace();
 				go = false;

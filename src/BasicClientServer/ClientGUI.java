@@ -41,7 +41,6 @@ public class ClientGUI extends Application
     {
         disconnected();
     }
-    //  <@
     private void disconnected()
     {
         Stage disconnectedStage = new Stage();
@@ -68,21 +67,23 @@ public class ClientGUI extends Application
         btConnect.setStyle(BTGRAY);
         btConnect.setOnAction(actionEvent ->
         {
-            ip = taIpAddress.getText();
-            try
-            {
-                port = Integer.parseInt(taPortNum.getText());
-                client = new Client(ip, port);
-                login();
-                disconnectedStage.close();
-            }catch(NumberFormatException numberFormatException)
-            {
-                System.out.println("Could not parse int");
-            }
-            //  <@  TODO Add exception for when there is no ip and port to connect to ??????
-            //  <@  Exception for ^ already exists in network access, TODO only if we have time after everything else
-            taIpAddress.clear();
-            taPortNum.clear();
+            login();
+            disconnectedStage.close();
+//            ip = taIpAddress.getText();
+//            try
+//            {
+//                port = Integer.parseInt(taPortNum.getText());
+//                client = new Client(ip, port);
+//                login();
+//                disconnectedStage.close();
+//            }catch(NumberFormatException numberFormatException)
+//            {
+//                System.out.println("Could not parse int");
+//            }
+//            //  <@  TODO Add exception for when there is no ip and port to connect to ??????
+//            //  <@  Exception for ^ already exists in network access, TODO only if we have time after everything else
+//            taIpAddress.clear();
+//            taPortNum.clear();
         });
 
         connectPane.add(txtIpName,0,0);
@@ -149,39 +150,42 @@ public class ClientGUI extends Application
         btDisconnect.setStyle(BTGRAY);
         btDisconnect.setOnAction(ActionEvent ->
         {
-            client.disconnect();
+//            client.disconnect();
             disconnected();
             loginStage.close();
         });
         btLogin.setOnAction(actionEvent ->
         {
-            if (!(taLogPw.getText().equals("")) && !(taLogUn.getText().equals(""))){
-                user = new User();
-                user.setAction(1);
-                user.setUsername(taLogUn.getText());
-                user.setPassword(taLogPw.getText());
-                Object reply = client.sendObject(user);
-
-                if (reply.equals("loginSuccess")) {
-                    home();
-                    loginStage.close();
-                }
-                else {
-                    Stage loginOops = new Stage();
-                    loginOops.setMaxHeight(300);
-                    loginOops.setMaxWidth(600);
-                    BorderPane oopsPane = new BorderPane();
-                    Scene oopsScene = new Scene(oopsPane);
-                    oopsPane.setTop(new Text("You made a login oops. Try again."));
-                    Button oopsButton = new Button("ok");
-                    oopsButton.setOnAction(actionEvent1 -> loginOops.close());
-                    oopsPane.setBottom(oopsButton);
-                    loginOops.setTitle("Oops");
-                    loginOops.setScene(oopsScene);
-                    loginOops.show();
-                }
-
-            }
+            //  <@  TODO placeholder
+            home();
+            loginStage.close();
+//            if (!(taLogPw.getText().equals("")) && !(taLogUn.getText().equals(""))){
+//                user = new User();
+//                user.setAction(1);
+//                user.setUsername(taLogUn.getText());
+//                user.setPassword(taLogPw.getText());
+//                Object reply = client.sendObject(user);
+//
+//                if (reply.equals("loginSuccess")) {
+//                    home();
+//                    loginStage.close();
+//                }
+//                else {
+//                    Stage loginOops = new Stage();
+//                    loginOops.setMaxHeight(300);
+//                    loginOops.setMaxWidth(600);
+//                    BorderPane oopsPane = new BorderPane();
+//                    Scene oopsScene = new Scene(oopsPane);
+//                    oopsPane.setTop(new Text("You made a login oops. Try again."));
+//                    Button oopsButton = new Button("ok");
+//                    oopsButton.setOnAction(actionEvent1 -> loginOops.close());
+//                    oopsPane.setBottom(oopsButton);
+//                    loginOops.setTitle("Oops");
+//                    loginOops.setScene(oopsScene);
+//                    loginOops.show();
+//                }
+//
+//            }
         });
         btFPw.setOnAction(actionEvent ->
         {
@@ -271,59 +275,66 @@ public class ClientGUI extends Application
         btSearch.setStyle(BTGRAY);
         btLogout.setOnAction(actionEvent ->
         {
-            //  <@  Logout
-            user = new User();
-            user.setAction(0);
-            Object reply = client.sendObject("u/o/thisuser");
-            if(reply.equals("logoutSuccess"))
-            {
-                login();
-                homeStage.close();
-            }
-            else
-            {
-                Stage logoutOops = new Stage();
-                logoutOops.setMaxHeight(300);
-                logoutOops.setMaxWidth(600);
-                BorderPane oopsPane = new BorderPane();
-                Scene oopsScene = new Scene(oopsPane);
-                oopsPane.setTop(new Text("We've made a logout oops. You are not logged out yet. Please try again."));
-                Button oopsButton = new Button("ok");
-                oopsButton.setOnAction(actionEvent1 -> logoutOops.close());
-                oopsPane.setBottom(oopsButton);
-                logoutOops.setTitle("Oops");
-                logoutOops.setScene(oopsScene);
-                logoutOops.show();
-            }
+            //  <@  TODO placeholder
+            login();
+            homeStage.close();
+//            //  <@  Logout
+//            user = new User();
+//            user.setAction(0);
+//            Object reply = client.sendObject("u/o/thisuser");
+//            if(reply.equals("logoutSuccess"))
+//            {
+//                login();
+//                homeStage.close();
+//            }
+//            else
+//            {
+//                Stage logoutOops = new Stage();
+//                logoutOops.setMaxHeight(300);
+//                logoutOops.setMaxWidth(600);
+//                BorderPane oopsPane = new BorderPane();
+//                Scene oopsScene = new Scene(oopsPane);
+//                oopsPane.setTop(new Text("We've made a logout oops. You are not logged out yet. Please try again."));
+//                Button oopsButton = new Button("ok");
+//                oopsButton.setOnAction(actionEvent1 -> logoutOops.close());
+//                oopsPane.setBottom(oopsButton);
+//                logoutOops.setTitle("Oops");
+//                logoutOops.setScene(oopsScene);
+//                logoutOops.show();
+//            }
         });
         btLD.setOnAction(actionEvent ->
         {
-            //  <@  Logout and disconnect
-            user = new User();
-            user.setAction(2);
-            Object reply = client.sendObject(user);
-
-            if(reply.equals("logoutSuccess"))
-            {
-                client.disconnect();
-                disconnected();
-                homeStage.close();
-            }
-            else
-            {
-                Stage logoutOops = new Stage();
-                logoutOops.setMaxHeight(300);
-                logoutOops.setMaxWidth(600);
-                BorderPane oopsPane = new BorderPane();
-                Scene oopsScene = new Scene(oopsPane);
-                oopsPane.setTop(new Text("We've made a logout oops. You are not logged out yet. Please try again."));
-                Button oopsButton = new Button("ok");
-                oopsButton.setOnAction(actionEvent1 -> logoutOops.close());
-                oopsPane.setBottom(oopsButton);
-                logoutOops.setTitle("Oops");
-                logoutOops.setScene(oopsScene);
-                logoutOops.show();
-            }
+            //  <@  TODO placeholder
+            client.disconnect();
+            disconnected();
+            homeStage.close();
+//            //  <@  Logout and disconnect
+//            user = new User();
+//            user.setAction(2);
+//            Object reply = client.sendObject(user);
+//
+//            if(reply.equals("logoutSuccess"))
+//            {
+//                client.disconnect();
+//                disconnected();
+//                homeStage.close();
+//            }
+//            else
+//            {
+//                Stage logoutOops = new Stage();
+//                logoutOops.setMaxHeight(300);
+//                logoutOops.setMaxWidth(600);
+//                BorderPane oopsPane = new BorderPane();
+//                Scene oopsScene = new Scene(oopsPane);
+//                oopsPane.setTop(new Text("We've made a logout oops. You are not logged out yet. Please try again."));
+//                Button oopsButton = new Button("ok");
+//                oopsButton.setOnAction(actionEvent1 -> logoutOops.close());
+//                oopsPane.setBottom(oopsButton);
+//                logoutOops.setTitle("Oops");
+//                logoutOops.setScene(oopsScene);
+//                logoutOops.show();
+//            }
         });
         btPwCh.setOnAction(actionEvent ->
         {
@@ -333,9 +344,9 @@ public class ClientGUI extends Application
         });
         btSearch.setOnAction(actionEvent ->
         {
-            //  <@  TODO fix this
-            sendIt = new QueriesClass();
-            Object reply = client.sendObject(taSearch.getText());
+//            //  <@  TODO fix this
+//            sendIt = new QueriesClass();
+//            Object reply = client.sendObject(taSearch.getText());
         });
 
 
@@ -416,59 +427,61 @@ public class ClientGUI extends Application
         });
         btConfirm.setOnAction(actionEvent ->
         {
-
-            if(!taOldPass.getText().equals(taNewPass.getText()))
-            {
-                Object reply = client.sendObject("u/p/thisuser/" + taOldPass.getText() + "/" + taNewPass.getText());
-                if(reply.equals("passwordChangeSuccess"))
-                {
-                    Stage passwordYay = new Stage();
-                    passwordYay.setMaxHeight(300);
-                    passwordYay.setMaxWidth(600);
-                    BorderPane yayPane = new BorderPane();
-                    Scene oopsScene = new Scene(yayPane);
-                    yayPane.setTop(new Text("Password successfully changed."));
-                    Button oopsButton = new Button("ok");
-                    oopsButton.setOnAction(actionEvent1 -> passwordYay.close());
-                    yayPane.setBottom(oopsButton);
-                    passwordYay.setTitle("Yay");
-                    passwordYay.setScene(oopsScene);
-                    passwordYay.show();
-                    home();
-                    pwChangeStage.close();
-                }
-                else
-                {
-                    Stage passwordOops = new Stage();
-                    passwordOops.setMaxHeight(300);
-                    passwordOops.setMaxWidth(600);
-                    BorderPane oopsPane = new BorderPane();
-                    Scene oopsScene = new Scene(oopsPane);
-                    oopsPane.setTop(new Text("We've hit an error. Please try again."));
-                    Button oopsButton = new Button("ok");
-                    oopsButton.setOnAction(actionEvent1 -> passwordOops.close());
-                    oopsPane.setBottom(oopsButton);
-                    passwordOops.setTitle("Oops");
-                    passwordOops.setScene(oopsScene);
-                    passwordOops.show();
-                }
-
-            }
-            else
-            {
-                Stage passwordOops = new Stage();
-                passwordOops.setMaxHeight(300);
-                passwordOops.setMaxWidth(600);
-                BorderPane oopsPane = new BorderPane();
-                Scene oopsScene = new Scene(oopsPane);
-                oopsPane.setTop(new Text("Your passwords match. Please try again."));
-                Button oopsButton = new Button("ok");
-                oopsButton.setOnAction(actionEvent1 -> passwordOops.close());
-                oopsPane.setBottom(oopsButton);
-                passwordOops.setTitle("Oops");
-                passwordOops.setScene(oopsScene);
-                passwordOops.show();
-            }
+            //  <@  TODO placeholder
+            home();
+            pwChangeStage.close();
+//            if(!taOldPass.getText().equals(taNewPass.getText()))
+//            {
+//                Object reply = client.sendObject("u/p/thisuser/" + taOldPass.getText() + "/" + taNewPass.getText());
+//                if(reply.equals("passwordChangeSuccess"))
+//                {
+//                    Stage passwordYay = new Stage();
+//                    passwordYay.setMaxHeight(300);
+//                    passwordYay.setMaxWidth(600);
+//                    BorderPane yayPane = new BorderPane();
+//                    Scene oopsScene = new Scene(yayPane);
+//                    yayPane.setTop(new Text("Password successfully changed."));
+//                    Button oopsButton = new Button("ok");
+//                    oopsButton.setOnAction(actionEvent1 -> passwordYay.close());
+//                    yayPane.setBottom(oopsButton);
+//                    passwordYay.setTitle("Yay");
+//                    passwordYay.setScene(oopsScene);
+//                    passwordYay.show();
+//                    home();
+//                    pwChangeStage.close();
+//                }
+//                else
+//                {
+//                    Stage passwordOops = new Stage();
+//                    passwordOops.setMaxHeight(300);
+//                    passwordOops.setMaxWidth(600);
+//                    BorderPane oopsPane = new BorderPane();
+//                    Scene oopsScene = new Scene(oopsPane);
+//                    oopsPane.setTop(new Text("We've hit an error. Please try again."));
+//                    Button oopsButton = new Button("ok");
+//                    oopsButton.setOnAction(actionEvent1 -> passwordOops.close());
+//                    oopsPane.setBottom(oopsButton);
+//                    passwordOops.setTitle("Oops");
+//                    passwordOops.setScene(oopsScene);
+//                    passwordOops.show();
+//                }
+//
+//            }
+//            else
+//            {
+//                Stage passwordOops = new Stage();
+//                passwordOops.setMaxHeight(300);
+//                passwordOops.setMaxWidth(600);
+//                BorderPane oopsPane = new BorderPane();
+//                Scene oopsScene = new Scene(oopsPane);
+//                oopsPane.setTop(new Text("Your passwords match. Please try again."));
+//                Button oopsButton = new Button("ok");
+//                oopsButton.setOnAction(actionEvent1 -> passwordOops.close());
+//                oopsPane.setBottom(oopsButton);
+//                passwordOops.setTitle("Oops");
+//                passwordOops.setScene(oopsScene);
+//                passwordOops.show();
+//            }
         });
 
         //  <@  Add column constraints
@@ -547,39 +560,42 @@ public class ClientGUI extends Application
         });
         btEmail.setOnAction(actionEvent ->
         {
-            Object reply = client.sendObject("u/f/" + taEmail.getText());
-            if(reply.equals("forgotPasswordSuccessful"))
-            {
-                Stage emailYay = new Stage();
-                emailYay.setMaxHeight(300);
-                emailYay.setMaxWidth(600);
-                BorderPane yayPane = new BorderPane();
-                Scene yayScene = new Scene(yayPane);
-                yayPane.setTop(new Text("A new password has been sent to your email."));
-                Button yayButton = new Button("yay");
-                yayButton.setOnAction(actionEvent1 -> emailYay.close());
-                yayPane.setBottom(yayButton);
-                emailYay.setTitle("Yay!");
-                emailYay.setScene(yayScene);
-                emailYay.show();
-                login();
-                fPwStage.close();
-            }
-            else
-            {
-                Stage emailOops = new Stage();
-                emailOops.setMaxHeight(300);
-                emailOops.setMaxWidth(600);
-                BorderPane oopsPane = new BorderPane();
-                Scene oopsScene = new Scene(oopsPane);
-                oopsPane.setTop(new Text("A new password has been sent to your email."));
-                Button oopsButton = new Button("ok");
-                oopsButton.setOnAction(actionEvent1 -> emailOops.close());
-                oopsPane.setBottom(oopsButton);
-                emailOops.setTitle("Oops");
-                emailOops.setScene(oopsScene);
-                emailOops.show();
-            }
+            //  <@  TODO placeholder
+            login();
+            fPwStage.close();
+//            Object reply = client.sendObject("u/f/" + taEmail.getText());
+//            if(reply.equals("forgotPasswordSuccessful"))
+//            {
+//                Stage emailYay = new Stage();
+//                emailYay.setMaxHeight(300);
+//                emailYay.setMaxWidth(600);
+//                BorderPane yayPane = new BorderPane();
+//                Scene yayScene = new Scene(yayPane);
+//                yayPane.setTop(new Text("A new password has been sent to your email."));
+//                Button yayButton = new Button("yay");
+//                yayButton.setOnAction(actionEvent1 -> emailYay.close());
+//                yayPane.setBottom(yayButton);
+//                emailYay.setTitle("Yay!");
+//                emailYay.setScene(yayScene);
+//                emailYay.show();
+//                login();
+//                fPwStage.close();
+//            }
+//            else
+//            {
+//                Stage emailOops = new Stage();
+//                emailOops.setMaxHeight(300);
+//                emailOops.setMaxWidth(600);
+//                BorderPane oopsPane = new BorderPane();
+//                Scene oopsScene = new Scene(oopsPane);
+//                oopsPane.setTop(new Text("A new password has been sent to your email."));
+//                Button oopsButton = new Button("ok");
+//                oopsButton.setOnAction(actionEvent1 -> emailOops.close());
+//                oopsPane.setBottom(oopsButton);
+//                emailOops.setTitle("Oops");
+//                emailOops.setScene(oopsScene);
+//                emailOops.show();
+//            }
         });
 
         //  <@  Column constraints
@@ -653,32 +669,33 @@ public class ClientGUI extends Application
         btBack.setStyle(BTGRAY);
         btRegister.setOnAction(actionEvent ->
         {
-
-
-            if(!(taUsername.getText().equals("")) && !(taPw.getText().equals("")) && !(taEmail.getText().equals(""))){
-//                sendIt = "u/R/" + taUsername.getText() + "/" + taPw.getText() + "/" + taEmail.getText();
-//                String reply = client.sendString(sendIt);
-//                System.out.println(reply);
-                if(true)
-                {
-                    login();
-                    registerStage.close();
-                }
-                else {
-                    Stage registrationOops = new Stage();
-                    registrationOops.setMaxHeight(300);
-                    registrationOops.setMaxWidth(600);
-                    BorderPane oopsPane = new BorderPane();
-                    Scene oopsScene = new Scene(oopsPane);
-                    oopsPane.setTop(new Text("You made a registration oops. Try again."));
-                    Button oopsButton = new Button("ok");
-                    oopsButton.setOnAction(actionEvent1 -> registrationOops.close());
-                    oopsPane.setBottom(oopsButton);
-                    registrationOops.setTitle("Oops");
-                    registrationOops.setScene(oopsScene);
-                    registrationOops.show();
-                }
-            }
+            //  <@  TODO placeholder
+            login();
+            registerStage.close();
+//            if(!(taUsername.getText().equals("")) && !(taPw.getText().equals("")) && !(taEmail.getText().equals(""))){
+////                sendIt = "u/R/" + taUsername.getText() + "/" + taPw.getText() + "/" + taEmail.getText();
+////                String reply = client.sendString(sendIt);
+////                System.out.println(reply);
+//                if(true)
+//                {
+//                    login();
+//                    registerStage.close();
+//                }
+//                else {
+//                    Stage registrationOops = new Stage();
+//                    registrationOops.setMaxHeight(300);
+//                    registrationOops.setMaxWidth(600);
+//                    BorderPane oopsPane = new BorderPane();
+//                    Scene oopsScene = new Scene(oopsPane);
+//                    oopsPane.setTop(new Text("You made a registration oops. Try again."));
+//                    Button oopsButton = new Button("ok");
+//                    oopsButton.setOnAction(actionEvent1 -> registrationOops.close());
+//                    oopsPane.setBottom(oopsButton);
+//                    registrationOops.setTitle("Oops");
+//                    registrationOops.setScene(oopsScene);
+//                    registrationOops.show();
+//                }
+//            }
         });
         btBack.setOnAction(actionEvent ->
         {
@@ -741,13 +758,13 @@ public class ClientGUI extends Application
 
     private <T extends Event> void closeWindowEventLoggedIn(T t)
     {
-        Object reply = client.sendObject("u/o/thisuser");
-        client.disconnect();
+//        Object reply = client.sendObject("u/o/thisuser");
+//        client.disconnect();
         System.exit(0);
     }
     private <T extends Event> void closeWindowEventElse(T t)
     {
-        client.disconnect();
+//        client.disconnect();
         System.exit(0);
     }
 }

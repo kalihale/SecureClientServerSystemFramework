@@ -16,7 +16,7 @@ public class NetworkAccess {
 	 * stream variables for peer to peer communication
 	 * to be opened on top of the socket 
 	 */
-	private ObjectInputStream datain;
+	private BufferedInputStream datain;
 	private ObjectOutputStream dataout;
 
 	/**
@@ -38,7 +38,7 @@ public class NetworkAccess {
 			//    these are for passing String types over the network
 			//    there are other stream types (Object stream) that can be used
 			//  <@  TODO idk what's going on but it's getting stuck here
-			datain = new ObjectInputStream(socket.getInputStream());
+			datain = new BufferedInputStream(new ObjectInputStream(socket.getInputStream()));
 			dataout = new ObjectOutputStream(socket.getOutputStream());
 			
 		} 
@@ -74,7 +74,7 @@ public class NetworkAccess {
 			//    these are for passing String types over the network
 			//    there are other stream types (Object stream) that can be used
 //			datain = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			datain = new ObjectInputStream(socket.getInputStream());
+			datain = new BufferedInputStream(new ObjectInputStream(socket.getInputStream()));
 			dataout = new ObjectOutputStream(socket.getOutputStream());
 			
 		} 
@@ -100,15 +100,9 @@ public class NetworkAccess {
 //		}
 //	}
 	//  <@  TODO this probably should return Object, but should probably also check instanceof
-	public Object readObject() throws IOException, ClassNotFoundException
+	public Object readObject() throws IOException
 	{
-		try
-		{
-			return datain.readObject();
-		}catch(IOException | ClassNotFoundException e)
-		{
-			throw e;
-		}
+		return datain.read();
 	}
 	
 //	/**
@@ -169,10 +163,10 @@ public class NetworkAccess {
 			{
 				returnmsg = ""; //  <@  idk what to do here
 				do{
-					returnmsg = datain.readObject();
+					returnmsg = datain.read();
 				}while(returnmsg.equals("")); //  <@  what do I put here
 			}
-		}catch(IOException | ClassNotFoundException e)
+		}catch(IOException e)
 		{
 			e.printStackTrace();
 			System.exit(1);
