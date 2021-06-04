@@ -1,5 +1,7 @@
 package BasicClientServer;
 
+import ObjectsToPass.QueriesClass;
+import ObjectsToPass.User;
 import javafx.application.Application;
 import javafx.event.Event;
 import javafx.geometry.HPos;
@@ -27,7 +29,8 @@ public class ClientGUI extends Application
     private final Background BG = new Background(new BackgroundFill(Color.ALICEBLUE, CornerRadii.EMPTY, Insets.EMPTY));
     private final String BTGRAY = "-fx-background-color: #cbccd1";
     private final String BTGREEN = "-fx-background-color: #92f095";
-    private String sendIt;
+    private User user;
+    private QueriesClass sendIt;
     private boolean usefulInfo = true; // ToDo FIX LATER != True
     private Client client;
     private String ip;
@@ -93,16 +96,15 @@ public class ClientGUI extends Application
 
 
         // ** ColumnConstraints
-        ColumnConstraints column0 = new ColumnConstraints();
-        ColumnConstraints column1 = new ColumnConstraints();
+        ColumnConstraints column0, column1;
+        column0 = column1 = new ColumnConstraints();
         column0.setPercentWidth(25);
         column1.setPercentWidth(75);
         connectPane.getColumnConstraints().addAll(column0, column1);
 
         // ** Row constraints
-        RowConstraints row0 = new RowConstraints();
-        RowConstraints row1 = new RowConstraints();
-        RowConstraints row2 = new RowConstraints();
+        RowConstraints row0, row1, row2;
+        row0 = row1 = row2 = new RowConstraints();
         row0.setPercentHeight(33);
         row1.setPercentHeight(33);
         row2.setPercentHeight(33);
@@ -153,8 +155,11 @@ public class ClientGUI extends Application
         btLogin.setOnAction(actionEvent ->
         {
             if (!(taLogPw.getText().equals("")) && !(taLogUn.getText().equals(""))){
-                sendIt = "u/L/" + taLogUn.getText() + "/" + taLogPw.getText();
-                String reply = client.sendString(sendIt);
+                user = new User();
+                user.setAction(1);
+                user.setUsername(taLogUn.getText());
+                user.setPassword(taLogPw.getText());
+                Object reply = client.sendObject(user);
 
                 if (reply.equals("loginSuccess")) {
                     home();
@@ -190,11 +195,8 @@ public class ClientGUI extends Application
         });
 
         //  <@  Column constraints
-        ColumnConstraints column0 = new ColumnConstraints();
-        ColumnConstraints column1 = new ColumnConstraints();
-        ColumnConstraints column2 = new ColumnConstraints();
-        ColumnConstraints column3 = new ColumnConstraints();
-        ColumnConstraints column4 = new ColumnConstraints();
+        ColumnConstraints column0, column1, column2, column3, column4;
+        column0 = column1 = column2 = column3 = column4 = new ColumnConstraints();
         column0.setPercentWidth(20);
         column1.setPercentWidth(20);
         column2.setPercentWidth(20);
@@ -203,13 +205,8 @@ public class ClientGUI extends Application
         loginWindowPane.getColumnConstraints().addAll(column0, column1, column2, column3, column4);
 
         //  <@  Row constraints
-        RowConstraints row0 = new RowConstraints();
-        RowConstraints row1 = new RowConstraints();
-        RowConstraints row2 = new RowConstraints();
-        RowConstraints row3 = new RowConstraints();
-        RowConstraints row4 = new RowConstraints();
-        RowConstraints row5 = new RowConstraints();
-        RowConstraints row6 = new RowConstraints();
+        RowConstraints row0, row1, row2, row3, row4, row5, row6;
+        row0 = row1 = row2 = row3 = row4 = row5 = row6 = new RowConstraints();
         row0.setPercentHeight(33);
         row1.setPercentHeight(6);
         row2.setPercentHeight(7);
@@ -274,7 +271,9 @@ public class ClientGUI extends Application
         btLogout.setOnAction(actionEvent ->
         {
             //  <@  Logout
-            String reply = client.sendString("u/o/thisuser");
+            user = new User();
+            user.setAction(0);
+            Object reply = client.sendObject("u/o/thisuser");
             if(reply.equals("logoutSuccess"))
             {
                 login();
@@ -299,7 +298,9 @@ public class ClientGUI extends Application
         btLD.setOnAction(actionEvent ->
         {
             //  <@  Logout and disconnect
-            String reply = client.sendString("u/o/thisuser");
+            user = new User();
+            user.setAction(2);
+            Object reply = client.sendObject(user);
 
             if(reply.equals("logoutSuccess"))
             {
@@ -331,37 +332,19 @@ public class ClientGUI extends Application
         });
         btSearch.setOnAction(actionEvent ->
         {
-            String reply = client.sendString(taSearch.getText());
-            String[] info = reply.split("/");
-            for(int i = 0; i < info.length / 2; i++)
-            {
-                taResults.appendText(info[i] + " ");
-            }
-            taResults.appendText("\n");
-            for(int i = info.length / 2; i < info.length; i++)
-            {
-                taResults.appendText(info[i] + " ");
-            }
+            sendIt = new QueriesClass();
+            Object reply = client.sendObject(taSearch.getText());
         });
 
 
         //  <@  Column constraints
-        ColumnConstraints column0 = new ColumnConstraints();
-        ColumnConstraints column1 = new ColumnConstraints();
-        ColumnConstraints column2 = new ColumnConstraints();
-        column0.setPercentWidth(20);
-        column1.setPercentWidth(60);
-        column2.setPercentWidth(20);
+        ColumnConstraints column0, column1, column2;
+        column0 = column1 = column2 = new ColumnConstraints();
         homePane.getColumnConstraints().addAll(column0, column1, column2);
 
         //  <@  Row constraints
-        RowConstraints row0 = new RowConstraints();
-        RowConstraints row1 = new RowConstraints();
-        RowConstraints row2 = new RowConstraints();
-        RowConstraints row3 = new RowConstraints();
-        RowConstraints row4 = new RowConstraints();
-        RowConstraints row5 = new RowConstraints();
-        RowConstraints row6 = new RowConstraints();
+        RowConstraints row0, row1, row2, row3, row4, row5, row6;
+        row0 = row1 = row2 = row3 = row4 = row5 = row6 = new RowConstraints();
         row0.setPercentHeight(6);
         row1.setPercentHeight(6);
         row2.setPercentHeight(11);
@@ -487,20 +470,16 @@ public class ClientGUI extends Application
         });
 
         //  <@  Add column constraints
-        ColumnConstraints column0 = new ColumnConstraints();
-        ColumnConstraints column1 = new ColumnConstraints();
-        ColumnConstraints column2 = new ColumnConstraints();
+        ColumnConstraints column0, column1, column2;
+        column0 = column1 = column2 = new ColumnConstraints();
         column0.setPercentWidth(20);
         column1.setPercentWidth(60);
         column2.setPercentWidth(20);
         pwChangePane.getColumnConstraints().addAll(column0, column1, column2);
 
         //  <@  Add row constraints
-        RowConstraints row0 = new RowConstraints();
-        RowConstraints row1 = new RowConstraints();
-        RowConstraints row2 = new RowConstraints();
-        RowConstraints row3 = new RowConstraints();
-        RowConstraints row4 = new RowConstraints();
+        RowConstraints row0, row1, row2, row3, row4;
+        row0 = row1 = row2 = row3 = row4 = new RowConstraints();
         row0.setPercentHeight(30);
         row1.setPercentHeight(10);
         row2.setPercentHeight(10);
@@ -602,11 +581,8 @@ public class ClientGUI extends Application
         });
 
         //  <@  Column constraints
-        ColumnConstraints column0 = new ColumnConstraints();
-        ColumnConstraints column1 = new ColumnConstraints();
-        ColumnConstraints column2 = new ColumnConstraints();
-        ColumnConstraints column3 = new ColumnConstraints();
-        ColumnConstraints column4 = new ColumnConstraints();
+        ColumnConstraints column0, column1, column2, column3, column4;
+        column0 = column1 = column2 = column3 = column4 = new ColumnConstraints();
         column0.setPercentWidth(20);
         column1.setPercentWidth(20);
         column2.setPercentWidth(20);
@@ -615,12 +591,8 @@ public class ClientGUI extends Application
         fPwPane.getColumnConstraints().addAll(column0, column1, column2, column3, column4);
 
         //  <@  Row constraints
-        RowConstraints row0 = new RowConstraints();
-        RowConstraints row1 = new RowConstraints();
-        RowConstraints row2 = new RowConstraints();
-        RowConstraints row3 = new RowConstraints();
-        RowConstraints row4 = new RowConstraints();
-        RowConstraints row5 = new RowConstraints();
+        RowConstraints row0, row1, row2, row3, row4, row5;
+        row0 = row1 = row2 = row3 = row4 = row5 = new RowConstraints();
         row0.setPercentHeight(21);
         row1.setPercentHeight(15);
         row2.setPercentHeight(21);
@@ -713,12 +685,8 @@ public class ClientGUI extends Application
         });
 
         // ** Column constraints
-        ColumnConstraints column0 = new ColumnConstraints();
-        ColumnConstraints column1 = new ColumnConstraints();
-        ColumnConstraints column2 = new ColumnConstraints();
-        ColumnConstraints column3 = new ColumnConstraints();
-        ColumnConstraints column4 = new ColumnConstraints();
-        ColumnConstraints column5 = new ColumnConstraints();
+        ColumnConstraints column0, column1, column2, column3, column4, column5;
+        column0 = column1 = column2 = column3 = column4 = column5 = new ColumnConstraints();
         column0.setPercentWidth(20);
         column1.setPercentWidth(20);
         column2.setPercentWidth(20);
@@ -727,14 +695,8 @@ public class ClientGUI extends Application
         registerPane.getColumnConstraints().addAll(column0, column1, column2,column3,column4,column5);
 
         // ** Row constraints
-        RowConstraints row0 = new RowConstraints();
-        RowConstraints row1 = new RowConstraints();
-        RowConstraints row2 = new RowConstraints();
-        RowConstraints row3 = new RowConstraints();
-        RowConstraints row4 = new RowConstraints();
-        RowConstraints row5 = new RowConstraints();
-        RowConstraints row6 = new RowConstraints();
-        RowConstraints row7 = new RowConstraints();
+        RowConstraints row0, row1, row2, row3, row4, row5, row6, row7;
+        row0 = row1 = row2 = row3 = row4 = row5 = row6 = row7 = new RowConstraints();
         row0.setPercentHeight(15);
         row1.setPercentHeight(8);
         row2.setPercentHeight(15);

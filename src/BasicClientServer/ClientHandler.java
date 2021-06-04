@@ -97,7 +97,7 @@ public class ClientHandler extends Thread {
 				//    The client adds it to the user's string but the BufferedReader
 				//    readLine() call strips it off
 				String reply = "";
-				String cmd = networkaccess.readString();
+				Object cmd = networkaccess.readObject();
 
 				if(cmd.charAt(0) == 'u')
 				{

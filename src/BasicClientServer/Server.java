@@ -18,7 +18,7 @@ public class Server extends Thread {
     Connection-specific DNS Suffix  . : clunet.edu
     Link-local IPv6 Address . . . . . : fe80::1083:3e22:f5a1:a3ec%11
     IPv4 Address. . . . . . . . . . . : 199.107.222.115 <======= This address works
-    Subnet Mask . . . . . . . . . . . : 255.255.240.0
+    Subnet Mask . . . . . . . . . . . : 255.255.240.0]
     Default Gateway . . . . . . . . . : 199.107.210.2
     
     MacOS From System preferences    
