@@ -45,14 +45,13 @@ public class Client {
 	public void disconnect ()
 	{
     	String text = "disconnect";
-		networkaccess.sendObject(text,  false);
+		networkaccess.sendString(text,  false);
 		networkaccess.close();		
 	}
 
-	//  <@  TODO This probably shouldn't return Object...
-	public Object sendObject(Object info)
+	public String sendString(String info)
 	{
-		Object reply = networkaccess.sendObject(info, true);
+		String reply = networkaccess.sendString(info, true);
 		System.out.println("Client recieves: " + reply);
 		return reply;
 	}
@@ -72,8 +71,8 @@ public class Client {
 		Client client = new Client(host, port);
 		
 		// -- send message to server and receive reply.
-		Object commandString;
-		Object replyString;
+		String commandString;
+		String replyString;
 		
 		for (int i = 0; i < 10; ++i) {
 			try {
@@ -85,7 +84,7 @@ public class Client {
 			// -- send a String to the server and wait for the response
 			commandString = "hello";
 			System.out.println("CLIENT send:  " + commandString);
-			replyString = client.networkaccess.sendObject(commandString, true);
+			replyString = client.networkaccess.sendString(commandString, true);
 			System.out.println("CLIENT receive: " + replyString);
 			
 		}
@@ -93,7 +92,7 @@ public class Client {
 		// -- send an unrecognized command String to the server and wait for the response
 		commandString = "huh?";
 		System.out.println("CLIENT send:  " + commandString);
-		replyString = client.networkaccess.sendObject(commandString, true);
+		replyString = client.networkaccess.sendString(commandString, true);
 		System.out.println("CLIENT receive: " + replyString);
 		
 		// -- disconnect from the server

@@ -47,39 +47,39 @@ public class ServerGUI extends Application
 
         btStartServer.setOnAction(actionEvent ->
                 {
-                    if (!serverRunning) {
+                    if (serverRunning == false) {
                         server = new Server();
                         server.start();
                         serverRunning = true;
                     }
                     else{
-                        System.out.println("Servers already running stoopid");
+                        System.out.println("Servers already running stoopid");;
                     }
                 }
             );
-        btUserReg.setOnAction(actionEvent -> taDisplay.appendText("Number of users registered: hello")); // + UserDataBase.getRegisteredUsers() + "\n"));
+        btUserReg.setOnAction(actionEvent -> taDisplay.appendText("Number of users registered: " + UserDataBase.getRegisteredUsers() + "\n"));
         btUserLog.setOnAction(actionEvent ->
-                taDisplay.appendText("Number of users logged in: hi")); //+ UserDataBase.getLoggedInNum() + "\n"));
-        btUCon.setOnAction(actionEvent -> taDisplay.appendText("Number of users connected: yay")); //+ server.getConnectedUsers() + "\n"));
+                taDisplay.appendText("Number of users logged in: " + UserDataBase.getLoggedInNum() + "\n"));
+        btUCon.setOnAction(actionEvent -> taDisplay.appendText("Number of users connected: " + server.getConnectedUsers() + "\n"));
         btWhichCon.setOnAction(actionEvent ->
         {
-//            String users = UserDataBase.getLoggedInUsers();
-//            String[] userArr = users.split("/o/");
-            taDisplay.appendText("Which users are logged in: I've printed!");
-//            for (String s : userArr)
-//            {
-//                taDisplay.appendText(s + "\n");
-//            }
+            String users = UserDataBase.getLoggedInUsers();
+            String[] userArr = users.split("/o/");
+            taDisplay.appendText("Which users are logged in:\n");
+            for (String s : userArr)
+            {
+                taDisplay.appendText(s + "\n");
+            }
         });
         btWhichLock.setOnAction(actionEvent ->
         {
-//            String users = UserDataBase.getLockedUsers();
-//            String[] userArr = users.split("/o/");
-            taDisplay.appendText("Which users are locked out: Still printing!");
-//            for (String s : userArr)
-//            {
-//                taDisplay.appendText(s + "\n");
-//            }
+            String users = UserDataBase.getLockedUsers();
+            String[] userArr = users.split("/o/");
+            taDisplay.appendText("Which users are locked out:\n");
+            for (String s : userArr)
+            {
+                taDisplay.appendText(s + "\n");
+            }
         });
         btCloseServer.setOnAction(actionEvent ->{
             //server.stop();

@@ -1,6 +1,9 @@
 package BasicClientServer;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -16,8 +19,8 @@ public class NetworkAccess {
 	 * stream variables for peer to peer communication
 	 * to be opened on top of the socket 
 	 */
-	private BufferedInputStream datain;
-	private ObjectOutputStream dataout;
+	private BufferedReader datain;
+	private DataOutputStream dataout;
 
 	/**
 	 * Constructor performs connection construction for the client
@@ -37,9 +40,8 @@ public class NetworkAccess {
 			// -- wrap the socket in stream I/O objects
 			//    these are for passing String types over the network
 			//    there are other stream types (Object stream) that can be used
-			//  <@  TODO idk what's going on but it's getting stuck here
-			datain = new BufferedInputStream(new ObjectInputStream(socket.getInputStream()));
-			dataout = new ObjectOutputStream(socket.getOutputStream());
+			datain = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			dataout = new DataOutputStream(socket.getOutputStream());
 			
 		} 
 		catch (UnknownHostException e) {
@@ -73,9 +75,8 @@ public class NetworkAccess {
 			// -- wrap the socket in stream I/O objects
 			//    these are for passing String types over the network
 			//    there are other stream types (Object stream) that can be used
-//			datain = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			datain = new BufferedInputStream(new ObjectInputStream(socket.getInputStream()));
-			dataout = new ObjectOutputStream(socket.getOutputStream());
+			datain = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+			dataout = new DataOutputStream(socket.getOutputStream());
 			
 		} 
 		catch (IOException e) {
@@ -91,87 +92,61 @@ public class NetworkAccess {
 	 * @return string from the stream
 	 * @throws IOException
 	 */
-//	public String readString () throws IOException
-//	{
-//		try {
-//			return datain.readLine();
-//		} catch (IOException e) {
-//			throw e;
-//		}
-//	}
-	//  <@  TODO this probably should return Object, but should probably also check instanceof
-	public Object readObject() throws IOException
+	public String readString () throws IOException
 	{
-		return datain.read();
+		try {
+			return datain.readLine();
+		} catch (IOException e) {
+			throw e;
+		}
 	}
 	
-//	/**
-//	 * send a String to the server and return the received hand-shake String
-//	 *
-//	 * @param _msg: the string to be sent (\n will be added)
-//	 * @param acknowledge: whether or not to expect an acknowledgment string
-//	 *        client will set this to true except for disconnect
-//	 *        server will set it to false
-//	 * @return
-//	 */
-//	public String sendString (String _msg, boolean acknowledge)
-//	{
-//		String rtnmsg = "";
-//
-//		// -- the protocol is this:
-//		//    client sends a \n terminated String to the server
-//		//    server receives String, processes it, sends \n terminate String to client
-//		//    this is called a "hand-shake" system
-//		try {
-//			// -- the server only receives String objects that are
-//			//    terminated with a newline \n"
-//			// -- send the String making sure to flush the buffer
-//			dataout.writeBytes(_msg + "\n");
-//			dataout.flush();
-//
-//			if (acknowledge) {
-//				// -- receive the response from the server
-//				//    The do/while makes this a blocking read. Normally BufferedReader.readLine() is non-blocking.
-//				//    That is, if there is no String to read, it will read "". Doing it this way does not allow
-//				//    that to occur. We must get a response from the server. Time out could be implemented with
-//				//    a counter.
-//				rtnmsg = "";
-//				do {
-//					// -- this is a non-blocking read
-//					rtnmsg = datain.readLine();
-//
-//				} while (rtnmsg.equals(""));
-//			}
-//		} catch (IOException e) {
-//
-//			e.printStackTrace();
-//			System.exit(1);
-//
-//		}
-//
-//		return rtnmsg;
-//
-//	}
-	public Object sendObject(Object o, boolean acknowledge)
+	/**
+	 * send a String to the server and return the received hand-shake String
+	 * 
+	 * @param _msg: the string to be sent (\n will be added)
+	 * @param acknowledge: whether or not to expect an acknowledgment string
+	 *        client will set this to true except for disconnect
+	 *        server will set it to false
+	 * @return
+	 */
+	public String sendString (String _msg, boolean acknowledge)
 	{
-		Object returnmsg = "";
-		try
-		{
-			dataout.writeObject(o);
+		String rtnmsg = "";
+
+		// -- the protocol is this:
+		//    client sends a \n terminated String to the server
+		//    server receives String, processes it, sends \n terminate String to client
+		//    this is called a "hand-shake" system
+		try {
+			// -- the server only receives String objects that are
+			//    terminated with a newline \n"
+			// -- send the String making sure to flush the buffer
+			dataout.writeBytes(_msg + "\n");
 			dataout.flush();
-			if(acknowledge)
-			{
-				returnmsg = ""; //  <@  idk what to do here
-				do{
-					returnmsg = datain.read();
-				}while(returnmsg.equals("")); //  <@  what do I put here
-			}
-		}catch(IOException e)
-		{
+			
+			if (acknowledge) {
+				// -- receive the response from the server
+				//    The do/while makes this a blocking read. Normally BufferedReader.readLine() is non-blocking.
+				//    That is, if there is no String to read, it will read "". Doing it this way does not allow
+				//    that to occur. We must get a response from the server. Time out could be implemented with
+				//    a counter.
+				rtnmsg = "";
+				do {
+					// -- this is a non-blocking read
+					rtnmsg = datain.readLine();
+					
+				} while (rtnmsg.equals(""));
+			}						
+		} catch (IOException e) {
+			
 			e.printStackTrace();
 			System.exit(1);
+			
 		}
-		return returnmsg;
+		
+		return rtnmsg;
+		
 	}
 	
 	/**
