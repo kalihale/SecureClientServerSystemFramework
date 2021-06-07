@@ -1,7 +1,5 @@
 package BasicClientServer;
 
-import ObjectsToPass.QueriesClass;
-import ObjectsToPass.User;
 import javafx.application.Application;
 import javafx.event.Event;
 import javafx.geometry.HPos;
@@ -29,9 +27,8 @@ public class ClientGUI extends Application
     private final Background BG = new Background(new BackgroundFill(Color.ALICEBLUE, CornerRadii.EMPTY, Insets.EMPTY));
     private final String BTGRAY = "-fx-background-color: #cbccd1";
     private final String BTGREEN = "-fx-background-color: #92f095";
-    private User user;
-    private QueriesClass sendIt;
-    private boolean usefulInfo = true; // ToDo FIX LATER != True
+    private String sendIt;
+    private boolean usefulInfo = true;
     private Client client;
     private String ip;
     private int port;
@@ -67,23 +64,19 @@ public class ClientGUI extends Application
         btConnect.setStyle(BTGRAY);
         btConnect.setOnAction(actionEvent ->
         {
-            login();
-            disconnectedStage.close();
-//            ip = taIpAddress.getText();
-//            try
-//            {
-//                port = Integer.parseInt(taPortNum.getText());
-//                client = new Client(ip, port);
-//                login();
-//                disconnectedStage.close();
-//            }catch(NumberFormatException numberFormatException)
-//            {
-//                System.out.println("Could not parse int");
-//            }
-//            //  <@  TODO Add exception for when there is no ip and port to connect to ??????
-//            //  <@  Exception for ^ already exists in network access, TODO only if we have time after everything else
-//            taIpAddress.clear();
-//            taPortNum.clear();
+            ip = taIpAddress.getText();
+            try
+            {
+                port = Integer.parseInt(taPortNum.getText());
+                client = new Client(ip, port);
+                login();
+                disconnectedStage.close();
+            }catch(NumberFormatException numberFormatException)
+            {
+                System.out.println("Could not parse int");
+            }
+            taIpAddress.clear();
+            taPortNum.clear();
         });
 
         connectPane.add(txtIpName,0,0);
@@ -98,15 +91,16 @@ public class ClientGUI extends Application
 
 
         // ** ColumnConstraints
-        ColumnConstraints column0, column1;
-        column0 = column1 = new ColumnConstraints();
+        ColumnConstraints column0 = new ColumnConstraints();
+        ColumnConstraints column1 = new ColumnConstraints();
         column0.setPercentWidth(25);
         column1.setPercentWidth(75);
         connectPane.getColumnConstraints().addAll(column0, column1);
 
         // ** Row constraints
-        RowConstraints row0, row1, row2;
-        row0 = row1 = row2 = new RowConstraints();
+        RowConstraints row0 = new RowConstraints();
+        RowConstraints row1 = new RowConstraints();
+        RowConstraints row2 = new RowConstraints();
         row0.setPercentHeight(33);
         row1.setPercentHeight(33);
         row2.setPercentHeight(33);
@@ -150,42 +144,36 @@ public class ClientGUI extends Application
         btDisconnect.setStyle(BTGRAY);
         btDisconnect.setOnAction(ActionEvent ->
         {
-//            client.disconnect();
+            client.disconnect();
             disconnected();
             loginStage.close();
         });
         btLogin.setOnAction(actionEvent ->
         {
-            //  <@  TODO placeholder
-            home();
-            loginStage.close();
-//            if (!(taLogPw.getText().equals("")) && !(taLogUn.getText().equals(""))){
-//                user = new User();
-//                user.setAction(1);
-//                user.setUsername(taLogUn.getText());
-//                user.setPassword(taLogPw.getText());
-//                Object reply = client.sendObject(user);
-//
-//                if (reply.equals("loginSuccess")) {
-//                    home();
-//                    loginStage.close();
-//                }
-//                else {
-//                    Stage loginOops = new Stage();
-//                    loginOops.setMaxHeight(300);
-//                    loginOops.setMaxWidth(600);
-//                    BorderPane oopsPane = new BorderPane();
-//                    Scene oopsScene = new Scene(oopsPane);
-//                    oopsPane.setTop(new Text("You made a login oops. Try again."));
-//                    Button oopsButton = new Button("ok");
-//                    oopsButton.setOnAction(actionEvent1 -> loginOops.close());
-//                    oopsPane.setBottom(oopsButton);
-//                    loginOops.setTitle("Oops");
-//                    loginOops.setScene(oopsScene);
-//                    loginOops.show();
-//                }
-//
-//            }
+            if (!(taLogPw.getText().equals("")) && !(taLogUn.getText().equals(""))){
+                sendIt = "u/L/" + taLogUn.getText() + "/" + taLogPw.getText();
+                String reply = client.sendString(sendIt);
+
+                if (reply.equals("loginSuccess")) {
+                    home();
+                    loginStage.close();
+                }
+                else {
+                    Stage loginOops = new Stage();
+                    loginOops.setMaxHeight(300);
+                    loginOops.setMaxWidth(600);
+                    BorderPane oopsPane = new BorderPane();
+                    Scene oopsScene = new Scene(oopsPane);
+                    oopsPane.setTop(new Text("You made a login oops. Try again."));
+                    Button oopsButton = new Button("ok");
+                    oopsButton.setOnAction(actionEvent1 -> loginOops.close());
+                    oopsPane.setBottom(oopsButton);
+                    loginOops.setTitle("Oops");
+                    loginOops.setScene(oopsScene);
+                    loginOops.show();
+                }
+
+            }
         });
         btFPw.setOnAction(actionEvent ->
         {
@@ -200,8 +188,11 @@ public class ClientGUI extends Application
         });
 
         //  <@  Column constraints
-        ColumnConstraints column0, column1, column2, column3, column4;
-        column0 = column1 = column2 = column3 = column4 = new ColumnConstraints();
+        ColumnConstraints column0 = new ColumnConstraints();
+        ColumnConstraints column1 = new ColumnConstraints();
+        ColumnConstraints column2 = new ColumnConstraints();
+        ColumnConstraints column3 = new ColumnConstraints();
+        ColumnConstraints column4 = new ColumnConstraints();
         column0.setPercentWidth(20);
         column1.setPercentWidth(20);
         column2.setPercentWidth(20);
@@ -210,8 +201,13 @@ public class ClientGUI extends Application
         loginWindowPane.getColumnConstraints().addAll(column0, column1, column2, column3, column4);
 
         //  <@  Row constraints
-        RowConstraints row0, row1, row2, row3, row4, row5, row6;
-        row0 = row1 = row2 = row3 = row4 = row5 = row6 = new RowConstraints();
+        RowConstraints row0 = new RowConstraints();
+        RowConstraints row1 = new RowConstraints();
+        RowConstraints row2 = new RowConstraints();
+        RowConstraints row3 = new RowConstraints();
+        RowConstraints row4 = new RowConstraints();
+        RowConstraints row5 = new RowConstraints();
+        RowConstraints row6 = new RowConstraints();
         row0.setPercentHeight(33);
         row1.setPercentHeight(6);
         row2.setPercentHeight(7);
@@ -275,66 +271,55 @@ public class ClientGUI extends Application
         btSearch.setStyle(BTGRAY);
         btLogout.setOnAction(actionEvent ->
         {
-            //  <@  TODO placeholder
-            login();
-            homeStage.close();
-//            //  <@  Logout
-//            user = new User();
-//            user.setAction(0);
-//            Object reply = client.sendObject("u/o/thisuser");
-//            if(reply.equals("logoutSuccess"))
-//            {
-//                login();
-//                homeStage.close();
-//            }
-//            else
-//            {
-//                Stage logoutOops = new Stage();
-//                logoutOops.setMaxHeight(300);
-//                logoutOops.setMaxWidth(600);
-//                BorderPane oopsPane = new BorderPane();
-//                Scene oopsScene = new Scene(oopsPane);
-//                oopsPane.setTop(new Text("We've made a logout oops. You are not logged out yet. Please try again."));
-//                Button oopsButton = new Button("ok");
-//                oopsButton.setOnAction(actionEvent1 -> logoutOops.close());
-//                oopsPane.setBottom(oopsButton);
-//                logoutOops.setTitle("Oops");
-//                logoutOops.setScene(oopsScene);
-//                logoutOops.show();
-//            }
+            //  <@  Logout
+            String reply = client.sendString("u/o/thisuser");
+            if(reply.equals("logoutSuccess"))
+            {
+                login();
+                homeStage.close();
+            }
+            else
+            {
+                Stage logoutOops = new Stage();
+                logoutOops.setMaxHeight(300);
+                logoutOops.setMaxWidth(600);
+                BorderPane oopsPane = new BorderPane();
+                Scene oopsScene = new Scene(oopsPane);
+                oopsPane.setTop(new Text("We've made a logout oops. You are not logged out yet. Please try again."));
+                Button oopsButton = new Button("ok");
+                oopsButton.setOnAction(actionEvent1 -> logoutOops.close());
+                oopsPane.setBottom(oopsButton);
+                logoutOops.setTitle("Oops");
+                logoutOops.setScene(oopsScene);
+                logoutOops.show();
+            }
         });
         btLD.setOnAction(actionEvent ->
         {
-            //  <@  TODO placeholder
-            client.disconnect();
-            disconnected();
-            homeStage.close();
-//            //  <@  Logout and disconnect
-//            user = new User();
-//            user.setAction(2);
-//            Object reply = client.sendObject(user);
-//
-//            if(reply.equals("logoutSuccess"))
-//            {
-//                client.disconnect();
-//                disconnected();
-//                homeStage.close();
-//            }
-//            else
-//            {
-//                Stage logoutOops = new Stage();
-//                logoutOops.setMaxHeight(300);
-//                logoutOops.setMaxWidth(600);
-//                BorderPane oopsPane = new BorderPane();
-//                Scene oopsScene = new Scene(oopsPane);
-//                oopsPane.setTop(new Text("We've made a logout oops. You are not logged out yet. Please try again."));
-//                Button oopsButton = new Button("ok");
-//                oopsButton.setOnAction(actionEvent1 -> logoutOops.close());
-//                oopsPane.setBottom(oopsButton);
-//                logoutOops.setTitle("Oops");
-//                logoutOops.setScene(oopsScene);
-//                logoutOops.show();
-//            }
+            //  <@  Logout and disconnect
+            String reply = client.sendString("u/o/thisuser");
+
+            if(reply.equals("logoutSuccess"))
+            {
+                client.disconnect();
+                disconnected();
+                homeStage.close();
+            }
+            else
+            {
+                Stage logoutOops = new Stage();
+                logoutOops.setMaxHeight(300);
+                logoutOops.setMaxWidth(600);
+                BorderPane oopsPane = new BorderPane();
+                Scene oopsScene = new Scene(oopsPane);
+                oopsPane.setTop(new Text("We've made a logout oops. You are not logged out yet. Please try again."));
+                Button oopsButton = new Button("ok");
+                oopsButton.setOnAction(actionEvent1 -> logoutOops.close());
+                oopsPane.setBottom(oopsButton);
+                logoutOops.setTitle("Oops");
+                logoutOops.setScene(oopsScene);
+                logoutOops.show();
+            }
         });
         btPwCh.setOnAction(actionEvent ->
         {
@@ -344,20 +329,37 @@ public class ClientGUI extends Application
         });
         btSearch.setOnAction(actionEvent ->
         {
-//            //  <@  TODO fix this
-//            sendIt = new QueriesClass();
-//            Object reply = client.sendObject(taSearch.getText());
+            String reply = client.sendString(taSearch.getText());
+            String[] info = reply.split("/");
+            for(int i = 0; i < info.length / 2; i++)
+            {
+                taResults.appendText(info[i] + " ");
+            }
+            taResults.appendText("\n");
+            for(int i = info.length / 2; i < info.length; i++)
+            {
+                taResults.appendText(info[i] + " ");
+            }
         });
 
 
         //  <@  Column constraints
-        ColumnConstraints column0, column1, column2, column3;
-        column0 = column1 = column2 = column3 = new ColumnConstraints();
-        homePane.getColumnConstraints().addAll(column0, column1, column2, column3);
+        ColumnConstraints column0 = new ColumnConstraints();
+        ColumnConstraints column1 = new ColumnConstraints();
+        ColumnConstraints column2 = new ColumnConstraints();
+        column0.setPercentWidth(20);
+        column1.setPercentWidth(60);
+        column2.setPercentWidth(20);
+        homePane.getColumnConstraints().addAll(column0, column1, column2);
 
         //  <@  Row constraints
-        RowConstraints row0, row1, row2, row3, row4, row5, row6;
-        row0 = row1 = row2 = row3 = row4 = row5 = row6 = new RowConstraints();
+        RowConstraints row0 = new RowConstraints();
+        RowConstraints row1 = new RowConstraints();
+        RowConstraints row2 = new RowConstraints();
+        RowConstraints row3 = new RowConstraints();
+        RowConstraints row4 = new RowConstraints();
+        RowConstraints row5 = new RowConstraints();
+        RowConstraints row6 = new RowConstraints();
         row0.setPercentHeight(6);
         row1.setPercentHeight(6);
         row2.setPercentHeight(11);
@@ -427,74 +429,76 @@ public class ClientGUI extends Application
         });
         btConfirm.setOnAction(actionEvent ->
         {
-            //  <@  TODO placeholder
-            home();
-            pwChangeStage.close();
-//            if(!taOldPass.getText().equals(taNewPass.getText()))
-//            {
-//                Object reply = client.sendObject("u/p/thisuser/" + taOldPass.getText() + "/" + taNewPass.getText());
-//                if(reply.equals("passwordChangeSuccess"))
-//                {
-//                    Stage passwordYay = new Stage();
-//                    passwordYay.setMaxHeight(300);
-//                    passwordYay.setMaxWidth(600);
-//                    BorderPane yayPane = new BorderPane();
-//                    Scene oopsScene = new Scene(yayPane);
-//                    yayPane.setTop(new Text("Password successfully changed."));
-//                    Button oopsButton = new Button("ok");
-//                    oopsButton.setOnAction(actionEvent1 -> passwordYay.close());
-//                    yayPane.setBottom(oopsButton);
-//                    passwordYay.setTitle("Yay");
-//                    passwordYay.setScene(oopsScene);
-//                    passwordYay.show();
-//                    home();
-//                    pwChangeStage.close();
-//                }
-//                else
-//                {
-//                    Stage passwordOops = new Stage();
-//                    passwordOops.setMaxHeight(300);
-//                    passwordOops.setMaxWidth(600);
-//                    BorderPane oopsPane = new BorderPane();
-//                    Scene oopsScene = new Scene(oopsPane);
-//                    oopsPane.setTop(new Text("We've hit an error. Please try again."));
-//                    Button oopsButton = new Button("ok");
-//                    oopsButton.setOnAction(actionEvent1 -> passwordOops.close());
-//                    oopsPane.setBottom(oopsButton);
-//                    passwordOops.setTitle("Oops");
-//                    passwordOops.setScene(oopsScene);
-//                    passwordOops.show();
-//                }
-//
-//            }
-//            else
-//            {
-//                Stage passwordOops = new Stage();
-//                passwordOops.setMaxHeight(300);
-//                passwordOops.setMaxWidth(600);
-//                BorderPane oopsPane = new BorderPane();
-//                Scene oopsScene = new Scene(oopsPane);
-//                oopsPane.setTop(new Text("Your passwords match. Please try again."));
-//                Button oopsButton = new Button("ok");
-//                oopsButton.setOnAction(actionEvent1 -> passwordOops.close());
-//                oopsPane.setBottom(oopsButton);
-//                passwordOops.setTitle("Oops");
-//                passwordOops.setScene(oopsScene);
-//                passwordOops.show();
-//            }
+
+            if(!taOldPass.getText().equals(taNewPass.getText()))
+            {
+                String reply = client.sendString("u/p/thisuser/" + taOldPass.getText() + "/" + taNewPass.getText());
+                if(reply.equals("passwordChangeSuccess"))
+                {
+                    Stage passwordYay = new Stage();
+                    passwordYay.setMaxHeight(300);
+                    passwordYay.setMaxWidth(600);
+                    BorderPane yayPane = new BorderPane();
+                    Scene oopsScene = new Scene(yayPane);
+                    yayPane.setTop(new Text("Password successfully changed."));
+                    Button oopsButton = new Button("ok");
+                    oopsButton.setOnAction(actionEvent1 -> passwordYay.close());
+                    yayPane.setBottom(oopsButton);
+                    passwordYay.setTitle("Yay");
+                    passwordYay.setScene(oopsScene);
+                    passwordYay.show();
+                    home();
+                    pwChangeStage.close();
+                }
+                else
+                {
+                    Stage passwordOops = new Stage();
+                    passwordOops.setMaxHeight(300);
+                    passwordOops.setMaxWidth(600);
+                    BorderPane oopsPane = new BorderPane();
+                    Scene oopsScene = new Scene(oopsPane);
+                    oopsPane.setTop(new Text("We've hit an error. Please try again."));
+                    Button oopsButton = new Button("ok");
+                    oopsButton.setOnAction(actionEvent1 -> passwordOops.close());
+                    oopsPane.setBottom(oopsButton);
+                    passwordOops.setTitle("Oops");
+                    passwordOops.setScene(oopsScene);
+                    passwordOops.show();
+                }
+
+            }
+            else
+            {
+                Stage passwordOops = new Stage();
+                passwordOops.setMaxHeight(300);
+                passwordOops.setMaxWidth(600);
+                BorderPane oopsPane = new BorderPane();
+                Scene oopsScene = new Scene(oopsPane);
+                oopsPane.setTop(new Text("Your passwords match. Please try again."));
+                Button oopsButton = new Button("ok");
+                oopsButton.setOnAction(actionEvent1 -> passwordOops.close());
+                oopsPane.setBottom(oopsButton);
+                passwordOops.setTitle("Oops");
+                passwordOops.setScene(oopsScene);
+                passwordOops.show();
+            }
         });
 
         //  <@  Add column constraints
-        ColumnConstraints column0, column1, column2;
-        column0 = column1 = column2 = new ColumnConstraints();
+        ColumnConstraints column0 = new ColumnConstraints();
+        ColumnConstraints column1 = new ColumnConstraints();
+        ColumnConstraints column2 = new ColumnConstraints();
         column0.setPercentWidth(20);
         column1.setPercentWidth(60);
         column2.setPercentWidth(20);
         pwChangePane.getColumnConstraints().addAll(column0, column1, column2);
 
         //  <@  Add row constraints
-        RowConstraints row0, row1, row2, row3, row4;
-        row0 = row1 = row2 = row3 = row4 = new RowConstraints();
+        RowConstraints row0 = new RowConstraints();
+        RowConstraints row1 = new RowConstraints();
+        RowConstraints row2 = new RowConstraints();
+        RowConstraints row3 = new RowConstraints();
+        RowConstraints row4 = new RowConstraints();
         row0.setPercentHeight(30);
         row1.setPercentHeight(10);
         row2.setPercentHeight(10);
@@ -560,47 +564,47 @@ public class ClientGUI extends Application
         });
         btEmail.setOnAction(actionEvent ->
         {
-            //  <@  TODO placeholder
-            login();
-            fPwStage.close();
-//            Object reply = client.sendObject("u/f/" + taEmail.getText());
-//            if(reply.equals("forgotPasswordSuccessful"))
-//            {
-//                Stage emailYay = new Stage();
-//                emailYay.setMaxHeight(300);
-//                emailYay.setMaxWidth(600);
-//                BorderPane yayPane = new BorderPane();
-//                Scene yayScene = new Scene(yayPane);
-//                yayPane.setTop(new Text("A new password has been sent to your email."));
-//                Button yayButton = new Button("yay");
-//                yayButton.setOnAction(actionEvent1 -> emailYay.close());
-//                yayPane.setBottom(yayButton);
-//                emailYay.setTitle("Yay!");
-//                emailYay.setScene(yayScene);
-//                emailYay.show();
-//                login();
-//                fPwStage.close();
-//            }
-//            else
-//            {
-//                Stage emailOops = new Stage();
-//                emailOops.setMaxHeight(300);
-//                emailOops.setMaxWidth(600);
-//                BorderPane oopsPane = new BorderPane();
-//                Scene oopsScene = new Scene(oopsPane);
-//                oopsPane.setTop(new Text("A new password has been sent to your email."));
-//                Button oopsButton = new Button("ok");
-//                oopsButton.setOnAction(actionEvent1 -> emailOops.close());
-//                oopsPane.setBottom(oopsButton);
-//                emailOops.setTitle("Oops");
-//                emailOops.setScene(oopsScene);
-//                emailOops.show();
-//            }
+            String reply = client.sendString("u/f/" + taEmail.getText());
+            if(reply.equals("forgotPasswordSuccessful"))
+            {
+                Stage emailYay = new Stage();
+                emailYay.setMaxHeight(300);
+                emailYay.setMaxWidth(600);
+                BorderPane yayPane = new BorderPane();
+                Scene yayScene = new Scene(yayPane);
+                yayPane.setTop(new Text("A new password has been sent to your email."));
+                Button yayButton = new Button("yay");
+                yayButton.setOnAction(actionEvent1 -> emailYay.close());
+                yayPane.setBottom(yayButton);
+                emailYay.setTitle("Yay!");
+                emailYay.setScene(yayScene);
+                emailYay.show();
+                login();
+                fPwStage.close();
+            }
+            else
+            {
+                Stage emailOops = new Stage();
+                emailOops.setMaxHeight(300);
+                emailOops.setMaxWidth(600);
+                BorderPane oopsPane = new BorderPane();
+                Scene oopsScene = new Scene(oopsPane);
+                oopsPane.setTop(new Text("A new password has been sent to your email."));
+                Button oopsButton = new Button("ok");
+                oopsButton.setOnAction(actionEvent1 -> emailOops.close());
+                oopsPane.setBottom(oopsButton);
+                emailOops.setTitle("Oops");
+                emailOops.setScene(oopsScene);
+                emailOops.show();
+            }
         });
 
         //  <@  Column constraints
-        ColumnConstraints column0, column1, column2, column3, column4;
-        column0 = column1 = column2 = column3 = column4 = new ColumnConstraints();
+        ColumnConstraints column0 = new ColumnConstraints();
+        ColumnConstraints column1 = new ColumnConstraints();
+        ColumnConstraints column2 = new ColumnConstraints();
+        ColumnConstraints column3 = new ColumnConstraints();
+        ColumnConstraints column4 = new ColumnConstraints();
         column0.setPercentWidth(20);
         column1.setPercentWidth(20);
         column2.setPercentWidth(20);
@@ -609,8 +613,12 @@ public class ClientGUI extends Application
         fPwPane.getColumnConstraints().addAll(column0, column1, column2, column3, column4);
 
         //  <@  Row constraints
-        RowConstraints row0, row1, row2, row3, row4, row5;
-        row0 = row1 = row2 = row3 = row4 = row5 = new RowConstraints();
+        RowConstraints row0 = new RowConstraints();
+        RowConstraints row1 = new RowConstraints();
+        RowConstraints row2 = new RowConstraints();
+        RowConstraints row3 = new RowConstraints();
+        RowConstraints row4 = new RowConstraints();
+        RowConstraints row5 = new RowConstraints();
         row0.setPercentHeight(21);
         row1.setPercentHeight(15);
         row2.setPercentHeight(21);
@@ -669,33 +677,32 @@ public class ClientGUI extends Application
         btBack.setStyle(BTGRAY);
         btRegister.setOnAction(actionEvent ->
         {
-            //  <@  TODO placeholder
-            login();
-            registerStage.close();
-//            if(!(taUsername.getText().equals("")) && !(taPw.getText().equals("")) && !(taEmail.getText().equals(""))){
-////                sendIt = "u/R/" + taUsername.getText() + "/" + taPw.getText() + "/" + taEmail.getText();
-////                String reply = client.sendString(sendIt);
-////                System.out.println(reply);
-//                if(true)
-//                {
-//                    login();
-//                    registerStage.close();
-//                }
-//                else {
-//                    Stage registrationOops = new Stage();
-//                    registrationOops.setMaxHeight(300);
-//                    registrationOops.setMaxWidth(600);
-//                    BorderPane oopsPane = new BorderPane();
-//                    Scene oopsScene = new Scene(oopsPane);
-//                    oopsPane.setTop(new Text("You made a registration oops. Try again."));
-//                    Button oopsButton = new Button("ok");
-//                    oopsButton.setOnAction(actionEvent1 -> registrationOops.close());
-//                    oopsPane.setBottom(oopsButton);
-//                    registrationOops.setTitle("Oops");
-//                    registrationOops.setScene(oopsScene);
-//                    registrationOops.show();
-//                }
-//            }
+
+
+            if(!(taUsername.getText().equals("")) && !(taPw.getText().equals("")) && !(taEmail.getText().equals(""))){
+                sendIt = "u/R/" + taUsername.getText() + "/" + taPw.getText() + "/" + taEmail.getText();
+                String reply = client.sendString(sendIt);
+                System.out.println(reply);
+                if(reply.equals("RegistrationSuccessful"))
+                {
+                    login();
+                    registerStage.close();
+                }
+                else {
+                    Stage registrationOops = new Stage();
+                    registrationOops.setMaxHeight(300);
+                    registrationOops.setMaxWidth(600);
+                    BorderPane oopsPane = new BorderPane();
+                    Scene oopsScene = new Scene(oopsPane);
+                    oopsPane.setTop(new Text("You made a registration oops. Try again."));
+                    Button oopsButton = new Button("ok");
+                    oopsButton.setOnAction(actionEvent1 -> registrationOops.close());
+                    oopsPane.setBottom(oopsButton);
+                    registrationOops.setTitle("Oops");
+                    registrationOops.setScene(oopsScene);
+                    registrationOops.show();
+                }
+            }
         });
         btBack.setOnAction(actionEvent ->
         {
@@ -704,8 +711,12 @@ public class ClientGUI extends Application
         });
 
         // ** Column constraints
-        ColumnConstraints column0, column1, column2, column3, column4, column5;
-        column0 = column1 = column2 = column3 = column4 = column5 = new ColumnConstraints();
+        ColumnConstraints column0 = new ColumnConstraints();
+        ColumnConstraints column1 = new ColumnConstraints();
+        ColumnConstraints column2 = new ColumnConstraints();
+        ColumnConstraints column3 = new ColumnConstraints();
+        ColumnConstraints column4 = new ColumnConstraints();
+        ColumnConstraints column5 = new ColumnConstraints();
         column0.setPercentWidth(20);
         column1.setPercentWidth(20);
         column2.setPercentWidth(20);
@@ -714,8 +725,14 @@ public class ClientGUI extends Application
         registerPane.getColumnConstraints().addAll(column0, column1, column2,column3,column4,column5);
 
         // ** Row constraints
-        RowConstraints row0, row1, row2, row3, row4, row5, row6, row7;
-        row0 = row1 = row2 = row3 = row4 = row5 = row6 = row7 = new RowConstraints();
+        RowConstraints row0 = new RowConstraints();
+        RowConstraints row1 = new RowConstraints();
+        RowConstraints row2 = new RowConstraints();
+        RowConstraints row3 = new RowConstraints();
+        RowConstraints row4 = new RowConstraints();
+        RowConstraints row5 = new RowConstraints();
+        RowConstraints row6 = new RowConstraints();
+        RowConstraints row7 = new RowConstraints();
         row0.setPercentHeight(15);
         row1.setPercentHeight(8);
         row2.setPercentHeight(15);
@@ -758,13 +775,13 @@ public class ClientGUI extends Application
 
     private <T extends Event> void closeWindowEventLoggedIn(T t)
     {
-//        Object reply = client.sendObject("u/o/thisuser");
-//        client.disconnect();
+        String reply = client.sendString("u/o/thisuser");
+        client.disconnect();
         System.exit(0);
     }
     private <T extends Event> void closeWindowEventElse(T t)
     {
-//        client.disconnect();
+        client.disconnect();
         System.exit(0);
     }
 }
