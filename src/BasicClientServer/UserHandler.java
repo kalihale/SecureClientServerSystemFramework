@@ -1,10 +1,10 @@
 package BasicClientServer;
 
+import ObjectsToPass.User;
+
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 // -- Download JavaMail API from here: http://www.oracle.com/technetwork/java/javamail/index.html
 // -- Download JavaBeans Activation Framework from here: http://www.oracle.com/technetwork/java/javasebusiness/downloads/java-archive-downloads-java-plat-419418.html#jaf-1.1.1-fcs-oth-JPR
@@ -12,7 +12,6 @@ import java.util.Date;
 // -- Your gmail account must be set to allow "less secure apps" to access it
 //    Information is found here: https://devanswers.co/allow-less-secure-apps-access-gmail-account/
 // -- javax.mail.jar moved here: https://javaee.github.io/javamail/?xd_co_f=c9a74338-3e62-4b48-9e18-489fa570fd5b
-import java.util.Properties;
 //import javax.mail.Message;
 //import javax.mail.MessagingException;
 //import javax.mail.PasswordAuthentication;
@@ -25,6 +24,11 @@ public class UserHandler
 {
     private String username;
     private String reply;
+
+    public void process(User process)
+    {
+        System.out.println(process.getAction());
+    }
 
     public String process(String process)
     {

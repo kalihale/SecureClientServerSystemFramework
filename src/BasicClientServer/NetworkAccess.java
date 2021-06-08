@@ -1,9 +1,8 @@
 package BasicClientServer;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import ObjectsToPass.User;
+
+import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -21,6 +20,8 @@ public class NetworkAccess {
 	 */
 	private BufferedReader datain;
 	private DataOutputStream dataout;
+	private ObjectInputStream objIn;
+	private ObjectOutputStream objOut;
 
 	/**
 	 * Constructor performs connection construction for the client
@@ -40,8 +41,13 @@ public class NetworkAccess {
 			// -- wrap the socket in stream I/O objects
 			//    these are for passing String types over the network
 			//    there are other stream types (Object stream) that can be used
-			datain = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			dataout = new DataOutputStream(socket.getOutputStream());
+//			datain = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+//			dataout = new DataOutputStream(socket.getOutputStream());
+			//  <@  TODO these two lines don't work
+			objIn = new ObjectInputStream(socket.getInputStream());
+			System.out.println("ObjectInputStream created");
+			objOut = new ObjectOutputStream(socket.getOutputStream());
+			System.out.println("ObjectOutputStream created");
 			
 		} 
 		catch (UnknownHostException e) {
@@ -75,8 +81,10 @@ public class NetworkAccess {
 			// -- wrap the socket in stream I/O objects
 			//    these are for passing String types over the network
 			//    there are other stream types (Object stream) that can be used
-			datain = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			dataout = new DataOutputStream(socket.getOutputStream());
+//			datain = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+//			dataout = new DataOutputStream(socket.getOutputStream());
+			objIn = new ObjectInputStream(socket.getInputStream());
+			objOut = new ObjectOutputStream(socket.getOutputStream());
 			
 		} 
 		catch (IOException e) {
@@ -97,6 +105,22 @@ public class NetworkAccess {
 		try {
 			return datain.readLine();
 		} catch (IOException e) {
+			throw e;
+		}
+	}
+
+	/**
+	 * reads an object from the input data stream
+	 *
+	 * @return object from the stream
+	 */
+	public Object readObject() throws IOException, ClassNotFoundException
+	{
+		try
+		{
+			return objIn.readObject();
+		}catch(IOException | ClassNotFoundException e)
+		{
 			throw e;
 		}
 	}
@@ -147,6 +171,64 @@ public class NetworkAccess {
 		
 		return rtnmsg;
 		
+	}
+
+	/**
+	 * send an Object to the server and return the reply
+	 * @param obj: the object to be sent
+	 * @param acknowledge: whether the server should return a reply
+	 * @return Object reply: the reply from server
+	 */
+	public Object sendObject(Object obj, boolean acknowledge)
+	{
+		Object reply = null;
+		try
+		{
+			System.out.println("Sending Object");
+			objOut.writeObject(obj);
+//			objOut.flush();
+
+			if(acknowledge)
+			{
+				reply = null;
+				do
+				{
+					reply = objIn.readObject();
+				}while(reply == null);
+			}
+		} catch (IOException | ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		}
+		return reply;
+	}
+
+	/**
+	 * send an Object to the server and return the reply
+	 * @param obj : the object to be sent
+	 * @param acknowledge : whether the server should return a reply
+	 */
+	public void sendUser(User obj, boolean acknowledge)
+	{
+		Object reply = null;
+		try
+		{
+			System.out.println("Sending user");
+			objOut.writeObject(obj);
+			objOut.flush();
+
+			if(acknowledge)
+			{
+				reply = null;
+				do
+				{
+					reply = objIn.readObject();
+				}while(reply == null);
+			}
+		} catch (IOException | ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	/**

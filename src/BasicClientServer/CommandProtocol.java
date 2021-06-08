@@ -1,5 +1,7 @@
 package BasicClientServer;
 
+import ObjectsToPass.QueriesClass;
+
 import java.sql.SQLException;
 import java.util.HashMap;
 
@@ -26,7 +28,6 @@ public class CommandProtocol {
 	 * @param cmd: command to be processed
 	 * @param na: NetworkAccess object for communication
 	 * @param ch: ClientHandler object requesting the processing
-	 * @return
 	 */
 	public static void processCommand(String cmd, NetworkAccess na, ClientHandler ch)
 	{
@@ -56,6 +57,16 @@ public class CommandProtocol {
 			}
 			
 		}		
+	}
+
+	/**
+	 * @param obj: Object to be processed
+	 * @param na: NetworkAccess object for communication
+	 * @param ch: ClientHandler object requesting the processing
+	 */
+	public static void processCommand(QueriesClass obj, NetworkAccess na, ClientHandler ch)
+	{
+
 	}
 	
 	/**

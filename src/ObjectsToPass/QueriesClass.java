@@ -1,6 +1,8 @@
 package ObjectsToPass;
 
-public class QueriesClass
+import java.io.Serializable;
+
+public class QueriesClass implements Serializable
 {
     int queryNum;
     String firstName;

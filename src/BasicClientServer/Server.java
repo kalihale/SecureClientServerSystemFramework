@@ -58,8 +58,9 @@ public class Server extends Thread {
 	{
 		super.run();
 		// -- construct the list of active client threads
-		clientconnections = new Vector<ClientHandler>();
+//		clientconnections = new Vector<ClientHandler>();
 
+		System.out.println("Server Started");
 		// -- listen for incoming connection requests
 		listen();
 	}
@@ -69,14 +70,14 @@ public class Server extends Thread {
 	 * starts the server listening on the port
 	 */
 
-	public Server ()
+	public Server()
 	{
-
-		// -- construct the list of active client threads
+		System.out.println("Server constructed");
+//		// -- construct the list of active client threads
 		clientconnections = new Vector<ClientHandler>();
-
-		// -- listen for incoming connection requests
-		listen();
+//
+//		// -- listen for incoming connection requests
+//		listen();
 
 	}
 
@@ -174,7 +175,8 @@ public class Server extends Thread {
 	{
 		// -- instantiate the server anonymously
 		//    no need to keep a reference to the object since it will run in its own thread
-		new Server();
+		Server server = new Server();
+		server.start();
 		
 	}
 
