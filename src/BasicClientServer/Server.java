@@ -73,10 +73,10 @@ public class Server extends Thread {
 	public Server()
 	{
 		System.out.println("Server constructed");
-//		// -- construct the list of active client threads
+		// -- construct the list of active client threads
 		clientconnections = new Vector<ClientHandler>();
-//
-//		// -- listen for incoming connection requests
+
+		// -- listen for incoming connection requests
 //		listen();
 
 	}

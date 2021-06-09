@@ -18,8 +18,10 @@ public class NetworkAccess {
 	 * stream variables for peer to peer communication
 	 * to be opened on top of the socket 
 	 */
-	private BufferedReader datain;
-	private DataOutputStream dataout;
+//	private BufferedReader datain;
+//	private DataOutputStream dataout;
+	private ObjectInputStream datain;
+	private ObjectOutputStream dataout;
 	private ObjectInputStream objIn;
 	private ObjectOutputStream objOut;
 
@@ -43,11 +45,13 @@ public class NetworkAccess {
 			//    there are other stream types (Object stream) that can be used
 //			datain = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 //			dataout = new DataOutputStream(socket.getOutputStream());
+			dataout = new ObjectOutputStream(socket.getOutputStream());
+			datain = new ObjectInputStream(socket.getInputStream());
 			//  <@  TODO these two lines don't work
-			objIn = new ObjectInputStream(socket.getInputStream());
-			System.out.println("ObjectInputStream created");
-			objOut = new ObjectOutputStream(socket.getOutputStream());
-			System.out.println("ObjectOutputStream created");
+//			objIn = new ObjectInputStream(socket.getInputStream());
+//			System.out.println("client ObjectInputStream created");
+//			objOut = new ObjectOutputStream(socket.getOutputStream());
+//			System.out.println("client ObjectOutputStream created");
 			
 		} 
 		catch (UnknownHostException e) {
@@ -83,8 +87,12 @@ public class NetworkAccess {
 			//    there are other stream types (Object stream) that can be used
 //			datain = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 //			dataout = new DataOutputStream(socket.getOutputStream());
-			objIn = new ObjectInputStream(socket.getInputStream());
-			objOut = new ObjectOutputStream(socket.getOutputStream());
+			datain = new ObjectInputStream(socket.getInputStream());
+			dataout = new ObjectOutputStream(socket.getOutputStream());
+//			objIn = new ObjectInputStream(socket.getInputStream());
+//			System.out.println("server input created");
+//			objOut = new ObjectOutputStream(socket.getOutputStream());
+//			System.out.println("server output created");
 			
 		} 
 		catch (IOException e) {
@@ -100,11 +108,13 @@ public class NetworkAccess {
 	 * @return string from the stream
 	 * @throws IOException
 	 */
-	public String readString () throws IOException
+	public String readString () throws IOException, ClassNotFoundException
 	{
 		try {
-			return datain.readLine();
-		} catch (IOException e) {
+//			Object o = datain.readObject();
+			String result = (String)datain.readObject();
+			return result;
+		} catch (IOException | ClassNotFoundException e) {
 			throw e;
 		}
 	}
@@ -146,7 +156,8 @@ public class NetworkAccess {
 			// -- the server only receives String objects that are
 			//    terminated with a newline \n"
 			// -- send the String making sure to flush the buffer
-			dataout.writeBytes(_msg + "\n");
+//			dataout.writeBytes(_msg + "\n");
+			dataout.writeObject(_msg + "\n");
 			dataout.flush();
 			
 			if (acknowledge) {
@@ -158,11 +169,11 @@ public class NetworkAccess {
 				rtnmsg = "";
 				do {
 					// -- this is a non-blocking read
-					rtnmsg = datain.readLine();
+					rtnmsg = (String) datain.readObject();
 					
 				} while (rtnmsg.equals(""));
 			}						
-		} catch (IOException e) {
+		} catch (IOException | ClassNotFoundException e) {
 			
 			e.printStackTrace();
 			System.exit(1);
