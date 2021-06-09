@@ -1,8 +1,6 @@
 package BasicClientServer;
 
 
-import ObjectsToPass.User;
-
 public class Client {
 	
 	/*
@@ -47,13 +45,13 @@ public class Client {
 	public void disconnect ()
 	{
     	String text = "disconnect";
-		networkaccess.sendString(text,  false);
+		networkaccess.sendObject(text,  false);
 		networkaccess.close();		
 	}
 
 	public String sendString(String info)
 	{
-		String reply = networkaccess.sendString(info, true);
+		String reply = (String)networkaccess.sendObject(info, true);
 		System.out.println("Client recieves: " + reply);
 		return reply;
 	}
@@ -91,7 +89,7 @@ public class Client {
 			// -- send a String to the server and wait for the response
 			commandString = "hello";
 			System.out.println("CLIENT send:  " + commandString);
-			replyString = client.networkaccess.sendString(commandString, true);
+			replyString = (String)client.networkaccess.sendObject(commandString, true);
 			System.out.println("CLIENT receive: " + replyString);
 
 		}
@@ -99,7 +97,7 @@ public class Client {
 		// -- send an unrecognized command String to the server and wait for the response
 		commandString = "huh?";
 		System.out.println("CLIENT send:  " + commandString);
-		replyString = client.networkaccess.sendString(commandString, true);
+		replyString = (String)client.networkaccess.sendObject(commandString, true);
 		System.out.println("CLIENT receive: " + replyString);
 
 		// -- disconnect from the server

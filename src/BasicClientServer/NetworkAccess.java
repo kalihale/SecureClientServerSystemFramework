@@ -83,16 +83,10 @@ public class NetworkAccess {
 			this.socket = socket;
 			
 			// -- wrap the socket in stream I/O objects
-			//    these are for passing String types over the network
-			//    there are other stream types (Object stream) that can be used
-//			datain = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-//			dataout = new DataOutputStream(socket.getOutputStream());
+			//  <@  These are Object streams, which can be used to pass any type of Object,
+			//      not just Strings
 			datain = new ObjectInputStream(socket.getInputStream());
 			dataout = new ObjectOutputStream(socket.getOutputStream());
-//			objIn = new ObjectInputStream(socket.getInputStream());
-//			System.out.println("server input created");
-//			objOut = new ObjectOutputStream(socket.getOutputStream());
-//			System.out.println("server output created");
 			
 		} 
 		catch (IOException e) {
@@ -102,22 +96,22 @@ public class NetworkAccess {
 		}		
 	}
 
-	/**
-	 * reads a string from the input data stream
-	 * 
-	 * @return string from the stream
-	 * @throws IOException
-	 */
-	public String readString () throws IOException, ClassNotFoundException
-	{
-		try {
+//	/**
+//	 * reads a string from the input data stream
+//	 *
+//	 * @return string from the stream
+//	 * @throws IOException
+//	 */
+//	public String readString () throws IOException, ClassNotFoundException
+//	{
+//		try {
 //			Object o = datain.readObject();
-			String result = (String)datain.readObject();
-			return result;
-		} catch (IOException | ClassNotFoundException e) {
-			throw e;
-		}
-	}
+//			String result = (String)datain.readObject();
+//			return result;
+//		} catch (IOException | ClassNotFoundException e) {
+//			throw e;
+//		}
+//	}
 
 	/**
 	 * reads an object from the input data stream
@@ -128,61 +122,61 @@ public class NetworkAccess {
 	{
 		try
 		{
-			return objIn.readObject();
+			return datain.readObject();
 		}catch(IOException | ClassNotFoundException e)
 		{
 			throw e;
 		}
 	}
 	
-	/**
-	 * send a String to the server and return the received hand-shake String
-	 * 
-	 * @param _msg: the string to be sent (\n will be added)
-	 * @param acknowledge: whether or not to expect an acknowledgment string
-	 *        client will set this to true except for disconnect
-	 *        server will set it to false
-	 * @return
-	 */
-	public String sendString (String _msg, boolean acknowledge)
-	{
-		String rtnmsg = "";
-
-		// -- the protocol is this:
-		//    client sends a \n terminated String to the server
-		//    server receives String, processes it, sends \n terminate String to client
-		//    this is called a "hand-shake" system
-		try {
-			// -- the server only receives String objects that are
-			//    terminated with a newline \n"
-			// -- send the String making sure to flush the buffer
-//			dataout.writeBytes(_msg + "\n");
-			dataout.writeObject(_msg + "\n");
-			dataout.flush();
-			
-			if (acknowledge) {
-				// -- receive the response from the server
-				//    The do/while makes this a blocking read. Normally BufferedReader.readLine() is non-blocking.
-				//    That is, if there is no String to read, it will read "". Doing it this way does not allow
-				//    that to occur. We must get a response from the server. Time out could be implemented with
-				//    a counter.
-				rtnmsg = "";
-				do {
-					// -- this is a non-blocking read
-					rtnmsg = (String) datain.readObject();
-					
-				} while (rtnmsg.equals(""));
-			}						
-		} catch (IOException | ClassNotFoundException e) {
-			
-			e.printStackTrace();
-			System.exit(1);
-			
-		}
-		
-		return rtnmsg;
-		
-	}
+//	/**
+//	 * send a String to the server and return the received hand-shake String
+//	 *
+//	 * @param _msg: the string to be sent (\n will be added)
+//	 * @param acknowledge: whether or not to expect an acknowledgment string
+//	 *        client will set this to true except for disconnect
+//	 *        server will set it to false
+//	 * @return
+//	 */
+//	public String sendString (String _msg, boolean acknowledge)
+//	{
+//		String rtnmsg = "";
+//
+//		// -- the protocol is this:
+//		//    client sends a \n terminated String to the server
+//		//    server receives String, processes it, sends \n terminate String to client
+//		//    this is called a "hand-shake" system
+//		try {
+//			// -- the server only receives String objects that are
+//			//    terminated with a newline \n"
+//			// -- send the String making sure to flush the buffer
+////			dataout.writeBytes(_msg + "\n");
+//			dataout.writeObject(_msg + "\n");
+//			dataout.flush();
+//
+//			if (acknowledge) {
+//				// -- receive the response from the server
+//				//    The do/while makes this a blocking read. Normally BufferedReader.readLine() is non-blocking.
+//				//    That is, if there is no String to read, it will read "". Doing it this way does not allow
+//				//    that to occur. We must get a response from the server. Time out could be implemented with
+//				//    a counter.
+//				rtnmsg = "";
+//				do {
+//					// -- this is a non-blocking read
+//					rtnmsg = (String) datain.readObject();
+//
+//				} while (rtnmsg.equals(""));
+//			}
+//		} catch (IOException | ClassNotFoundException e) {
+//
+//			e.printStackTrace();
+//			System.exit(1);
+//
+//		}
+//
+//		return rtnmsg;
+//
+//	}
 
 	/**
 	 * send an Object to the server and return the reply
@@ -192,26 +186,40 @@ public class NetworkAccess {
 	 */
 	public Object sendObject(Object obj, boolean acknowledge)
 	{
-		Object reply = null;
-		try
-		{
-			System.out.println("Sending Object");
-			objOut.writeObject(obj);
-//			objOut.flush();
+		Object rtnmsg = null;
 
-			if(acknowledge)
-			{
-				reply = null;
-				do
-				{
-					reply = objIn.readObject();
-				}while(reply == null);
+		// -- the protocol is this:
+		//    client sends a \n terminated String to the server
+		//    server receives String, processes it, sends \n terminate String to client
+		//    this is called a "hand-shake" system
+		try {
+			// -- the server only receives String objects that are
+			//    terminated with a newline \n"
+			// -- send the String making sure to flush the buffer
+			dataout.writeObject(obj);
+			dataout.flush();
+
+			if (acknowledge) {
+				// -- receive the response from the server
+				//    The do/while makes this a blocking read. Normally BufferedReader.readLine() is non-blocking.
+				//    That is, if there is no String to read, it will read "". Doing it this way does not allow
+				//    that to occur. We must get a response from the server. Time out could be implemented with
+				//    a counter.
+				rtnmsg = "";
+				do {
+					// -- this is a non-blocking read
+					rtnmsg = datain.readObject();
+
+				} while (rtnmsg.equals(""));
 			}
-		} catch (IOException | ClassNotFoundException e)
-		{
+		} catch (IOException | ClassNotFoundException e) {
+
 			e.printStackTrace();
+			System.exit(1);
+
 		}
-		return reply;
+
+		return rtnmsg;
 	}
 
 	/**

@@ -43,17 +43,17 @@ public class CommandProtocol {
 		else if (cmd.equals("hello")) {
 				
 			// -- client is expecting a response
-			na.sendString("world!" + "\n", false);
+			na.sendObject("world!", false);
 			
 		}
 		else {
 			try
 			{
-				na.sendString(ServerDataBase.getInfo(cmd), false);
+				na.sendObject(ServerDataBase.getInfo(cmd), false);
 			}
 			catch(SQLException e)
 			{
-				na.sendString("SQLERROR in CommandProtocol from ServerDataBase.getInfo" + e, false);
+				na.sendObject("SQLERROR in CommandProtocol from ServerDataBase.getInfo" + e, false);
 			}
 			
 		}		
