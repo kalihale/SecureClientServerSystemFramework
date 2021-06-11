@@ -1,5 +1,6 @@
 package BasicClientServer;
 
+import ObjectsToPass.User;
 import javafx.application.Application;
 import javafx.event.Event;
 import javafx.geometry.HPos;
@@ -28,6 +29,7 @@ public class ClientGUI extends Application
     private final String BTGRAY = "-fx-background-color: #cbccd1";
     private final String BTGREEN = "-fx-background-color: #92f095";
     private String sendIt;
+    private User user;
     private boolean usefulInfo = true;
     private Client client;
     private String ip;
@@ -113,6 +115,8 @@ public class ClientGUI extends Application
     }
     private void login()
     {
+        user = new User();
+
         //  <@  Set up stage
         Stage loginStage = new Stage();
         loginStage.setMinHeight(MINHEIGHT);
@@ -151,8 +155,10 @@ public class ClientGUI extends Application
         btLogin.setOnAction(actionEvent ->
         {
             if (!(taLogPw.getText().equals("")) && !(taLogUn.getText().equals(""))){
-                sendIt = "u/L/" + taLogUn.getText() + "/" + taLogPw.getText();
-                String reply = client.sendString(sendIt);
+                this.user.setAction(1);
+                this.user.setUsername(taLogUn.getText());
+                this.user.setPassword(taLogPw.getText());
+                String reply = (String)client.sendObject(this.user);
 
                 if (reply.equals("loginSuccess")) {
                     home();
@@ -272,7 +278,8 @@ public class ClientGUI extends Application
         btLogout.setOnAction(actionEvent ->
         {
             //  <@  Logout
-            String reply = client.sendString("u/o/thisuser");
+            user.setAction(0);
+            String reply = (String)client.sendObject(user);
             if(reply.equals("logoutSuccess"))
             {
                 login();
@@ -297,8 +304,8 @@ public class ClientGUI extends Application
         btLD.setOnAction(actionEvent ->
         {
             //  <@  Logout and disconnect
-            String reply = client.sendString("u/o/thisuser");
-
+            user.setAction(0);
+            String reply = (String)client.sendObject(user);
             if(reply.equals("logoutSuccess"))
             {
                 client.disconnect();
@@ -432,7 +439,10 @@ public class ClientGUI extends Application
 
             if(!taOldPass.getText().equals(taNewPass.getText()))
             {
-                String reply = client.sendString("u/p/thisuser/" + taOldPass.getText() + "/" + taNewPass.getText());
+                user.setAction(2);
+                user.setOldPassword(taOldPass.getText());
+                user.setPassword(taNewPass.getText());
+                String reply = (String)client.sendObject(user);
                 if(reply.equals("passwordChangeSuccess"))
                 {
                     Stage passwordYay = new Stage();
@@ -564,7 +574,9 @@ public class ClientGUI extends Application
         });
         btEmail.setOnAction(actionEvent ->
         {
-            String reply = client.sendString("u/f/" + taEmail.getText());
+            user.setAction(3);
+            user.setEmail(taEmail.getText());
+            String reply = (String)client.sendObject(user);
             if(reply.equals("forgotPasswordSuccessful"))
             {
                 Stage emailYay = new Stage();

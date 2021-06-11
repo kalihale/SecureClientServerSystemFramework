@@ -1,6 +1,8 @@
 package BasicClientServer;
 
 
+import ObjectsToPass.User;
+
 public class Client {
 	
 	/*
@@ -67,52 +69,65 @@ public class Client {
 	 * 
 	 * @param args: command line arguments (unused)
 	 */
-	public static void main(String[] args) {
-
-		String host = "localhost";
-		int port = 8000;
-		// -- instantiate a Client object
-		//    the constructor will attempt to connect to the server
-		Client client = new Client(host, port);
-
-		// -- send message to server and receive reply.
-		String commandString;
-		String replyString;
-
-		for (int i = 0; i < 10; ++i) {
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			};
-
-			// -- send a String to the server and wait for the response
-			commandString = "hello";
-			System.out.println("CLIENT send:  " + commandString);
-			replyString = (String)client.networkaccess.sendObject(commandString, true);
-			System.out.println("CLIENT receive: " + replyString);
-
-		}
-
-		// -- send an unrecognized command String to the server and wait for the response
-		commandString = "huh?";
-		System.out.println("CLIENT send:  " + commandString);
-		replyString = (String)client.networkaccess.sendObject(commandString, true);
-		System.out.println("CLIENT receive: " + replyString);
-
-		// -- disconnect from the server
-		client.disconnect();
-	}
-//	public static void main(String[] args)
-//	{
+//	public static void main(String[] args) {
+//
 //		String host = "localhost";
 //		int port = 8000;
-//		System.out.println("Creating new client");
+//		// -- instantiate a Client object
+//		//    the constructor will attempt to connect to the server
 //		Client client = new Client(host, port);
 //
-//		System.out.println("sending anon user");
-////		client.networkaccess.sendUser(new User(), false);
+//		// -- send message to server and receive reply.
+//		String commandString;
+//		String replyString;
+//
+//		for (int i = 0; i < 10; ++i) {
+//			try {
+//				Thread.sleep(1000);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			};
+//
+//			// -- send a String to the server and wait for the response
+//			commandString = "hello";
+//			System.out.println("CLIENT send:  " + commandString);
+//			replyString = (String)client.networkaccess.sendObject(commandString, true);
+//			System.out.println("CLIENT receive: " + replyString);
+//
+//		}
+//
+//		// -- send an unrecognized command String to the server and wait for the response
+//		commandString = "huh?";
+//		System.out.println("CLIENT send:  " + commandString);
+//		replyString = (String)client.networkaccess.sendObject(commandString, true);
+//		System.out.println("CLIENT receive: " + replyString);
+//
+//		// -- disconnect from the server
 //		client.disconnect();
 //	}
+	public static void main(String[] args)
+	{
+		String host = "localhost";
+		int port = 8000;
+		System.out.println("Creating new client");
+		Client client = new Client(host, port);
+
+		System.out.println("sending anon user");
+		client.networkaccess.sendObject(new User(), false);
+		System.out.println("Sending Kali user");
+		User kali = new User();
+		kali.setUsername("kali");
+		kali.setAction(1);
+		client.networkaccess.sendObject(kali, false);
+//		System.out.println("Sending Maya user");
+//		User maya = new User();
+//		maya.setUsername("maya");
+//		maya.setAction(2);
+//		client.networkaccess.sendObject(maya, false);
+		System.out.println("Sending Kali user");
+		kali.setAction(3);
+		client.networkaccess.sendObject(kali, false);
+		client.disconnect();
+	}
 
 }

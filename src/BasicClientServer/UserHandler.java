@@ -25,9 +25,31 @@ public class UserHandler
     private String username;
     private String reply;
 
-    public void process(User process)
+    public String process(User process)
     {
-        System.out.println(process.getAction());
+        this.username = process.getUsername();
+        switch(process.getAction())
+        {
+            case 0:
+                //  <@  Logout with stored procedure
+                System.out.println("Logged out " + this.username);
+                return "logoutSuccess";
+            case 1:
+                //  <@  Login with stored procedure
+                System.out.println("Logged in " + this.username);
+                return "loginSuccess";
+            case 2:
+                //  <@  Change password
+                System.out.println("Changed password for " + this.username);
+                return "passwordChangeSuccess";
+            case 3:
+                //  <@  Forgot password
+                System.out.println("Forgot password " + process.getEmail());
+                return "forgotPasswordSuccessful";
+            default:
+                break;
+        }
+        return "error";
     }
 
     public String process(String process)

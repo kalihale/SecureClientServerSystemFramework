@@ -43,15 +43,8 @@ public class NetworkAccess {
 			// -- wrap the socket in stream I/O objects
 			//    these are for passing String types over the network
 			//    there are other stream types (Object stream) that can be used
-//			datain = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-//			dataout = new DataOutputStream(socket.getOutputStream());
 			dataout = new ObjectOutputStream(socket.getOutputStream());
 			datain = new ObjectInputStream(socket.getInputStream());
-			//  <@  TODO these two lines don't work
-//			objIn = new ObjectInputStream(socket.getInputStream());
-//			System.out.println("client ObjectInputStream created");
-//			objOut = new ObjectOutputStream(socket.getOutputStream());
-//			System.out.println("client ObjectOutputStream created");
 			
 		} 
 		catch (UnknownHostException e) {

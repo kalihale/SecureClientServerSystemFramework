@@ -8,6 +8,7 @@ public class User implements Serializable
     private String username;
     private String password;
     private String oldPassword;
+    private String email;
 
     public User()
     {
@@ -15,6 +16,7 @@ public class User implements Serializable
         username = "";
         password = "";
         oldPassword = "";
+        email = "";
     }
 
     public void setAction(int action)
@@ -37,23 +39,33 @@ public class User implements Serializable
         this.oldPassword = oldPassword;
     }
 
+    public void setEmail(String email)
+    {
+        this.email = email;
+    }
+
     public int getAction()
     {
-        return action;
+        return this.action;
     }
 
     public String getUsername()
     {
-        return username;
+        return this.username;
     }
 
     public String getPassword()
     {
-        return password;
+        return this.password;
     }
 
     public String getOldPassword()
     {
-        return oldPassword;
+        return this.oldPassword;
+    }
+
+    public String getEmail()
+    {
+        return this.email;
     }
 }
