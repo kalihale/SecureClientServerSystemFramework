@@ -2,6 +2,7 @@ package BasicClientServer;
 
 import ObjectsToPass.User;
 
+import java.sql.*;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,9 +26,33 @@ public class UserHandler
     private String username;
     private String reply;
 
-    public String process(User process)
+    // -- objects to be used for database access
+    private static Connection conn = null;
+    private static Statement stmt = null;
+    private static ResultSet rset = null;
+    private static String sqlcmd = null;
+    private static String result = null;
+
+    // -- root/admin
+    // -- connect to the world database
+    // -- this is the connector to the database, default port is 3306
+    //    <<Your schema name here>> is the schema (database) you created using the workbench
+    private static final String userdatabaseURL = "jdbc:mysql://localhost:3306/userdata?useSSL=false";
+
+    // -- this is the username/password, created during installation and in MySQL Workbench
+    //    When you add a user make sure you give them the appropriate Administrative Roles
+    //    (DBA sets all which works fine)
+    private static String user = "ccs";
+    private static String pw = "SummerResearch";
+
+    public String process(User process) throws SQLException
     {
+        // -- make the connection to the database
+        //    performs functionality of SQL: use <<your schema>>;
+        conn = DriverManager.getConnection(userdatabaseURL, user, pw);
+
         this.username = process.getUsername();
+        System.out.println(process.getUsername() + " " + process.getAction());
         switch(process.getAction())
         {
             case 0:
@@ -46,6 +71,10 @@ public class UserHandler
                 //  <@  Forgot password
                 System.out.println("Forgot password " + process.getEmail());
                 return "forgotPasswordSuccessful";
+            case 4:
+                //  <@  Registration
+                System.out.println("Registration for " + process.getUsername());
+                return "RegistrationSuccessful";
             default:
                 break;
         }

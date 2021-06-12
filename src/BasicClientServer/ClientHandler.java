@@ -5,6 +5,7 @@ import ObjectsToPass.User;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.sql.SQLException;
 
 
 public class ClientHandler extends Thread {
@@ -99,8 +100,7 @@ public class ClientHandler extends Thread {
 				if(cmd instanceof User)
 				{
 					System.out.println("ClientHandler sending object cmd to UserHandler");
-//					networkaccess.sendObject(this.userHandler.process((User) cmd), false);
-					this.userHandler.process((User) cmd);
+					networkaccess.sendObject(this.userHandler.process((User) cmd), false);
 				}
 				else if(cmd instanceof QueriesClass)
 				{
@@ -124,7 +124,7 @@ public class ClientHandler extends Thread {
 					}
 				}
 			} 
-			catch (IOException | ClassNotFoundException e) {
+			catch (IOException | ClassNotFoundException | SQLException e) {
 				
 				e.printStackTrace();
 				go = false;

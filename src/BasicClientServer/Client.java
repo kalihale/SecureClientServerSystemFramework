@@ -118,7 +118,9 @@ public class Client {
 		User kali = new User();
 		kali.setUsername("kali");
 		kali.setAction(1);
-		client.networkaccess.sendObject(kali, false);
+		client.sendObject(kali);
+		System.out.println("Sending String: clear");
+		client.sendObject("clear");
 //		System.out.println("Sending Maya user");
 //		User maya = new User();
 //		maya.setUsername("maya");
@@ -126,7 +128,8 @@ public class Client {
 //		client.networkaccess.sendObject(maya, false);
 		System.out.println("Sending Kali user");
 		kali.setAction(3);
-		client.networkaccess.sendObject(kali, false);
+		kali.setUsername("maya");
+		client.sendObject(kali);
 		client.disconnect();
 	}
 

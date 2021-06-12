@@ -34,6 +34,7 @@ public class ClientGUI extends Application
     private Client client;
     private String ip;
     private int port;
+    private String username;
 
     @Override
     public void start(Stage primaryStage)
@@ -115,7 +116,7 @@ public class ClientGUI extends Application
     }
     private void login()
     {
-        user = new User();
+        this.user = new User();
 
         //  <@  Set up stage
         Stage loginStage = new Stage();
@@ -161,6 +162,7 @@ public class ClientGUI extends Application
                 String reply = (String)client.sendObject(this.user);
 
                 if (reply.equals("loginSuccess")) {
+                    this.username = taLogUn.getText();
                     home();
                     loginStage.close();
                 }
@@ -250,6 +252,8 @@ public class ClientGUI extends Application
     }
     private void home()
     {
+        this.user = new User();
+
         //  <@  Set up stage
         Stage homeStage = new Stage();
         homeStage.setMinHeight(MINHEIGHT);
@@ -278,8 +282,9 @@ public class ClientGUI extends Application
         btLogout.setOnAction(actionEvent ->
         {
             //  <@  Logout
-            user.setAction(0);
-            String reply = (String)client.sendObject(user);
+            this.user.setAction(0);
+            this.user.setUsername(this.username);
+            String reply = (String)client.sendObject(this.user);
             if(reply.equals("logoutSuccess"))
             {
                 login();
@@ -304,7 +309,8 @@ public class ClientGUI extends Application
         btLD.setOnAction(actionEvent ->
         {
             //  <@  Logout and disconnect
-            user.setAction(0);
+            this.user.setAction(0);
+            this.user.setUsername(username);
             String reply = (String)client.sendObject(user);
             if(reply.equals("logoutSuccess"))
             {
@@ -403,6 +409,8 @@ public class ClientGUI extends Application
     }
     private void passwordChange()
     {
+        this.user = new User();
+
         //  <@  Set up stage
         Stage pwChangeStage = new Stage();
         pwChangeStage.setMinHeight(MINHEIGHT);
@@ -439,10 +447,11 @@ public class ClientGUI extends Application
 
             if(!taOldPass.getText().equals(taNewPass.getText()))
             {
-                user.setAction(2);
-                user.setOldPassword(taOldPass.getText());
-                user.setPassword(taNewPass.getText());
-                String reply = (String)client.sendObject(user);
+                this.user.setAction(2);
+                this.user.setUsername(username);
+                this.user.setOldPassword(taOldPass.getText());
+                this.user.setPassword(taNewPass.getText());
+                String reply = (String)client.sendObject(this.user);
                 if(reply.equals("passwordChangeSuccess"))
                 {
                     Stage passwordYay = new Stage();
@@ -547,6 +556,8 @@ public class ClientGUI extends Application
     }
     private void forgotPassword()
     {
+        this.user = new User();
+
         //  <@  Set up stage
         Stage fPwStage = new Stage();
         fPwStage.setMinHeight(MINHEIGHT);
@@ -574,9 +585,9 @@ public class ClientGUI extends Application
         });
         btEmail.setOnAction(actionEvent ->
         {
-            user.setAction(3);
-            user.setEmail(taEmail.getText());
-            String reply = (String)client.sendObject(user);
+            this.user.setAction(3);
+            this.user.setEmail(taEmail.getText());
+            String reply = (String)client.sendObject(this.user);
             if(reply.equals("forgotPasswordSuccessful"))
             {
                 Stage emailYay = new Stage();
@@ -656,6 +667,8 @@ public class ClientGUI extends Application
     }
     private void register()
     {
+        this.user = new User();
+
         // ** Set up stage
         Stage registerStage = new Stage();
         registerStage.setMinHeight(MINHEIGHT);
@@ -692,9 +705,8 @@ public class ClientGUI extends Application
 
 
             if(!(taUsername.getText().equals("")) && !(taPw.getText().equals("")) && !(taEmail.getText().equals(""))){
-                sendIt = "u/R/" + taUsername.getText() + "/" + taPw.getText() + "/" + taEmail.getText();
-                String reply = client.sendString(sendIt);
-                System.out.println(reply);
+                this.user.setAction(4);
+                String reply = (String)client.sendObject(this.user);
                 if(reply.equals("RegistrationSuccessful"))
                 {
                     login();

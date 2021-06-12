@@ -46,6 +46,10 @@ public class CommandProtocol {
 			na.sendObject("world!", false);
 			
 		}
+		else if(cmd.equals("clear"))
+		{
+			System.out.println("clear");
+		}
 		else {
 			try
 			{
