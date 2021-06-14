@@ -37,13 +37,13 @@ public class UserHandler
     // -- connect to the world database
     // -- this is the connector to the database, default port is 3306
     //    <<Your schema name here>> is the schema (database) you created using the workbench
-    private static final String userdatabaseURL = "jdbc:mysql://localhost:3306/userdata?useSSL=false";
+    private static final String userdatabaseURL = "jdbc:mysql://localhost:3306/userData?useSSL=false";
 
     // -- this is the username/password, created during installation and in MySQL Workbench
     //    When you add a user make sure you give them the appropriate Administrative Roles
     //    (DBA sets all which works fine)
-    private static String user = "ccs";
-    private static String pw = "SummerResearch";
+    private static String user = "root";
+    private static String pw = "rosegarden";
 
     public String process(User process) throws SQLException
     {
@@ -79,6 +79,28 @@ public class UserHandler
                 break;
         }
         return "error";
+    }
+
+    public String getLoggedInUsers() throws SQLException
+    {
+        // -- make the connection to the database
+        //    performs functionality of SQL: use <<your schema>>;
+        conn = DriverManager.getConnection(userdatabaseURL, user, pw);
+
+        result = "";
+        CallableStatement statement = conn.prepareCall("{call loggedInUsers()}");
+        boolean hadResults = statement.execute();
+        while(hadResults)
+        {
+            rset = statement.getResultSet();
+            while(rset.next())
+            {
+                result = result.concat(rset.getString("userID") + "/" + rset.getString("username")
+                + "/o/");
+            }
+            hadResults = statement.getMoreResults();
+        }
+        return result;
     }
 
     public String process(String process)

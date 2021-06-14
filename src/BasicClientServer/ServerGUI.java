@@ -9,14 +9,18 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.sql.*;
+
 public class ServerGUI extends Application
 {
     private Server server;
     private final String BTGRAY = "-fx-background-color: #cbccd1";
     private boolean serverRunning = false;
+    private UserHandler userHandler = new UserHandler();
+
 
     @Override
-    public void start(Stage primaryStage)
+    public void start(Stage primaryStage) throws SQLException
     {
 
         GridPane serverPane = new GridPane();
@@ -66,13 +70,21 @@ public class ServerGUI extends Application
         btWhichCon.setOnAction(actionEvent ->
         {
             System.out.println("boop the booton");
-//            String users = UserDataBase.getLoggedInUsers();
-//            String[] userArr = users.split("/o/");
-//            taDisplay.appendText("Which users are logged in:\n");
-//            for (String s : userArr)
-//            {
-//                taDisplay.appendText(s + "\n");
-//            }
+            String users = null;
+            try
+            {
+                users = userHandler.getLoggedInUsers();
+            } catch (SQLException throwables)
+            {
+                throwables.printStackTrace();
+            }
+            String[] userArr = users.split("/o/");
+            taDisplay.appendText("Which users are logged in:\n");
+            for(String s : userArr)
+            {
+                String[] user = s.split("/");
+                taDisplay.appendText(user[0] + "\t" + user[1] + "\n");
+            }
         });
         btWhichLock.setOnAction(actionEvent ->
         {

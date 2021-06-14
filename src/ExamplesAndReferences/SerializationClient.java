@@ -26,6 +26,18 @@ public class SerializationClient
         System.out.println("Sending values to the ServerSocket");
         oos.writeObject(obj);
 
+        sample o2 = new sample();
+
+        System.out.println("Sending values a second time");
+        o2.name = "Kali";
+        o2.city = "TO";
+        o2.contactnum = "123456789";
+        oos.writeObject(o2);
+
+        obj.name = "tryagain";
+
+        oos.writeObject(obj);
+
         System.out.println("Closing socket and terminating program.");
         socket.close();
     }

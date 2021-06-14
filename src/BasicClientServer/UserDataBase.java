@@ -1,11 +1,6 @@
 package BasicClientServer;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public class UserDataBase
 {
@@ -250,24 +245,42 @@ public class UserDataBase
         }
     }
 
-    public static String getLoggedInUsers() {
-        String stringy = "";
+//    public static String getLoggedInUsers() {
+//        String stringy = "";
+//
+//        sqlcmd = "SELECT username FROM users WHERE (loggedin = '1')";
+//        try {
+//            conn = DriverManager.getConnection(userdatabaseURL, user, pw);
+//            stmt = conn.createStatement();
+//            rset = stmt.executeQuery(sqlcmd);
+//
+//            while (rset.next()){
+//                stringy = stringy.concat(rset.getString("username"));
+//                stringy = stringy.concat("/o/");
+//            }
+//            return stringy;
+//        }
+//        catch(SQLException e){
+//            return "ErR0r";
+//        }
+//    }
 
-        sqlcmd = "SELECT username FROM users WHERE (loggedin = '1')";
-        try {
-            conn = DriverManager.getConnection(userdatabaseURL, user, pw);
-            stmt = conn.createStatement();
-            rset = stmt.executeQuery(sqlcmd);
-
-            while (rset.next()){
-                stringy = stringy.concat(rset.getString("username"));
-                stringy = stringy.concat("/o/");
+    public String getLoggedInUsers() throws SQLException
+    {
+        result = "";
+        CallableStatement statement = conn.prepareCall("{call loggedInUsers()}");
+        boolean hadResults = statement.execute();
+        while(hadResults)
+        {
+            rset = statement.getResultSet();
+            while(rset.next())
+            {
+                result = result.concat(rset.getString("userID") + "/" + rset.getString("username")
+                        + "/o/");
             }
-            return stringy;
+            hadResults = statement.getMoreResults();
         }
-        catch(SQLException e){
-            return "ErR0r";
-        }
+        return result;
     }
 
     public static String getLockedUsers() {
