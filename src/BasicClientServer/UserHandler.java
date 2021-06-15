@@ -3,9 +3,7 @@ package BasicClientServer;
 import ObjectsToPass.User;
 
 import java.sql.*;
-import java.util.Properties;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Stack;
 
 // -- Download JavaMail API from here: http://www.oracle.com/technetwork/java/javamail/index.html
 // -- Download JavaBeans Activation Framework from here: http://www.oracle.com/technetwork/java/javasebusiness/downloads/java-archive-downloads-java-plat-419418.html#jaf-1.1.1-fcs-oth-JPR
@@ -31,7 +29,9 @@ public class UserHandler
     private static Statement stmt = null;
     private static ResultSet rset = null;
     private static String sqlcmd = null;
-    private static String result = null;
+    private static Stack<String>[] results = null;
+    private static CallableStatement statement;
+    private static boolean hadResults = false;
 
     // -- root/admin
     // -- connect to the world database
@@ -81,154 +81,222 @@ public class UserHandler
         return "error";
     }
 
-    public String getLoggedInUsers() throws SQLException
+    public static Stack<String>[] getLoggedInUsers() throws SQLException
     {
         // -- make the connection to the database
         //    performs functionality of SQL: use <<your schema>>;
         conn = DriverManager.getConnection(userdatabaseURL, user, pw);
 
-        result = "";
-        CallableStatement statement = conn.prepareCall("{call loggedInUsers()}");
-        boolean hadResults = statement.execute();
+        results = new Stack[2];
+        results[0] = new Stack<>();
+        results[1] = new Stack<>();
+        statement = conn.prepareCall("{call loggedInUsers()}");
+        hadResults = statement.execute();
         while(hadResults)
         {
             rset = statement.getResultSet();
             while(rset.next())
             {
-                result = result.concat(rset.getString("userID") + "/" + rset.getString("username")
-                + "/o/");
+                results[0].add(rset.getString("userID"));
+                results[1].add(rset.getString("username"));
+            }
+            hadResults = statement.getMoreResults();
+        }
+        return results;
+    }
+
+    public static Stack<String>[] getLockedOutUsers() throws SQLException
+    {
+        // -- make the connection to the database
+        //    performs functionality of SQL: use <<your schema>>;
+        conn = DriverManager.getConnection(userdatabaseURL, user, pw);
+
+        results = new Stack[2];
+        results[0] = new Stack<>();
+        results[1] = new Stack<>();
+        statement = conn.prepareCall("{call lockedOut()}");
+        hadResults = statement.execute();
+        while(hadResults)
+        {
+            rset = statement.getResultSet();
+            while(rset.next())
+            {
+                results[0].add(rset.getString("userID"));
+                results[1].add(rset.getString("username"));
+            }
+            hadResults = statement.getMoreResults();
+        }
+        return results;
+    }
+
+    public static String getLoggedInNum() throws SQLException
+    {
+        // -- make the connection to the database
+        //    performs functionality of SQL: use <<your schema>>;
+        conn = DriverManager.getConnection(userdatabaseURL, user, pw);
+
+        String result = "0";
+        statement = conn.prepareCall("{call loggedInNum()}");
+        hadResults = statement.execute();
+        while(hadResults)
+        {
+            rset = statement.getResultSet();
+            while(rset.next())
+            {
+                result = rset.getString("count(username)");
             }
             hadResults = statement.getMoreResults();
         }
         return result;
     }
 
-    public String process(String process)
+    public static String getRegisteredNum() throws SQLException
     {
-        System.out.print(process);
-        switch (process.charAt(2))
-        {
-            case 'L' -> {
-                System.out.println("UserHandler sending to UserHandler.login: " + process);
-                reply = login(process);
-                System.out.println("UserHandler login reply: " + reply);
-                return reply;
-            }
-            case 'R' -> {
-                System.out.println("UserHandler sending to UserHandler.registration: " + process);
-                reply = userRegistration(process);
-                System.out.println("UserHandler registration reply: " + reply);
-                return reply;
-            }
-            case 'o' -> {
-                System.out.println("UserHandler sending to UserHandler.logout: " + username);
-                reply = logout(username);
-                System.out.println("UserHandler logout reply: " + reply);
-                return reply;
-            }
-            case 'p' -> {
-                System.out.println("UserHandler sending to UserHandler.changePassword: " + process);
-                reply = changePassword(process);
-                return reply;
-            }
-            case 'f' -> {
-                System.out.println("UserHandler sending to UserHandler.sendmail: " + process);
-                reply = forgotPassword(process);
-                return reply;
-            }
-        }
-        return "blah";
-    }
-    private String login(String userinfo)
-    {
-        //  <@  We need to first split the string into username and password
-        String[] info = userinfo.split("/");
-        System.out.println("UserHandler login method");
-        username = info[2];
-        try{ String reply = UserDataBase.login(username, info[3]);
-        System.out.println("UserDataBase reply to UserHandler: " + reply);
-        return reply;}
-       catch(Exception e){
-           System.out.println("UserHandler exception thrown by UserDataBase in login");
-           System.out.println(e);
-           return "loginFailed";
-        }
-    }
-    private String logout(String username)
-    {
-            return UserDataBase.logout(username);
-    }
-    private String userRegistration(String userinfo)
-    {
-        String[] arr = userinfo.split("/");
-        //  <@  We need to split the string into username, password, and email
-        if (verifyEmailFormat(arr[4])){
-            if (verifyPassFormat(arr[3])) {
-                return UserDataBase.registration(arr[2], arr[3], arr[4]);
-            }
-            else{
-                return "Wrong password format";
-            }
-        }
-        else{
-            return "Wrong email format";
-        }
-    }
-    private String changePassword(String userinfo)
-    {
-        String[] arr = userinfo.split("/");
-        arr[2] = username;
-        if(verifyPassFormat(arr[4]))
-        {
-                return UserDataBase.changePassword(arr[2], arr[3], arr[4]);
-        }
-        else
-        {
-            return"ChangePasswordFailure:WrongPasswordFormat";
-        }
-    }
-    private boolean verifyEmailFormat(String email)
-    {
-        String emailregex = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-        Pattern emailpattern = Pattern.compile(emailregex);
+        // -- make the connection to the database
+        //    performs functionality of SQL: use <<your schema>>;
+        conn = DriverManager.getConnection(userdatabaseURL, user, pw);
 
-        Matcher matcher = emailpattern.matcher(email);
-        return matcher.find();
+        String result = "0";
+        statement = conn.prepareCall("{call registeredNum()}");
+        hadResults = statement.execute();
+        while(hadResults)
+        {
+            rset = statement.getResultSet();
+            while(rset.next())
+            {
+                result = rset.getString("count(userID)");
+            }
+            hadResults = statement.getMoreResults();
+        }
+        return result;
     }
 
-    private boolean verifyPassFormat(String password)
-    {
-        String simplepasswordregex = "^(?=.*[0-9])(?=.*[a-zA-Z]).{8,}$";
-        Pattern simplepasswordpattern = Pattern.compile(simplepasswordregex);
-
-        Matcher matcher = simplepasswordpattern.matcher(password);
-        return matcher.find();
-    }
-    private String forgotPassword(String process)
-    {
-        String[] info = process.split("/");
-        String email = info[2];
-        String newPassword = this.generateRandomPassword();
-        if(UserDataBase.changePassword(email, newPassword) && sendMail(email, newPassword))
-        {
-            return "forgotPasswordSuccess";
-        }
-        else
-        {
-            return "forgotPasswordFailure";
-        }
-    }
-    private boolean sendMail(String to, String newPassword)
-    {
-        // -- Configurations for the email connection to the Google SMTP server using TLS
-        Properties props = new Properties();
-        props.put("mail.smtp.host", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
-
+//    public String process(String process)
+//    {
+//        System.out.print(process);
+//        switch (process.charAt(2))
+//        {
+//            case 'L' -> {
+//                System.out.println("UserHandler sending to UserHandler.login: " + process);
+//                reply = login(process);
+//                System.out.println("UserHandler login reply: " + reply);
+//                return reply;
+//            }
+//            case 'R' -> {
+//                System.out.println("UserHandler sending to UserHandler.registration: " + process);
+//                reply = userRegistration(process);
+//                System.out.println("UserHandler registration reply: " + reply);
+//                return reply;
+//            }
+//            case 'o' -> {
+//                System.out.println("UserHandler sending to UserHandler.logout: " + username);
+//                reply = logout(username);
+//                System.out.println("UserHandler logout reply: " + reply);
+//                return reply;
+//            }
+//            case 'p' -> {
+//                System.out.println("UserHandler sending to UserHandler.changePassword: " + process);
+//                reply = changePassword(process);
+//                return reply;
+//            }
+//            case 'f' -> {
+//                System.out.println("UserHandler sending to UserHandler.sendmail: " + process);
+//                reply = forgotPassword(process);
+//                return reply;
+//            }
+//        }
+//        return "blah";
+//    }
+//    private String login(String userinfo)
+//    {
+//        //  <@  We need to first split the string into username and password
+//        String[] info = userinfo.split("/");
+//        System.out.println("UserHandler login method");
+//        username = info[2];
+//        try{ String reply = UserDataBase.login(username, info[3]);
+//        System.out.println("UserDataBase reply to UserHandler: " + reply);
+//        return reply;}
+//       catch(Exception e){
+//           System.out.println("UserHandler exception thrown by UserDataBase in login");
+//           System.out.println(e);
+//           return "loginFailed";
+//        }
+//    }
+//    private String logout(String username)
+//    {
+//            return UserDataBase.logout(username);
+//    }
+//    private String userRegistration(String userinfo)
+//    {
+//        String[] arr = userinfo.split("/");
+//        //  <@  We need to split the string into username, password, and email
+//        if (verifyEmailFormat(arr[4])){
+//            if (verifyPassFormat(arr[3])) {
+//                return UserDataBase.registration(arr[2], arr[3], arr[4]);
+//            }
+//            else{
+//                return "Wrong password format";
+//            }
+//        }
+//        else{
+//            return "Wrong email format";
+//        }
+//    }
+//    private String changePassword(String userinfo)
+//    {
+//        String[] arr = userinfo.split("/");
+//        arr[2] = username;
+//        if(verifyPassFormat(arr[4]))
+//        {
+//                return UserDataBase.changePassword(arr[2], arr[3], arr[4]);
+//        }
+//        else
+//        {
+//            return"ChangePasswordFailure:WrongPasswordFormat";
+//        }
+//    }
+//    private boolean verifyEmailFormat(String email)
+//    {
+//        String emailregex = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+//        Pattern emailpattern = Pattern.compile(emailregex);
+//
+//        Matcher matcher = emailpattern.matcher(email);
+//        return matcher.find();
+//    }
+//
+//    private boolean verifyPassFormat(String password)
+//    {
+//        String simplepasswordregex = "^(?=.*[0-9])(?=.*[a-zA-Z]).{8,}$";
+//        Pattern simplepasswordpattern = Pattern.compile(simplepasswordregex);
+//
+//        Matcher matcher = simplepasswordpattern.matcher(password);
+//        return matcher.find();
+//    }
+//    private String forgotPassword(String process)
+//    {
+//        String[] info = process.split("/");
+//        String email = info[2];
+//        String newPassword = this.generateRandomPassword();
+//        if(UserDataBase.changePassword(email, newPassword) && sendMail(email, newPassword))
+//        {
+//            return "forgotPasswordSuccess";
+//        }
+//        else
+//        {
+//            return "forgotPasswordFailure";
+//        }
+//    }
+//    private boolean sendMail(String to, String newPassword)
+//    {
+//        // -- Configurations for the email connection to the Google SMTP server using TLS
+//        Properties props = new Properties();
+//        props.put("mail.smtp.host", "true");
+//        props.put("mail.smtp.starttls.enable", "true");
+//        props.put("mail.smtp.host", "smtp.gmail.com");
+//        props.put("mail.smtp.port", "587");
+//        props.put("mail.smtp.auth", "true");
+//        props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+//
 //        // -- Create a session with required user details
 //        //    this is basically logging into the gmail account
 //        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
@@ -263,20 +331,20 @@ public class UserHandler
 //        return true;
 //        } catch (MessagingException e) {
 //            System.out.println("Unable to send an email" + e);
-        return false;
+//        return false;
 //        }
-    }
-    private String generateRandomPassword()
-    {
-        String newpass = "";
-        for(int i = 0; i < 6; i++)
-        {
-            newpass = newpass.concat(String.valueOf((char)(65 + Math.random()*52)));
-        }
-        for(int i = 0; i < 2; i++)
-        {
-            newpass = newpass.concat(String.valueOf((int)(Math.random() * 10)));
-        }
-        return newpass;
-    }
+//    }
+//    private String generateRandomPassword()
+//    {
+//        String newpass = "";
+//        for(int i = 0; i < 6; i++)
+//        {
+//            newpass = newpass.concat(String.valueOf((char)(65 + Math.random()*52)));
+//        }
+//        for(int i = 0; i < 2; i++)
+//        {
+//            newpass = newpass.concat(String.valueOf((int)(Math.random() * 10)));
+//        }
+//        return newpass;
+//    }
 }

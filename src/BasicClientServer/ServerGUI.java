@@ -9,14 +9,15 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.sql.*;
+import java.sql.SQLException;
+import java.util.Stack;
 
 public class ServerGUI extends Application
 {
     private Server server;
     private final String BTGRAY = "-fx-background-color: #cbccd1";
     private boolean serverRunning = false;
-    private UserHandler userHandler = new UserHandler();
+    private Stack<String>[] users;
 
 
     @Override
@@ -63,39 +64,92 @@ public class ServerGUI extends Application
                     }
                 }
             );
-        btUserReg.setOnAction(actionEvent -> System.out.println("Button booped")/*taDisplay.appendText("Number of users registered: " + UserDataBase.getRegisteredUsers() + "\n")*/);
-        btUserLog.setOnAction(actionEvent -> System.out.println("'nother button booped")
-                /*taDisplay.appendText("Number of users logged in: " + UserDataBase.getLoggedInNum() + "\n")*/);
-        btUCon.setOnAction(actionEvent -> System.out.println("button boops are fun") /*taDisplay.appendText("Number of users connected: " + server.getConnectedUsers() + "\n")*/);
-        btWhichCon.setOnAction(actionEvent ->
-        {
-            System.out.println("boop the booton");
-            String users = null;
+        //  <@  Button to get the number of users registered in the system
+            btUserReg.setOnAction(actionEvent -> {
+                try
+                {
+                    taDisplay.appendText("Number of users registered: " + UserHandler.getRegisteredNum() + "\n");
+                } catch (SQLException throwables)
+                {
+                    throwables.printStackTrace();
+                }
+                taDisplay.appendText("\n");
+            });
+        //  <@  Button to get the number of users logged in
+        btUserLog.setOnAction(actionEvent -> {
             try
             {
-                users = userHandler.getLoggedInUsers();
+                taDisplay.appendText("Number of users logged in: " + UserHandler.getLoggedInNum() + "\n");
             } catch (SQLException throwables)
             {
                 throwables.printStackTrace();
             }
-            String[] userArr = users.split("/o/");
-            taDisplay.appendText("Which users are logged in:\n");
-            for(String s : userArr)
-            {
-                String[] user = s.split("/");
-                taDisplay.appendText(user[0] + "\t" + user[1] + "\n");
-            }
+            taDisplay.appendText("\n");
         });
+        //  <@  Button to get how many clients are connected to the server
+        btUCon.setOnAction(actionEvent -> {
+            if(this.server != null)
+            {
+                taDisplay.appendText("Number of clients connected: " + server.getConnectedUsers() + "\n");
+            }
+            else
+            {
+                taDisplay.appendText("No clients connected, server not running. \n");
+            }
+            taDisplay.appendText("\n");
+        });
+        //  <@  Button to get which users are logged in
+        btWhichCon.setOnAction(actionEvent ->
+        {
+
+            System.out.println("boop the booton");
+            users = null;
+            try
+            {
+                users = UserHandler.getLoggedInUsers();
+            } catch (SQLException throwables)
+            {
+                throwables.printStackTrace();
+            }
+            taDisplay.appendText("Which users are logged in:\n");
+            if(users != null)
+            {
+                while(!users[0].empty())
+                {
+                    taDisplay.appendText(users[0].pop() + "\t" + users[1].pop() + "\n");
+                }
+            }
+            else
+            {
+                taDisplay.appendText("No users logged in. \n");
+            }
+            taDisplay.appendText("\n");
+        });
+        //  <@  Button to get which users are locked out (login attempts >= 3)
         btWhichLock.setOnAction(actionEvent ->
         {
             System.out.println("boop");
-//            String users = UserDataBase.getLockedUsers();
-//            String[] userArr = users.split("/o/");
-//            taDisplay.appendText("Which users are locked out:\n");
-//            for (String s : userArr)
-//            {
-//                taDisplay.appendText(s + "\n");
-//            }
+            users = null;
+            try
+            {
+                users = UserHandler.getLockedOutUsers();
+            } catch (SQLException throwables)
+            {
+                throwables.printStackTrace();
+            }
+            taDisplay.appendText("Which users are locked out:\n");
+            if(users != null)
+            {
+                while(!users[0].empty())
+                {
+                    taDisplay.appendText(users[0].pop() + "\t" + users[1].pop() + "\n");
+                }
+            }
+            else
+            {
+                taDisplay.appendText("No users logged in. \n");
+            }
+            taDisplay.appendText("\n");
         });
         btCloseServer.setOnAction(actionEvent ->{
             System.out.println("Close server boop");
