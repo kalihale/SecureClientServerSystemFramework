@@ -6,13 +6,12 @@ Client *--|> NetworkAccess : <<private>>
 NetworkAccess <|--* ClientHandler : <<private>>
 ClientHandler ..> Thread : <<extends>>
 ClientHandler "1" *--|> "1" UserHandler
-UserHandler ..> UserDataBase : <<uses>>
 ClientHandler ..> CommandProtocol : <<uses statically>>
 CommandProtocol ..> ServerDataBase : <<uses>>
 Server *--|> ClientHandler
 Server *--|> ServerSocket : <<private>>
 Server "1"*--|>"1" ServerGUI
-ServerGUI ..> UserDataBase : <<uses>>
+ServerGUI ..> UserHandler : <<uses>>
 ServerGUI ..> JavaFX : <<extends>>
 
 class ClientGUI{
@@ -75,37 +74,16 @@ class ClientHandler{
 class UserHandler{
     -username : String
     -reply : String
-    +process(String process) String
-    -login(String username, String password) String
-    -logout(String username) String
-    -userRegistration(String userInfo) String
-    -changePassword(String userinfo) String
-    -verifyEmailFormat(String email) boolean
-    -verifyPassFormat(String password) boolean
-    -forgotPassword(String password) boolean
-    -sendMail(String to, String newPassword) boolean
-    -generateRandomPassword() String
-}
-
-class UserDataBase{
     -conn : Connection
-    -stmt : Statement
     -rset : ResultSet
-    -sqlcmd : String
-    -result : String
-    -userdatabaseURL : String
-    -user : String
-    -pw : String
-    -getInfo(String username) String[]
-    +login(String username, String password) String
-    +logout(String username) String
-    +registration(String username, String password, String email) String
-    +changePassword(String username, String oldPassword, String newPassword) String
-    +changePassword(String email, String newPassword) boolean
-    +getRegisteredUsers() int
-    +getLoggedInNum() int
-    +getLoggedInUsers() String
-    +getLockedUsers() String
+    -results : Stack~String~[]
+    -statement : CallableStatement
+    -hadResults : boolean
+    +process(User process) String
+    +getLoggedInUsers() Stack~String~
+    +getLockedOutUsers() Stack~String~
+    +getLoggedInNum() String
+    +getRegisteredNum() String
 }
 
 class CommandProtocol{

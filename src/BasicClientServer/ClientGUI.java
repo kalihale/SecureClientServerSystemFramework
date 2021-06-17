@@ -409,8 +409,6 @@ public class ClientGUI extends Application
     }
     private void passwordChange()
     {
-        this.user = new User();
-
         //  <@  Set up stage
         Stage pwChangeStage = new Stage();
         pwChangeStage.setMinHeight(MINHEIGHT);
@@ -444,7 +442,7 @@ public class ClientGUI extends Application
         });
         btConfirm.setOnAction(actionEvent ->
         {
-
+            this.user = new User();
             if(!taOldPass.getText().equals(taNewPass.getText()))
             {
                 this.user.setAction(2);
@@ -556,8 +554,6 @@ public class ClientGUI extends Application
     }
     private void forgotPassword()
     {
-        this.user = new User();
-
         //  <@  Set up stage
         Stage fPwStage = new Stage();
         fPwStage.setMinHeight(MINHEIGHT);
@@ -585,6 +581,7 @@ public class ClientGUI extends Application
         });
         btEmail.setOnAction(actionEvent ->
         {
+            this.user = new User();
             this.user.setAction(3);
             this.user.setEmail(taEmail.getText());
             String reply = (String)client.sendObject(this.user);
@@ -667,8 +664,6 @@ public class ClientGUI extends Application
     }
     private void register()
     {
-        this.user = new User();
-
         // ** Set up stage
         Stage registerStage = new Stage();
         registerStage.setMinHeight(MINHEIGHT);
@@ -680,6 +675,10 @@ public class ClientGUI extends Application
         Scene scene = new Scene(registerPane,600,600);
 
         // ** Set up text area
+
+        TextArea taID = new TextArea();
+        taID.setMaxHeight(10);
+
         TextArea taEmail = new TextArea();
         taEmail.setMaxHeight(10);
 
@@ -689,11 +688,15 @@ public class ClientGUI extends Application
         TextArea taPw = new TextArea();
         taPw.setMaxHeight(10);
 
-        // ** Set up Labels
+        TextArea taUserRole = new TextArea();
+        taUserRole.setMaxHeight(10);
 
+        // ** Set up Labels
+        Label txtID = new Label("Enter user ID: ");
         Label txtUserLabel = new Label("Choose username: ");
         Label txtPassLabel = new Label("Create password: ");
         Label txtEmailLabel = new Label("Enter email: ");
+        Label txtUserRole = new Label("Enter user role: ");
 
         // ** Set Up Buttons
         Button btRegister = new Button("Register");
@@ -702,10 +705,16 @@ public class ClientGUI extends Application
         btBack.setStyle(BTGRAY);
         btRegister.setOnAction(actionEvent ->
         {
-
-
-            if(!(taUsername.getText().equals("")) && !(taPw.getText().equals("")) && !(taEmail.getText().equals(""))){
+            this.user = new User();
+            if(!(taID.getText().isBlank() | taUsername.getText().isBlank() | taPw.getText().isBlank() | taEmail.getText().isBlank()
+                    | taUserRole.getText().isBlank()))
+            {
                 this.user.setAction(4);
+                this.user.setUserID(taID.getText());
+                this.user.setUsername(taUsername.getText());
+                this.user.setPassword(taPw.getText());
+                this.user.setEmail(taEmail.getText());
+                this.user.setUserRole(taUserRole.getText());
                 String reply = (String)client.sendObject(this.user);
                 if(reply.equals("RegistrationSuccessful"))
                 {
@@ -757,30 +766,37 @@ public class ClientGUI extends Application
         RowConstraints row5 = new RowConstraints();
         RowConstraints row6 = new RowConstraints();
         RowConstraints row7 = new RowConstraints();
-        row0.setPercentHeight(15);
-        row1.setPercentHeight(8);
-        row2.setPercentHeight(15);
-        row3.setPercentHeight(8);
-        row4.setPercentHeight(15);
-        row5.setPercentHeight(8);
-        row6.setPercentHeight(15);
-        row7.setPercentHeight(16);
+        row0.setPercentHeight(12.5);
+        row1.setPercentHeight(12.5);
+        row2.setPercentHeight(12.5);
+        row3.setPercentHeight(12.5);
+        row4.setPercentHeight(12.5);
+        row5.setPercentHeight(12.5);
+        row6.setPercentHeight(12.5);
+        row7.setPercentHeight(12.5);
         registerPane.getRowConstraints().addAll(row0,row1,row2,row3,row4,row5, row6, row7);
 
         // ** Add all to pane
+        registerPane.add(taID, 1, 0, 2, 1);
+        registerPane.add(txtID, 0, 0, 1, 1);
+//        GridPane.setValignment();
+
         registerPane.add(taUsername,1,1,3,1);
-        registerPane.add(txtUserLabel,1,0, 3, 1);
-        GridPane.setValignment(txtUserLabel, VPos.BOTTOM);
+        registerPane.add(txtUserLabel,0,1, 1, 1);
+//        GridPane.setValignment(txtUserLabel, VPos.BOTTOM);
 
-        registerPane.add(taPw,1,3,3,1);
-        registerPane.add(txtPassLabel,1,2, 3, 1);
-        GridPane.setValignment(txtPassLabel, VPos.BOTTOM);
+        registerPane.add(taPw,1,2,3,1);
+        registerPane.add(txtPassLabel,0,2, 1, 1);
+//        GridPane.setValignment(txtPassLabel, VPos.BOTTOM);
 
-        registerPane.add(taEmail,1,5,3,1);
-        registerPane.add(txtEmailLabel,1,4, 3, 1);
-        GridPane.setValignment(txtEmailLabel, VPos.BOTTOM);
+        registerPane.add(taEmail,1,3,3,1);
+        registerPane.add(txtEmailLabel,0,3, 1, 1);
+//        GridPane.setValignment(txtEmailLabel, VPos.BOTTOM);
         registerPane.add(new Text("* Password must be 8-16 characters. \n ** Password must contain " +
-                "at least \n one letter and one number."), 1, 6, 3, 1);
+                "at least \n one letter and one number."), 0, 4, 4, 1);
+
+        registerPane.add(taUserRole, 1, 5, 3, 1);
+        registerPane.add(txtUserRole, 0,5,1,1);
 
         registerPane.add(btRegister,2,7);
         GridPane.setValignment(btRegister, VPos.TOP);
@@ -796,7 +812,6 @@ public class ClientGUI extends Application
 
 
     }
-
     private <T extends Event> void closeWindowEventLoggedIn(T t)
     {
         String reply = client.sendString("u/o/thisuser");

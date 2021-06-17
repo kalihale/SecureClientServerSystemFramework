@@ -115,8 +115,7 @@ public class NetworkAccess {
 	{
 		try
 		{
-			Object oIn = datain.readObject();
-			return oIn;
+			return datain.readObject();
 		}catch(IOException | ClassNotFoundException e)
 		{
 			throw e;

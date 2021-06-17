@@ -5,23 +5,44 @@ import java.io.Serializable;
 public class User implements Serializable
 {
     int action;
+    private String userID;
     private String username;
     private String password;
     private String oldPassword;
     private String email;
+    private String userRole;
 
     public User()
     {
         action = -1;
+        userID = "";
         username = "";
         password = "";
         oldPassword = "";
         email = "";
+        userRole = "";
+    }
+
+    public User(int action, String userID, String username, String password, String oldPassword,
+                String email, String userRole)
+    {
+        this.action = action;
+        this.userID = userID;
+        this.username = username;
+        this.password = password;
+        this.oldPassword = oldPassword;
+        this.email = email;
+        this.userRole = userRole;
     }
 
     public void setAction(int action)
     {
         this.action = action;
+    }
+
+    public void setUserID(String userID)
+    {
+        this.userID = userID;
     }
 
     public void setUsername(String username)
@@ -44,9 +65,19 @@ public class User implements Serializable
         this.email = email;
     }
 
+    public void setUserRole(String userRole)
+    {
+        this.userRole = userRole;
+    }
+
     public int getAction()
     {
         return this.action;
+    }
+
+    public String getUserID()
+    {
+        return userID;
     }
 
     public String getUsername()
@@ -67,5 +98,10 @@ public class User implements Serializable
     public String getEmail()
     {
         return this.email;
+    }
+
+    public String getUserRole()
+    {
+        return userRole;
     }
 }

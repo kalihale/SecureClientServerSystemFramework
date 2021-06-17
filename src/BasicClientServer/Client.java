@@ -105,6 +105,33 @@ public class Client {
 //		// -- disconnect from the server
 //		client.disconnect();
 //	}
+//	public static void main(String[] args)
+//	{
+//		String host = "localhost";
+//		int port = 8000;
+//		System.out.println("Creating new client");
+//		Client client = new Client(host, port);
+//
+//		System.out.println("sending anon user");
+//		client.networkaccess.sendObject(new User(), false);
+//		System.out.println("Sending Kali user");
+//		User kali = new User();
+//		kali.setUsername("kali");
+//		kali.setAction(1);
+//		client.sendObject(kali);
+//		System.out.println("Sending String: clear");
+//		client.sendObject("clear");
+//		System.out.println("Sending Maya user");
+//		User maya = new User();
+//		maya.setUsername("maya");
+//		maya.setAction(2);
+//		client.networkaccess.sendObject(maya, false);
+//		System.out.println("Sending Kali user");
+//		kali.setAction(3);
+//		kali.setUsername("maya");
+//		client.sendObject(kali);
+//		client.disconnect();
+//	}
 	public static void main(String[] args)
 	{
 		String host = "localhost";
@@ -112,25 +139,9 @@ public class Client {
 		System.out.println("Creating new client");
 		Client client = new Client(host, port);
 
-		System.out.println("sending anon user");
-		client.networkaccess.sendObject(new User(), false);
-		System.out.println("Sending Kali user");
-		User kali = new User();
-		kali.setUsername("kali");
-		kali.setAction(1);
-		client.sendObject(kali);
-		System.out.println("Sending String: clear");
-		client.sendObject("clear");
-//		System.out.println("Sending Maya user");
-//		User maya = new User();
-//		maya.setUsername("maya");
-//		maya.setAction(2);
-//		client.networkaccess.sendObject(maya, false);
-		System.out.println("Sending Kali user");
-		kali.setAction(3);
-		kali.setUsername("maya");
+		User kali = new User(4,"k301", "kali", "password", "",
+				"kalihale@callutheran.edu", "manager");
 		client.sendObject(kali);
 		client.disconnect();
 	}
-
 }
