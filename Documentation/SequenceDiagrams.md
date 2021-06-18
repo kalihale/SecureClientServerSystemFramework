@@ -21,34 +21,45 @@ ClientGUI -->> USER: "reply"
 deactivate Client
 deactivate ClientGUI
 ```
-Login Diagram - Server Side
+User Processes Diagram - Server Side
 ```mermaid
 sequenceDiagram
 activate ClientHandler
-CLIENT SIDE ->> NetworkAccess: "u/L/username/password"
+CLIENT SIDE ->> NetworkAccess: User
 activate NetworkAccess
 ClientHandler ->> NetworkAccess: GetMessage()
-NetworkAccess -->> ClientHandler: "u/L/username/password"
+NetworkAccess -->> ClientHandler: User
 deactivate NetworkAccess
-ClientHandler ->> UserHandler: Process("u/L/username/password")
+ClientHandler ->> UserHandler: Process(User)
 activate UserHandler
-UserHandler ->> UserDataBase: login(username, password)
-activate UserDataBase
-alt LockCount == 3
-UserDataBase -->> UserHandler: Account Locked
-else LoggedIn == true
-UserDataBase -->> UserHandler: Duplicate Login
-else StoredPassword == Userpassword
-note over UserDataBase: set LockCount = 0
-note over UserDataBase: set LoggedIn = true
-UserDataBase -->> UserHandler: Success
-else StoredPassword == null
-UserDataBase -->> UserHandler: Invalid UserName
-else StoredPassword != UserPassword
-note over UserDataBase: set LockCount = LockCount + 1
-UserDataBase -->> UserHandler: Invalid Password
+activate userData
+alt action == logout
+UserHandler ->> userData: logout(user)
+userData -->> UserHandler: logout success
+else action == login
+UserHandler ->> userData: login(user, password)
+opt username DNE
+userData -->> UserHandler: false (loginFailure)
 end
-deactivate UserDataBase
+opt username exists && (loggedIn == true | storedPass != password)
+note over userData: loginAttempt += 1
+userData -->> UserHandler: false (loginFailure) 
+end
+userData -->> UserHandler: true (loginSuccess)
+else action == changePassword
+opt storedPass == oldPass && loggedIn == true
+note over userData: set storedPass = newPass
+userData -->> UserHandler: true (passwordChangeSuccess)
+end
+userData -->> UserHandler: false (passwordChangeSuccess)
+else action == forgotPassword
+note over userData: TBD
+else action == register
+opt username exists | userID exists
+userData -->> UserHandler: throw registration error
+end
+end
+deactivate userData
 UserHandler -->> ClientHandler: "reply"
 deactivate UserHandler
 ClientHandler -->> NetworkAccess: "reply"

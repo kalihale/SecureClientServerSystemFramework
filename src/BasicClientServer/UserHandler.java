@@ -40,44 +40,75 @@ public class UserHandler
     // -- this is the username/password, created during installation and in MySQL Workbench
     //    When you add a user make sure you give them the appropriate Administrative Roles
     //    (DBA sets all which works fine)
-    private static final String user = "root";
-    private static final String pw = "rosegarden";
+    private static final String USERNAME = "root";
+    private static final String PW = "rosegarden";
 
-    public String process(User process) throws SQLException
+    public String process(User user) throws SQLException
     {
         // -- make the connection to the database
         //    performs functionality of SQL: use <<your schema>>;
-        conn = DriverManager.getConnection(userdatabaseURL, user, pw);
+        conn = DriverManager.getConnection(userdatabaseURL, USERNAME, PW);
 
-        this.username = process.getUsername();
-        System.out.println(process.getUsername() + " " + process.getAction());
+        this.username = user.getUsername();
+        System.out.println(user.getUsername() + " " + user.getAction());
         try
         {
-            switch (process.getAction())
+            switch (user.getAction())
             {
                 case 0:
                     //  <@  Logout with stored procedure
                     System.out.println("Logged out " + this.username);
+                    statement = conn.prepareCall("{call logout(?)}");
+                    statement.setString("un", user.getUsername());
                     return "logoutSuccess";
                 case 1:
                     //  <@  Login with stored procedure
-                    System.out.println("Logged in " + this.username);
-                    return "loginSuccess";
+                    statement = conn.prepareCall("{? = call login(?,?)}");
+                    statement.registerOutParameter(1, Types.BOOLEAN);
+                    statement.setString(2, user.getUsername());
+                    statement.setString(3, user.getPassword());
+                    statement.execute();
+                    boolean exists = statement.getBoolean(1);
+                    statement.close();
+                    if(exists)
+                    {
+                        return "loginSuccess";
+                    }
+                    else
+                    {
+                        return "loginFailure";
+                    }
                 case 2:
                     //  <@  Change password
                     System.out.println("Changed password for " + this.username);
-                    return "passwordChangeSuccess";
+                    statement = conn.prepareCall("{? = call changePassword(?, ?, ?)}");
+                    statement.registerOutParameter(1, Types.BOOLEAN);
+                    statement.setString("un", user.getUsername());
+                    statement.setString("oldpass", user.getOldPassword());
+                    statement.setString("newpass", user.getPassword());
+                    statement.execute();
+                    boolean success = statement.getBoolean(1);
+                    statement.close();
+                    if(success)
+                    {
+                        return "passwordChangeSuccess";
+                    }
+                    else
+                    {
+                        return "password change failure";
+                    }
                 case 3:
                     //  <@  Forgot password
-                    System.out.println("Forgot password " + process.getEmail());
+                    System.out.println("Forgot password " + user.getEmail());
                     return "forgotPasswordSuccessful";
                 case 4:
                     //  <@  Registration
-                    statement = conn.prepareCall("{call register(?, ?, ?, ?, ?)}");
-                    statement.setString("id", process.getUserID());
-                    statement.setString("un", process.getUsername());
-                    statement.setString("pass", process.getPassword());
-                    statement.setString("uRole", process.getUserRole());
+                    statement = conn.prepareCall("{call register(?, ?, ?, ?, ?, ?)}");
+                    statement.setString("id", user.getUserID());
+                    statement.setString("un", user.getUsername());
+                    statement.setString("pass", user.getPassword());
+                    statement.setString("email", user.getEmail());
+                    statement.setString("uRole", user.getUserRole());
                     statement.setString("createdBy", "css");
                     statement.execute();
                     statement.close();
@@ -98,7 +129,7 @@ public class UserHandler
     {
         // -- make the connection to the database
         //    performs functionality of SQL: use <<your schema>>;
-        conn = DriverManager.getConnection(userdatabaseURL, user, pw);
+        conn = DriverManager.getConnection(userdatabaseURL, USERNAME, PW);
 
         results = new Stack[2];
         results[0] = new Stack<>();
@@ -122,7 +153,7 @@ public class UserHandler
     {
         // -- make the connection to the database
         //    performs functionality of SQL: use <<your schema>>;
-        conn = DriverManager.getConnection(userdatabaseURL, user, pw);
+        conn = DriverManager.getConnection(userdatabaseURL, USERNAME, PW);
 
         results = new Stack[2];
         results[0] = new Stack<>();
@@ -146,7 +177,7 @@ public class UserHandler
     {
         // -- make the connection to the database
         //    performs functionality of SQL: use <<your schema>>;
-        conn = DriverManager.getConnection(userdatabaseURL, user, pw);
+        conn = DriverManager.getConnection(userdatabaseURL, USERNAME, PW);
 
         String result = "0";
         statement = conn.prepareCall("{call loggedInNum()}");
@@ -167,7 +198,7 @@ public class UserHandler
     {
         // -- make the connection to the database
         //    performs functionality of SQL: use <<your schema>>;
-        conn = DriverManager.getConnection(userdatabaseURL, user, pw);
+        conn = DriverManager.getConnection(userdatabaseURL, USERNAME, PW);
 
         String result = "0";
         statement = conn.prepareCall("{call registeredNum()}");

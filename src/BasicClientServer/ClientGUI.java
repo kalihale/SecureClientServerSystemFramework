@@ -116,8 +116,6 @@ public class ClientGUI extends Application
     }
     private void login()
     {
-        this.user = new User();
-
         //  <@  Set up stage
         Stage loginStage = new Stage();
         loginStage.setMinHeight(MINHEIGHT);
@@ -155,7 +153,9 @@ public class ClientGUI extends Application
         });
         btLogin.setOnAction(actionEvent ->
         {
-            if (!(taLogPw.getText().equals("")) && !(taLogUn.getText().equals(""))){
+            if (!(taLogPw.getText().isEmpty() | taLogUn.getText().isEmpty()))
+            {
+                this.user = new User();
                 this.user.setAction(1);
                 this.user.setUsername(taLogUn.getText());
                 this.user.setPassword(taLogPw.getText());
@@ -252,7 +252,6 @@ public class ClientGUI extends Application
     }
     private void home()
     {
-        this.user = new User();
 
         //  <@  Set up stage
         Stage homeStage = new Stage();
@@ -282,6 +281,7 @@ public class ClientGUI extends Application
         btLogout.setOnAction(actionEvent ->
         {
             //  <@  Logout
+            this.user = new User();
             this.user.setAction(0);
             this.user.setUsername(this.username);
             String reply = (String)client.sendObject(this.user);
@@ -309,6 +309,7 @@ public class ClientGUI extends Application
         btLD.setOnAction(actionEvent ->
         {
             //  <@  Logout and disconnect
+            this.user = new User();
             this.user.setAction(0);
             this.user.setUsername(username);
             String reply = (String)client.sendObject(user);
@@ -443,7 +444,7 @@ public class ClientGUI extends Application
         btConfirm.setOnAction(actionEvent ->
         {
             this.user = new User();
-            if(!taOldPass.getText().equals(taNewPass.getText()))
+            if(!taOldPass.getText().equals(taNewPass.getText()) && !taOldPass.getText().isEmpty() && !taNewPass.getText().isEmpty())
             {
                 this.user.setAction(2);
                 this.user.setUsername(username);
