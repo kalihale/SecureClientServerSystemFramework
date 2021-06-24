@@ -142,7 +142,7 @@ INSERT INTO `studentsInClubs` VALUES (1,1,8),(2,1,9),(3,2,8),(4,2,9),(5,2,7),(6,
 UNLOCK TABLES;
 
 --
--- Dumping routines for database 'programData'
+-- Dumping routines for ExamplesAndReferences.database 'programData'
 --
 /*!50003 DROP PROCEDURE IF EXISTS `addNewClub` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -580,7 +580,7 @@ LOCK TABLES `usernameChange` WRITE;
 UNLOCK TABLES;
 
 --
--- Dumping routines for database 'userData'
+-- Dumping routines for ExamplesAndReferences.database 'userData'
 --
 /*!50003 DROP PROCEDURE IF EXISTS `lockedOut` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;

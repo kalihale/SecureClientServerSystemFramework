@@ -54,7 +54,7 @@ import com.mysql.cj.util.StringUtils;
 /**
  * This class parses a connection string using the general URI structure defined in RFC 3986. Instead of using a URI instance to ensure the correct syntax of
  * the connection string, this implementation uses regular expressions which is faster but also less strict in terms of validations. This actually works better
- * because database URLs don't exactly stick to the RFC 3986 rules.
+ * because ExamplesAndReferences.database URLs don't exactly stick to the RFC 3986 rules.
  * <p>
  * <i>scheme://authority/path?query#fragment</i>
  * <p>
@@ -68,7 +68,7 @@ import com.mysql.cj.util.StringUtils;
  * identification, that also allows setting per host connection properties, in the form of
  * "[user[:password]@]address=(key1=value)[(key2=value)]...[,address=(key3=value)[(key4=value)]...]...".</dd>
  * <dt>path</dt>
- * <dd>Corresponds to the database identification.</dd>
+ * <dd>Corresponds to the ExamplesAndReferences.database identification.</dd>
  * <dt>query</dt>
  * <dd>The connection properties, written as "propertyName1[=[propertyValue1]][&amp;propertyName2[=[propertyValue2]]]..."</dd>
  * <dt>fragment</dt>
@@ -597,9 +597,9 @@ public class ConnectionUrlParser implements DatabaseUrlContainer {
     }
 
     /**
-     * Returns the original database URL that produced this connection string parser.
+     * Returns the original ExamplesAndReferences.database URL that produced this connection string parser.
      * 
-     * @return the original database URL
+     * @return the original ExamplesAndReferences.database URL
      */
     @Override
     public String getDatabaseUrl() {

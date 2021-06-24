@@ -88,7 +88,7 @@ public class MetadataTest extends BaseTestCase {
                     conn1 = getConnectionWithProps(props);
                     DatabaseMetaData dbmd = conn1.getMetaData();
 
-                    assertEquals(dbMapsToSchema ? "CATALOG" : "database", dbmd.getCatalogTerm());
+                    assertEquals(dbMapsToSchema ? "CATALOG" : "ExamplesAndReferences/database", dbmd.getCatalogTerm());
                     assertEquals(dbMapsToSchema ? "SCHEMA" : "", dbmd.getSchemaTerm());
 
                     assertEquals(!dbMapsToSchema, dbmd.supportsCatalogsInDataManipulation());
@@ -997,7 +997,7 @@ public class MetadataTest extends BaseTestCase {
 
                         } catch (SQLException sqlEx) {
                             fail("This testcase needs to be run with a URL that allows the user to issue GRANTs "
-                                    + " in the current database. You can skip this test by setting the system property \""
+                                    + " in the current ExamplesAndReferences.database. You can skip this test by setting the system property \""
                                     + PropertyDefinitions.SYSP_testsuite_cantGrant + "\".");
                         }
 
@@ -1683,16 +1683,16 @@ public class MetadataTest extends BaseTestCase {
         assertTrue(dbmduisKeywordsCache.isEmpty(), "Failed to clear the DatabaseMetaDataUsingInfoSchema keywords cache.");
 
         /*
-         * Check that keywords are retrieved from database and cached.
+         * Check that keywords are retrieved from ExamplesAndReferences.database and cached.
          */
         Properties props = new Properties();
         props.setProperty(PropertyKey.useInformationSchema.getKeyName(), "true");
         props.setProperty(PropertyKey.queryInterceptors.getKeyName(), TestGetSqlKeywordsDynamicQueryInterceptor.class.getName());
 
-        // First call to DatabaseMetaData.getSQLKeywords() -> keywords are retrieved from database.
+        // First call to DatabaseMetaData.getSQLKeywords() -> keywords are retrieved from ExamplesAndReferences.database.
         Connection testConn = getConnectionWithProps(props);
         assertEquals(expectedSqlKeywords, testConn.getMetaData().getSQLKeywords(), "MySQL keywords don't match expected.");
-        assertTrue(TestGetSqlKeywordsDynamicQueryInterceptor.interceptedQueries.contains(keywordsQuery), "MySQL keywords weren't obtained from database.");
+        assertTrue(TestGetSqlKeywordsDynamicQueryInterceptor.interceptedQueries.contains(keywordsQuery), "MySQL keywords weren't obtained from ExamplesAndReferences.database.");
         assertTrue(dbmduisKeywordsCache.containsKey(((JdbcConnection) testConn).getServerVersion()), "Keywords for current server weren't properly cached.");
 
         TestGetSqlKeywordsDynamicQueryInterceptor.interceptedQueries.clear();

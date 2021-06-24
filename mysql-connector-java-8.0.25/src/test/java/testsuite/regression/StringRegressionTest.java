@@ -228,7 +228,7 @@ public class StringRegressionTest extends BaseTestCase {
                     char origChar = latin1String.charAt(i);
 
                     if ((rChar != '?') && (rChar != origChar)) {
-                        fail("characters differ at position " + i + "'" + rChar + "' retrieved from database, original char was '" + origChar + "'");
+                        fail("characters differ at position " + i + "'" + rChar + "' retrieved from ExamplesAndReferences.database, original char was '" + origChar + "'");
                     }
                 }
             }
@@ -312,7 +312,7 @@ public class StringRegressionTest extends BaseTestCase {
         System.out.println(bytesOut.toString());
 
         //
-        // Now, insert and retrieve the value from the database
+        // Now, insert and retrieve the value from the ExamplesAndReferences.database
         //
         Connection sjisConn = null;
         Statement sjisStmt = null;
@@ -350,7 +350,7 @@ public class StringRegressionTest extends BaseTestCase {
                     bytesOut.append(" ");
                 }
 
-                System.out.println("Value retrieved from database: " + bytesOut.toString());
+                System.out.println("Value retrieved from ExamplesAndReferences.database: " + bytesOut.toString());
 
                 String testValue = this.rs.getString(1);
 

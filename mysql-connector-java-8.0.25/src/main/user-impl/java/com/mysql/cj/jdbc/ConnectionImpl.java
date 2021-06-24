@@ -95,10 +95,10 @@ import com.mysql.cj.util.StringUtils;
 import com.mysql.cj.util.Util;
 
 /**
- * A Connection represents a session with a specific database. Within the context of a Connection, SQL statements are executed and results are returned.
+ * A Connection represents a session with a specific ExamplesAndReferences.database. Within the context of a Connection, SQL statements are executed and results are returned.
  * 
  * <P>
- * A Connection's database is able to provide information describing its tables, its supported SQL grammar, its stored procedures, the capabilities of this
+ * A Connection's ExamplesAndReferences.database is able to provide information describing its tables, its supported SQL grammar, its stored procedures, the capabilities of this
  * connection, etc. This information is obtained with the getMetaData method.
  * </p>
  */
@@ -161,8 +161,8 @@ public class ConnectionImpl implements JdbcConnection, SessionEventListener, Ser
 
     /**
      * Used as a key for caching callable statements which (may) depend on
-     * current database...In 5.0.x, they don't (currently), but stored procedure
-     * names soon will, so current database is a (hidden) component of the name.
+     * current ExamplesAndReferences.database...In 5.0.x, they don't (currently), but stored procedure
+     * names soon will, so current ExamplesAndReferences.database is a (hidden) component of the name.
      */
     static class CompoundCacheKey {
         final String componentOne;
@@ -240,7 +240,7 @@ public class ConnectionImpl implements JdbcConnection, SessionEventListener, Ser
      *            {@link HostInfo} instance
      * @return new {@link ConnectionImpl} instance
      * @throws SQLException
-     *             if a database access error occurs
+     *             if a ExamplesAndReferences.database access error occurs
      */
     public static JdbcConnection getInstance(HostInfo hostInfo) throws SQLException {
         return new ConnectionImpl(hostInfo);
@@ -280,10 +280,10 @@ public class ConnectionImpl implements JdbcConnection, SessionEventListener, Ser
     /** A cache of SQL to parsed prepared statement parameters. */
     private CacheAdapter<String, ParseInfo> cachedPreparedStatementParams;
 
-    /** The database we're currently using. */
+    /** The ExamplesAndReferences.database we're currently using. */
     private String database = null;
 
-    /** Internal DBMD to use for various database-version specific features */
+    /** Internal DBMD to use for various ExamplesAndReferences.database-version specific features */
     private DatabaseMetaData dbmd = null;
 
     private NativeSession session = null;
@@ -374,7 +374,7 @@ public class ConnectionImpl implements JdbcConnection, SessionEventListener, Ser
      * @param hostInfo
      *            the {@link HostInfo} instance that contains the host, user and connections attributes for this connection
      * @exception SQLException
-     *                if a database access error occurs
+     *                if a ExamplesAndReferences.database access error occurs
      */
     public ConnectionImpl(HostInfo hostInfo) throws SQLException {
 
@@ -732,7 +732,7 @@ public class ConnectionImpl implements JdbcConnection, SessionEventListener, Ser
      * Closes all currently open statements.
      * 
      * @throws SQLException
-     *             if a database access error occurs
+     *             if a ExamplesAndReferences.database access error occurs
      */
     private void closeAllOpenStatements() throws SQLException {
         SQLException postponedException = null;
@@ -1279,7 +1279,7 @@ public class ConnectionImpl implements JdbcConnection, SessionEventListener, Ser
      * have connected to the server.
      * 
      * @throws SQLException
-     *             if a database access error occurs
+     *             if a ExamplesAndReferences.database access error occurs
      */
     private void initializePropsFromServer() throws SQLException {
         String connectionInterceptorClasses = this.propertySet.getStringProperty(PropertyKey.connectionLifecycleInterceptors).getStringValue();
@@ -1343,7 +1343,7 @@ public class ConnectionImpl implements JdbcConnection, SessionEventListener, Ser
      * Takes into account that the default auto-commit value of 0 may have been changed on the server via init_connect.
      * 
      * @throws SQLException
-     *             if a database access error occurs
+     *             if a ExamplesAndReferences.database access error occurs
      */
     private void handleAutoCommitDefaults() throws SQLException {
         boolean resetAutoCommitDefault = false;

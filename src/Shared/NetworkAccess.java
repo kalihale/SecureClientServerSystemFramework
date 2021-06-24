@@ -1,4 +1,4 @@
-package BasicClientServer;
+package Shared;
 
 import ObjectsToPass.User;
 

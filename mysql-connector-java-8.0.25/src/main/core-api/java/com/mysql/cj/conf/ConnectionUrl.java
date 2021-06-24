@@ -59,7 +59,7 @@ import com.mysql.cj.util.LRUCache;
 import com.mysql.cj.util.Util;
 
 /**
- * A container for a database URL and a collection of given connection arguments.
+ * A container for a ExamplesAndReferences.database URL and a collection of given connection arguments.
  * The connection string is parsed and split by its components, each of which is then processed and fixed according to the needs of the connection type.
  * This abstract class holds all common behavior to all connection string types. Its subclasses must implement their own specifics such as classifying hosts by
  * type or apply validation rules.
@@ -72,7 +72,7 @@ public abstract class ConnectionUrl implements DatabaseUrlContainer {
     private static final ReadWriteLock rwLock = new ReentrantReadWriteLock();
 
     /**
-     * The rules describing the number of hosts a database URL may contain.
+     * The rules describing the number of hosts a ExamplesAndReferences.database URL may contain.
      */
     public enum HostsCardinality {
         SINGLE {
@@ -98,7 +98,7 @@ public abstract class ConnectionUrl implements DatabaseUrlContainer {
     }
 
     /**
-     * The database URL type which is determined by the scheme section of the connection string.
+     * The ExamplesAndReferences.database URL type which is determined by the scheme section of the connection string.
      */
     public enum Type {
         // DNS SRV schemes (cardinality is validated by implementing classes):
@@ -163,7 +163,7 @@ public abstract class ConnectionUrl implements DatabaseUrlContainer {
          * @param scheme
          *            one of supported schemes
          * @param n
-         *            the number of hosts in the database URL
+         *            the number of hosts in the ExamplesAndReferences.database URL
          * @return the {@link Type} corresponding to the given protocol and number of hosts
          */
         public static Type fromValue(String scheme, int n) {
@@ -307,7 +307,7 @@ public abstract class ConnectionUrl implements DatabaseUrlContainer {
     }
 
     /**
-     * Checks if this {@link ConnectionUrl} is able to process the given database URL.
+     * Checks if this {@link ConnectionUrl} is able to process the given ExamplesAndReferences.database URL.
      * 
      * @param connString
      *            the connection string
@@ -477,7 +477,7 @@ public abstract class ConnectionUrl implements DatabaseUrlContainer {
         hostProps.putAll(this.properties);
         // Add/override host specific connection arguments.
         hi.getHostProperties().entrySet().stream().forEach(e -> hostProps.put(PropertyKey.normalizeCase(e.getKey()), e.getValue()));
-        // Add the database name
+        // Add the ExamplesAndReferences.database name
         if (!hostProps.containsKey(PropertyKey.DBNAME.getKeyName())) {
             hostProps.put(PropertyKey.DBNAME.getKeyName(), getDatabase());
         }
@@ -598,9 +598,9 @@ public abstract class ConnectionUrl implements DatabaseUrlContainer {
     }
 
     /**
-     * Returns the original database URL that produced this connection string.
+     * Returns the original ExamplesAndReferences.database URL that produced this connection string.
      * 
-     * @return the original database URL
+     * @return the original ExamplesAndReferences.database URL
      */
     @Override
     public String getDatabaseUrl() {
@@ -608,9 +608,9 @@ public abstract class ConnectionUrl implements DatabaseUrlContainer {
     }
 
     /**
-     * Returns the database from this connection URL. Note that a "DBNAME" property overrides the database identified in the connection string.
+     * Returns the ExamplesAndReferences.database from this connection URL. Note that a "DBNAME" property overrides the ExamplesAndReferences.database identified in the connection string.
      * 
-     * @return the database name
+     * @return the ExamplesAndReferences.database name
      */
     public String getDatabase() {
         return this.properties.containsKey(PropertyKey.DBNAME.getKeyName()) ? this.properties.get(PropertyKey.DBNAME.getKeyName()) : this.originalDatabase;
@@ -823,7 +823,7 @@ public abstract class ConnectionUrl implements DatabaseUrlContainer {
     @Override
     public String toString() {
         StringBuilder asStr = new StringBuilder(super.toString());
-        asStr.append(String.format(" :: {type: \"%s\", hosts: %s, database: \"%s\", properties: %s, propertiesTransformer: %s}", this.type, this.hosts,
+        asStr.append(String.format(" :: {type: \"%s\", hosts: %s, ExamplesAndReferences.database: \"%s\", properties: %s, propertiesTransformer: %s}", this.type, this.hosts,
                 this.originalDatabase, this.properties, this.propertiesTransformer));
         return asStr.toString();
     }

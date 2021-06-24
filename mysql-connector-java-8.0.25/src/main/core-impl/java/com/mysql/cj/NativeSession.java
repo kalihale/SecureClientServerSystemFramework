@@ -271,7 +271,7 @@ public class NativeSession extends CoreSession implements Serializable {
     }
 
     /**
-     * Determines if the database charset is the same as the platform charset
+     * Determines if the ExamplesAndReferences.database charset is the same as the platform charset
      */
     public void checkForCharsetMismatch() {
         ((NativeProtocol) this.protocol).checkForCharsetMismatch();
@@ -523,7 +523,7 @@ public class NativeSession extends CoreSession implements Serializable {
             }
 
             //
-            // We know how to deal with any charset coming back from the database, so tell the server not to do conversion if the user hasn't 'forced' a
+            // We know how to deal with any charset coming back from the ExamplesAndReferences.database, so tell the server not to do conversion if the user hasn't 'forced' a
             // result-set character set
             //
 

@@ -46,11 +46,11 @@ public final class MysqlErrorNumbers {
     public final static int ER_YES = 1003; //SQLSTATE: HY000 Message: YES
     public final static int ER_CANT_CREATE_FILE = 1004; //SQLSTATE: HY000 Message: Can't create file '%s' (errno: %d - %s)
     public final static int ER_CANT_CREATE_TABLE = 1005; //SQLSTATE: HY000 Message: Can't create table '%s' (errno: %d)
-    public final static int ER_CANT_CREATE_DB = 1006; //SQLSTATE: HY000 Message: Can't create database '%s' (errno: %d)
-    public final static int ER_DB_CREATE_EXISTS = 1007; //SQLSTATE: HY000 Message: Can't create database '%s'; database exists...
-    public final static int ER_DB_DROP_EXISTS = 1008; //SQLSTATE: HY000 Message: Can't drop database '%s'; database doesn't exist
-    public final static int ER_DB_DROP_DELETE = 1009; //SQLSTATE: HY000 Message: Error dropping database (can't delete '%s', errno: %d)
-    public final static int ER_DB_DROP_RMDIR = 1010; //SQLSTATE: HY000 Message: Error dropping database (can't rmdir '%s', errno: %d)
+    public final static int ER_CANT_CREATE_DB = 1006; //SQLSTATE: HY000 Message: Can't create ExamplesAndReferences.database '%s' (errno: %d)
+    public final static int ER_DB_CREATE_EXISTS = 1007; //SQLSTATE: HY000 Message: Can't create ExamplesAndReferences.database '%s'; ExamplesAndReferences.database exists...
+    public final static int ER_DB_DROP_EXISTS = 1008; //SQLSTATE: HY000 Message: Can't drop ExamplesAndReferences.database '%s'; ExamplesAndReferences.database doesn't exist
+    public final static int ER_DB_DROP_DELETE = 1009; //SQLSTATE: HY000 Message: Error dropping ExamplesAndReferences.database (can't delete '%s', errno: %d)
+    public final static int ER_DB_DROP_RMDIR = 1010; //SQLSTATE: HY000 Message: Error dropping ExamplesAndReferences.database (can't rmdir '%s', errno: %d)
     public final static int ER_CANT_DELETE_FILE = 1011; //SQLSTATE: HY000 Message: Error on delete of '%s' (errno: %d - %s)
     public final static int ER_CANT_FIND_SYSTEM_REC = 1012; //SQLSTATE: HY000 Message: Can't read record in system table
     public final static int ER_CANT_GET_STAT = 1013; //SQLSTATE: HY000 Message: Can't get status of '%s' (errno: %d - %s)
@@ -84,12 +84,12 @@ public final class MysqlErrorNumbers {
     public final static int ER_OUT_OF_RESOURCES = 1041; //SQLSTATE: HY000 Message: Out of memory; check if mysqld or some other process uses all available memory; if not, you may have to use 'ulimit' to allow mysqld to use more memory or you can add more swap space
     public final static int ER_BAD_HOST_ERROR = 1042; //SQLSTATE: 08S01 Message: Can't get hostname for your address
     public final static int ER_HANDSHAKE_ERROR = 1043; //SQLSTATE: 08S01 Message: Bad handshake
-    public final static int ER_DBACCESS_DENIED_ERROR = 1044; //SQLSTATE: 42000 Message: Access denied for user '%s'@'%s' to database '%s'
+    public final static int ER_DBACCESS_DENIED_ERROR = 1044; //SQLSTATE: 42000 Message: Access denied for user '%s'@'%s' to ExamplesAndReferences.database '%s'
     public final static int ER_ACCESS_DENIED_ERROR = 1045; //SQLSTATE: 28000 Message: Access denied for user '%s'@'%s' (using password: %s)
-    public final static int ER_NO_DB_ERROR = 1046; //SQLSTATE: 3D000 Message: No database selected
+    public final static int ER_NO_DB_ERROR = 1046; //SQLSTATE: 3D000 Message: No ExamplesAndReferences.database selected
     public final static int ER_UNKNOWN_COM_ERROR = 1047; //SQLSTATE: 08S01 Message: Unknown command
     public final static int ER_BAD_NULL_ERROR = 1048; //SQLSTATE: 23000 Message: Column '%s' cannot be null
-    public final static int ER_BAD_DB_ERROR = 1049; //SQLSTATE: 42000 Message: Unknown database '%s'
+    public final static int ER_BAD_DB_ERROR = 1049; //SQLSTATE: 42000 Message: Unknown ExamplesAndReferences.database '%s'
     public final static int ER_TABLE_EXISTS_ERROR = 1050; //SQLSTATE: 42S01 Message: Table '%s' already exists
     public final static int ER_BAD_TABLE_ERROR = 1051; //SQLSTATE: 42S02 Message: Unknown table '%s'
     public final static int ER_NON_UNIQ_ERROR = 1052; //SQLSTATE: 23000 Message: Column '%s' in %s is ambiguous
@@ -125,7 +125,7 @@ public final class MysqlErrorNumbers {
     public final static int ER_NO_SUCH_INDEX = 1082; //SQLSTATE: 42S12 Message: Table '%s' has no index like the one used in CREATE INDEX; recreate the table
     public final static int ER_WRONG_FIELD_TERMINATORS = 1083; //SQLSTATE: 42000 Message: Field separator argument is not what is expected; check the manual
     public final static int ER_BLOBS_AND_NO_TERMINATED = 1084; //SQLSTATE: 42000 Message: You can't use fixed rowlength with BLOBs; please use 'fields terminated by'
-    public final static int ER_TEXTFILE_NOT_READABLE = 1085; //SQLSTATE: HY000 Message: The file '%s' must be in the database directory or be readable by all
+    public final static int ER_TEXTFILE_NOT_READABLE = 1085; //SQLSTATE: HY000 Message: The file '%s' must be in the ExamplesAndReferences.database directory or be readable by all
     public final static int ER_FILE_EXISTS_ERROR = 1086; //SQLSTATE: HY000 Message: File '%s' already exists
     public final static int ER_LOAD_INFO = 1087; //SQLSTATE: HY000 Message: Records: %ld Deleted: %ld Skipped: %ld Warnings: %ld
     public final static int ER_ALTER_INFO = 1088; //SQLSTATE: HY000 Message: Records: %ld Duplicates: %ld
@@ -142,7 +142,7 @@ public final class MysqlErrorNumbers {
     public final static int ER_TABLE_NOT_LOCKED_FOR_WRITE = 1099; //SQLSTATE: HY000 Message: Table '%s' was locked with a READ lock and can't be updated
     public final static int ER_TABLE_NOT_LOCKED = 1100; //SQLSTATE: HY000 Message: Table '%s' was not locked with LOCK TABLES
     public final static int ER_BLOB_CANT_HAVE_DEFAULT = 1101; //SQLSTATE: 42000 Message: BLOB/TEXT column '%s' can't have a default value
-    public final static int ER_WRONG_DB_NAME = 1102; //SQLSTATE: 42000 Message: Incorrect database name '%s'
+    public final static int ER_WRONG_DB_NAME = 1102; //SQLSTATE: 42000 Message: Incorrect ExamplesAndReferences.database name '%s'
     public final static int ER_WRONG_TABLE_NAME = 1103; //SQLSTATE: 42000 Message: Incorrect table name '%s'
     public final static int ER_TOO_BIG_SELECT = 1104; //SQLSTATE: 42000 Message: The SELECT would examine more than MAX_JOIN_SIZE rows; check your WHERE and use SET SQL_BIG_SELECTS=1 or SET MAX_JOIN_SIZE=# if the SELECT is okay
     public final static int ER_UNKNOWN_ERROR = 1105; //SQLSTATE: HY000 Message: Unknown error
@@ -172,7 +172,7 @@ public final class MysqlErrorNumbers {
     public final static int ER_HOST_IS_BLOCKED = 1129; //SQLSTATE: HY000 Message: Host '%s' is blocked because of many connection errors; unblock with 'mysqladmin flush-hosts'
     public final static int ER_HOST_NOT_PRIVILEGED = 1130; //SQLSTATE: HY000 Message: Host '%s' is not allowed to connect to this MySQL server
     public final static int ER_PASSWORD_ANONYMOUS_USER = 1131; //SQLSTATE: 42000 Message: You are using MySQL as an anonymous user and anonymous users are not allowed to change passwords
-    public final static int ER_PASSWORD_NOT_ALLOWED = 1132; //SQLSTATE: 42000 Message: You must have privileges to update tables in the mysql database to be able to change passwords for others
+    public final static int ER_PASSWORD_NOT_ALLOWED = 1132; //SQLSTATE: 42000 Message: You must have privileges to update tables in the mysql ExamplesAndReferences.database to be able to change passwords for others
     public final static int ER_PASSWORD_NO_MATCH = 1133; //SQLSTATE: 42000 Message: Can't find any matching row in the user table
     public final static int ER_UPDATE_INFO = 1134; //SQLSTATE: HY000 Message: Rows matched: %ld Changed: %ld Warnings: %ld
     public final static int ER_CANT_CREATE_THREAD = 1135; //SQLSTATE: HY000 Message: Can't create a new thread (errno %d); if you are not out of available memory, you can consult the manual for a possible OS-dependent bug
@@ -270,7 +270,7 @@ public final class MysqlErrorNumbers {
     public final static int ER_CREATE_DB_WITH_READ_LOCK = 1209; //SQLSTATE: HY000 Message: CREATE DATABASE not allowed while thread is holding global read lock
     public final static int ER_WRONG_ARGUMENTS = 1210; //SQLSTATE: HY000 Message: Incorrect arguments to %s
     public final static int ER_NO_PERMISSION_TO_CREATE_USER = 1211; //SQLSTATE: 42000 Message: '%s'@'%s' is not allowed to create new users
-    public final static int ER_UNION_TABLES_IN_DIFFERENT_DIR = 1212; //SQLSTATE: HY000 Message: Incorrect table definition; all MERGE tables must be in the same database
+    public final static int ER_UNION_TABLES_IN_DIFFERENT_DIR = 1212; //SQLSTATE: HY000 Message: Incorrect table definition; all MERGE tables must be in the same ExamplesAndReferences.database
     public final static int ER_LOCK_DEADLOCK = 1213; //SQLSTATE: 40001 Message: Deadlock found when trying to get lock; try restarting transaction
     public final static int ER_TABLE_CANT_HANDLE_FT = 1214; //SQLSTATE: HY000 Message: The used table type doesn't support FULLTEXT indexes
     public final static int ER_CANNOT_ADD_FOREIGN = 1215; //SQLSTATE: HY000 Message: Cannot add foreign key constraint
@@ -310,7 +310,7 @@ public final class MysqlErrorNumbers {
     public final static int ER_OPERAND_COLUMNS = 1241; //SQLSTATE: 21000 Message: Operand should contain %d column(s)
     public final static int ER_SUBQUERY_NO_1_ROW = 1242; //SQLSTATE: 21000 Message: Subquery returns more than 1 row
     public final static int ER_UNKNOWN_STMT_HANDLER = 1243; //SQLSTATE: HY000 Message: Unknown prepared statement handler (%.*s) given to %s
-    public final static int ER_CORRUPT_HELP_DB = 1244; //SQLSTATE: HY000 Message: Help database is corrupt or does not exist
+    public final static int ER_CORRUPT_HELP_DB = 1244; //SQLSTATE: HY000 Message: Help ExamplesAndReferences.database is corrupt or does not exist
     public final static int ER_CYCLIC_REFERENCE = 1245; //SQLSTATE: HY000 Message: Cyclic reference on subqueries
     public final static int ER_AUTO_CONVERT = 1246; //SQLSTATE: HY000 Message: Converting column '%s' from %s to %s
     public final static int ER_ILLEGAL_REFERENCE = 1247; //SQLSTATE: 42S22 Message: Reference '%s' not supported (%s)
@@ -863,7 +863,7 @@ public final class MysqlErrorNumbers {
     public final static int ER_WARNING_NOT_COMPLETE_ROLLBACK_WITH_CREATED_TEMP_TABLE = 1751; //SQLSTATE: HY000 Message: The creation of some temporary tables could not be rolled back.
     public final static int ER_WARNING_NOT_COMPLETE_ROLLBACK_WITH_DROPPED_TEMP_TABLE = 1752; //SQLSTATE: HY000 Message: Some temporary tables were dropped, but these operations could not be rolled back.
     public final static int ER_MTS_FEATURE_IS_NOT_SUPPORTED = 1753; //SQLSTATE: HY000 Message: %s is not supported in multi-threaded replica mode. %s
-    public final static int ER_MTS_UPDATED_DBS_GREATER_MAX = 1754; //SQLSTATE: HY000 Message: The number of modified databases exceeds the maximum %d; the database names will not be included in the replication event metadata.
+    public final static int ER_MTS_UPDATED_DBS_GREATER_MAX = 1754; //SQLSTATE: HY000 Message: The number of modified databases exceeds the maximum %d; the ExamplesAndReferences.database names will not be included in the replication event metadata.
     public final static int ER_MTS_CANT_PARALLEL = 1755; //SQLSTATE: HY000 Message: Cannot execute the current event group in the parallel mode. Encountered event %s, relay-log name %s, position %s which prevents execution of this event group in parallel mode. Reason: %s.
     public final static int ER_MTS_INCONSISTENT_DATA = 1756; //SQLSTATE: HY000 Message: %s
     public final static int ER_FULLTEXT_NOT_SUPPORTED_WITH_PARTITIONING = 1757; //SQLSTATE: HY000 Message: FULLTEXT index is not supported for partitioned tables.
@@ -985,7 +985,7 @@ public final class MysqlErrorNumbers {
     public final static int ER_SQL_SLAVE_SKIP_COUNTER_NOT_SETTABLE_IN_GTID_MODE = 1858;
     public final static int ER_SQL_REPLICA_SKIP_COUNTER_NOT_SETTABLE_IN_GTID_MODE = 1858; //SQLSTATE: HY000 Message: sql_replica_skip_counter can not be set when the server is running with GTID_MODE = ON. Instead, for each transaction that you want to skip, generate an empty transaction with the same GTID as the transaction
     public final static int ER_DUP_UNKNOWN_IN_INDEX = 1859; //SQLSTATE: 23000 Message: Duplicate entry for key '%s'
-    public final static int ER_IDENT_CAUSES_TOO_LONG_PATH = 1860; //SQLSTATE: HY000 Message: Long database name and identifier for object resulted in path length exceeding %d characters. Path: '%s'.
+    public final static int ER_IDENT_CAUSES_TOO_LONG_PATH = 1860; //SQLSTATE: HY000 Message: Long ExamplesAndReferences.database name and identifier for object resulted in path length exceeding %d characters. Path: '%s'.
     public final static int ER_ALTER_OPERATION_NOT_SUPPORTED_REASON_NOT_NULL = 1861; //SQLSTATE: HY000 Message: cannot silently convert NULL values, as required in this SQL_MODE; was introduced in 5.7.1.
     public final static int ER_MUST_CHANGE_PASSWORD_LOGIN = 1862; //SQLSTATE: HY000 Message: Your password has expired. To log in you must change it using a client that supports expired passwords. was introduced in 5.7.1.
     public final static int ER_ROW_IN_WRONG_PARTITION = 1863; //SQLSTATE: HY000 Message: Found a row in wrong partition %s; was introduced in 5.7.1.
@@ -1021,7 +1021,7 @@ public final class MysqlErrorNumbers {
     @Deprecated
     public final static int ER_ERROR_ON_MASTER = 1884;
     public final static int ER_ERROR_ON_SOURCE = 1884; //SQLSTATE: HY000 Message: Query partially completed on the source (error on source: %d) and was aborted. There is a chance that your source is inconsistent at this point. If you are sure that your source is ok, run this query manually on the replica and then restart the replica with SET GLOBAL SQL_REPLICA_SKIP_COUNTER=1; START REPLICA;. Query:'%s'
-    public final static int ER_INCONSISTENT_ERROR = 1885; //SQLSTATE: HY000 Message: Query caused different errors on source and replica. Error on source: message (format)='%s' error code=%d; Error on replica:actual message='%s', error code=%d. Default database:'%s'. Query:'%s'
+    public final static int ER_INCONSISTENT_ERROR = 1885; //SQLSTATE: HY000 Message: Query caused different errors on source and replica. Error on source: message (format)='%s' error code=%d; Error on replica:actual message='%s', error code=%d. Default ExamplesAndReferences.database:'%s'. Query:'%s'
     public final static int ER_STORAGE_ENGINE_NOT_LOADED = 1886; //SQLSTATE: HY000 Message: Storage engine for table '%s'.'%s' is not loaded.
     public final static int ER_GET_STACKED_DA_WITHOUT_ACTIVE_HANDLER = 1887; //SQLSTATE: 0Z002 Message: GET STACKED DIAGNOSTICS when handler not active
     public final static int ER_WARN_LEGACY_SYNTAX_CONVERTED = 1888; //SQLSTATE: HY000 Message: %s is no longer supported. The statement was converted to %s.

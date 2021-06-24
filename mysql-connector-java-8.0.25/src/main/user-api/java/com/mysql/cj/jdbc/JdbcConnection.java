@@ -462,7 +462,7 @@ public interface JdbcConnection extends java.sql.Connection, MysqlConnection, Tr
      * @param max
      *            the new max-rows value to set.
      * @throws SQLException
-     *             if a database error occurs issuing the statement that sets the limit.
+     *             if a ExamplesAndReferences.database error occurs issuing the statement that sets the limit.
      */
     void setSessionMaxRows(int max) throws SQLException;
 
@@ -533,7 +533,7 @@ public interface JdbcConnection extends java.sql.Connection, MysqlConnection, Tr
      * 
      * @return true if the connection is read only
      * @exception SQLException
-     *                if a database access error occurs
+     *                if a ExamplesAndReferences.database access error occurs
      */
     boolean isReadOnly(boolean useSessionStatus) throws SQLException;
 
@@ -596,19 +596,19 @@ public interface JdbcConnection extends java.sql.Connection, MysqlConnection, Tr
     ClientInfoProvider getClientInfoProviderImpl() throws SQLException;
 
     /**
-     * Set current database for this connection.
+     * Set current ExamplesAndReferences.database for this connection.
      * 
      * @param dbName
-     *            the database for this connection to use
+     *            the ExamplesAndReferences.database for this connection to use
      * @throws SQLException
-     *             if a database access error occurs
+     *             if a ExamplesAndReferences.database access error occurs
      */
     void setDatabase(String dbName) throws SQLException;
 
     /**
-     * Retrieves this connection object's current database name.
+     * Retrieves this connection object's current ExamplesAndReferences.database name.
      * 
-     * @return current database name
+     * @return current ExamplesAndReferences.database name
      * @throws SQLException
      *             if an error occurs
      */

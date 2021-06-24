@@ -39,9 +39,9 @@ public enum PropertyKey {
     /*
      * Properties individually managed after parsing connection string. These property keys are case insensitive.
      */
-    /** The database user name. */
+    /** The ExamplesAndReferences.database user name. */
     USER("user", false),
-    /** The database user password. */
+    /** The ExamplesAndReferences.database user password. */
     PASSWORD("password", false),
     /** The hostname value from the properties instance passed to the driver. */
     HOST("host", false),
@@ -57,7 +57,7 @@ public enum PropertyKey {
     ADDRESS("address", false),
     /** The host priority in a list of hosts. */
     PRIORITY("priority", false),
-    /** The database value from the properties instance passed to the driver. */
+    /** The ExamplesAndReferences.database value from the properties instance passed to the driver. */
     DBNAME("dbname", false), //
 
     allowLoadLocalInfile("allowLoadLocalInfile", true), //

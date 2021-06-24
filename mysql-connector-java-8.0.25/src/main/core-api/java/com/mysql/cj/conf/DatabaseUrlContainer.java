@@ -30,13 +30,13 @@
 package com.mysql.cj.conf;
 
 /**
- * Implementors of this class must be able to provide a database URL.
+ * Implementors of this class must be able to provide a ExamplesAndReferences.database URL.
  */
 public interface DatabaseUrlContainer {
     /**
-     * Returns the original database URL that produced this connection string.
+     * Returns the original ExamplesAndReferences.database URL that produced this connection string.
      * 
-     * @return the original database URL
+     * @return the original ExamplesAndReferences.database URL
      */
     String getDatabaseUrl();
 }

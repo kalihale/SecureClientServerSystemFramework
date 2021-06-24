@@ -150,7 +150,7 @@ public class TableImpl implements Table {
 
     @Override
     public boolean isView() {
-        // if this.isView isn't set (was unknown on the table construction time) then query database
+        // if this.isView isn't set (was unknown on the table construction time) then query ExamplesAndReferences.database
         if (this.isView == null) {
             ValueFactory<String> svf = new StringValueFactory(this.mysqlxSession.getPropertySet());
             Function<Row, DatabaseObjectDescription> rowToDatabaseObjectDescription = r -> new DatabaseObjectDescription(r.getValue(0, svf),
@@ -158,7 +158,7 @@ public class TableImpl implements Table {
             List<DatabaseObjectDescription> objects = this.mysqlxSession.query(this.xbuilder.buildListObjects(this.schema.getName(), this.name), null,
                     rowToDatabaseObjectDescription, Collectors.toList());
             if (objects.isEmpty()) {
-                // object not found, means it doesn't exist in database
+                // object not found, means it doesn't exist in ExamplesAndReferences.database
                 return false;
             }
             // objects should contain exactly one element with matching this.name

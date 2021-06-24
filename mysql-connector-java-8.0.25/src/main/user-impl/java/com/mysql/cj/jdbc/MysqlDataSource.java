@@ -137,19 +137,19 @@ public class MysqlDataSource extends JdbcPropertySetImpl implements DataSource, 
     }
 
     /**
-     * Sets the database name.
+     * Sets the ExamplesAndReferences.database name.
      * 
      * @param dbName
-     *            the name of the database
+     *            the name of the ExamplesAndReferences.database
      */
     public void setDatabaseName(String dbName) {
         this.databaseName = dbName;
     }
 
     /**
-     * Gets the name of the database
+     * Gets the name of the ExamplesAndReferences.database
      * 
-     * @return the name of the database for this data source
+     * @return the name of the ExamplesAndReferences.database for this data source
      */
     public String getDatabaseName() {
         return (this.databaseName != null) ? this.databaseName : "";
@@ -195,7 +195,7 @@ public class MysqlDataSource extends JdbcPropertySetImpl implements DataSource, 
     }
 
     /**
-     * Sets the database port.
+     * Sets the ExamplesAndReferences.database port.
      * 
      * @param p
      *            the port
@@ -303,9 +303,9 @@ public class MysqlDataSource extends JdbcPropertySetImpl implements DataSource, 
     }
 
     /**
-     * Returns the name of the database server
+     * Returns the name of the ExamplesAndReferences.database server
      * 
-     * @return the name of the database server
+     * @return the name of the ExamplesAndReferences.database server
      */
     public String getServerName() {
         return (this.hostName != null) ? this.hostName : "";
@@ -348,7 +348,7 @@ public class MysqlDataSource extends JdbcPropertySetImpl implements DataSource, 
     }
 
     /**
-     * Returns the JDBC URL that will be used to create the database connection.
+     * Returns the JDBC URL that will be used to create the ExamplesAndReferences.database connection.
      * 
      * @return the URL for this connection
      */
@@ -395,7 +395,7 @@ public class MysqlDataSource extends JdbcPropertySetImpl implements DataSource, 
      * @param props
      *            the properties to connect with
      * 
-     * @return a connection to the database
+     * @return a connection to the ExamplesAndReferences.database
      * 
      * @throws SQLException
      *             if an error occurs

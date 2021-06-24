@@ -68,7 +68,7 @@ public interface Session {
      * @param password
      *            DB user password
      * @param database
-     *            database name
+     *            ExamplesAndReferences.database name
      * 
      */
     void changeUser(String userName, String password, String database);
@@ -163,7 +163,7 @@ public interface Session {
     DataStoreMetadata getDataStoreMetadata();
 
     /**
-     * Synchronously query database with applying rows filtering and mapping.
+     * Synchronously query ExamplesAndReferences.database with applying rows filtering and mapping.
      * 
      * @param message
      *            query message
@@ -186,7 +186,7 @@ public interface Session {
     }
 
     /**
-     * Synchronously query database.
+     * Synchronously query ExamplesAndReferences.database.
      * 
      * @param message
      *            query message
@@ -203,7 +203,7 @@ public interface Session {
     }
 
     /**
-     * Asynchronously query database.
+     * Asynchronously query ExamplesAndReferences.database.
      * 
      * @param message
      *            query message

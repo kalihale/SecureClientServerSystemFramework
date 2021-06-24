@@ -36,7 +36,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.stream.IntStream;
 
 /**
- * A statement is a query or state-affecting command against a database that returns a result.
+ * A statement is a query or state-affecting command against a ExamplesAndReferences.database that returns a result.
  * 
  * @param <STMT_T>
  *            statement type

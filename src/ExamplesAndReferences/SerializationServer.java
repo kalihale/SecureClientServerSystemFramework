@@ -19,21 +19,7 @@ public class SerializationServer
         //Deserialization
         InputStream is = socket.getInputStream();
         ObjectInputStream ois = new ObjectInputStream(is);
-        sample obj1=(sample)ois.readObject();
-
-        System.out.println("Values received from Client are:-");
-        System.out.println("Name:"+obj1.name);
-        System.out.println("City:"+obj1.city);
-        System.out.println("Contact No.:"+obj1.contactnum);
-
-        obj1 = (sample)ois.readObject();
-
-        System.out.println("Values received from Client are:-");
-        System.out.println("Name:"+obj1.name);
-        System.out.println("City:"+obj1.city);
-        System.out.println("Contact No.:"+obj1.contactnum);
-
-        obj1 = (sample)ois.readObject();
+        Sample obj1=(Sample)ois.readObject();
 
         System.out.println("Values received from Client are:-");
         System.out.println("Name:"+obj1.name);

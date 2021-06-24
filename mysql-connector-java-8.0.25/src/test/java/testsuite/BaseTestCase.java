@@ -805,7 +805,7 @@ public abstract class BaseTestCase {
     }
 
     /**
-     * Checks whether the database we're connected to meets the given version
+     * Checks whether the ExamplesAndReferences.database we're connected to meets the given version
      * minimum
      * 
      * @param major
@@ -823,7 +823,7 @@ public abstract class BaseTestCase {
     }
 
     /**
-     * Checks whether the database we're connected to meets the given version
+     * Checks whether the ExamplesAndReferences.database we're connected to meets the given version
      * minimum
      * 
      * @param major

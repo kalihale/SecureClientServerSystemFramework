@@ -1,4 +1,4 @@
-package BasicClientServer;
+package Client;
 
 import ObjectsToPass.User;
 import javafx.application.Application;

@@ -32,7 +32,7 @@ package com.mysql.cj.xdevapi;
 import java.util.List;
 
 /**
- * X DevAPI introduces a new, high-level database connection concept that is called Session. When working with X DevAPI it is important to understand this new
+ * X DevAPI introduces a new, high-level ExamplesAndReferences.database connection concept that is called Session. When working with X DevAPI it is important to understand this new
  * Session concept which is different from working with traditional low-level MySQL connections.
  * <p>
  * An application using the Session class can be run against a single MySQL server or large number of MySQL servers forming a sharding cluster with no code
@@ -50,7 +50,7 @@ import java.util.List;
  * Session session = SessionFactory.getSession("root:s3kr3t@localhost");<br>
  * session.sql("USE test");
  * <p>
- * If a Session has been established using a data source file the name of the default schema can be obtained to change the current database.
+ * If a Session has been established using a data source file the name of the default schema can be obtained to change the current ExamplesAndReferences.database.
  * <p>
  * Properties p = new Properties();<br>
  * p.setProperty("dataSourceFile", "/home/app_instance50/mysqlxconfig.json");<br>

@@ -1,10 +1,7 @@
 package ObjectsToPass;
 
-import java.io.Serializable;
-
-public class User implements Serializable
+public class User extends QueryObject
 {
-    int action;
     private String userID;
     private String username;
     private String password;
@@ -14,7 +11,7 @@ public class User implements Serializable
 
     public User()
     {
-        action = -1;
+        super(-1);
         userID = "";
         username = "";
         password = "";
@@ -26,18 +23,13 @@ public class User implements Serializable
     public User(int action, String userID, String username, String password, String oldPassword,
                 String email, String userRole)
     {
-        this.action = action;
+        super(action);
         this.userID = userID;
         this.username = username;
         this.password = password;
         this.oldPassword = oldPassword;
         this.email = email;
         this.userRole = userRole;
-    }
-
-    public void setAction(int action)
-    {
-        this.action = action;
     }
 
     public void setUserID(String userID)
@@ -68,11 +60,6 @@ public class User implements Serializable
     public void setUserRole(String userRole)
     {
         this.userRole = userRole;
-    }
-
-    public int getAction()
-    {
-        return this.action;
     }
 
     public String getUserID()

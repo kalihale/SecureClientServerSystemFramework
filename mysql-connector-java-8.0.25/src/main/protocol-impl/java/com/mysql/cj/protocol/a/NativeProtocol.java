@@ -697,7 +697,7 @@ public class NativeProtocol extends AbstractProtocol<NativePacketPayload> implem
      * @throws CJException
      *             if an error packet was received
      * @throws CJCommunicationsException
-     *             if a database error occurs
+     *             if a ExamplesAndReferences.database error occurs
      */
     private NativePacketPayload checkErrorMessage(int command) {
 
@@ -1277,7 +1277,7 @@ public class NativeProtocol extends AbstractProtocol<NativePacketPayload> implem
      * @param password
      *            password
      * @param database
-     *            database name
+     *            ExamplesAndReferences.database name
      * 
      */
     public void changeUser(String user, String password, String database) {
@@ -1289,7 +1289,7 @@ public class NativeProtocol extends AbstractProtocol<NativePacketPayload> implem
     }
 
     /**
-     * Determines if the database charset is the same as the platform charset
+     * Determines if the ExamplesAndReferences.database charset is the same as the platform charset
      */
     public void checkForCharsetMismatch() {
         String characterEncoding = this.propertySet.getStringProperty(PropertyKey.characterEncoding).getValue();

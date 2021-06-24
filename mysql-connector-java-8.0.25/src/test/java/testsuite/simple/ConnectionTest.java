@@ -1859,7 +1859,7 @@ public class ConnectionTest extends BaseTestCase {
      */
     @Test
     public void testDriverAcceptsURLNullArgument() {
-        assertThrows(SQLException.class, "The database URL cannot be null.", new Callable<Void>() {
+        assertThrows(SQLException.class, "The ExamplesAndReferences.database URL cannot be null.", new Callable<Void>() {
             public Void call() throws Exception {
                 Driver mysqlDriver = new Driver();
                 mysqlDriver.acceptsURL(null);
@@ -1877,7 +1877,7 @@ public class ConnectionTest extends BaseTestCase {
     @Test
     public void testDriverConnectNullArgument() throws Exception {
         assertThrows(SQLException.class,
-                "Cannot load connection class because of underlying exception: com.mysql.cj.exceptions.WrongArgumentException: The database URL cannot be null.",
+                "Cannot load connection class because of underlying exception: com.mysql.cj.exceptions.WrongArgumentException: The ExamplesAndReferences.database URL cannot be null.",
                 new Callable<Void>() {
                     public Void call() throws Exception {
                         Driver mysqlDriver = new Driver();

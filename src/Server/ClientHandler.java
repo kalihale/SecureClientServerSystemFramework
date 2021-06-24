@@ -1,6 +1,7 @@
-package BasicClientServer;
+package Server;
 
-import ObjectsToPass.QueriesClass;
+import Shared.NetworkAccess;
+import ObjectsToPass.Queries;
 import ObjectsToPass.User;
 
 import java.io.IOException;
@@ -102,10 +103,10 @@ public class ClientHandler extends Thread {
 					System.out.println("ClientHandler sending object cmd to UserHandler");
 					networkaccess.sendObject(this.userHandler.process((User) cmd), false);
 				}
-				else if(cmd instanceof QueriesClass)
+				else if(cmd instanceof Queries)
 				{
 					System.out.println("ClientHandler sending object cmd to CommandProtocol");
-					CommandProtocol.processCommand((QueriesClass)cmd, this.networkaccess, this.clientHandler);
+					CommandProtocol.processCommand((Queries)cmd, this.networkaccess, this.clientHandler);
 				}
 				else if(cmd instanceof String)
 				{

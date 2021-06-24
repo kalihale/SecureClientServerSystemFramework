@@ -126,7 +126,7 @@ public class ResultSetImpl extends NativeResultset implements ResultSetInternalM
     /** Counter used to generate IDs for profiling. */
     static int resultCounter = 1;
 
-    /** The database that was in use when we were created */
+    /** The ExamplesAndReferences.database that was in use when we were created */
     protected String db = null;
 
     /** Keep track of columns accessed */
@@ -258,7 +258,7 @@ public class ResultSetImpl extends NativeResultset implements ResultSetInternalM
     public ResultSetImpl(ResultsetRows tuples, JdbcConnection conn, StatementImpl creatorStmt) throws SQLException {
         this.connection = conn;
         this.session = (NativeSession) conn.getSession();
-        // TODO which database to use, from connection or from statement?
+        // TODO which ExamplesAndReferences.database to use, from connection or from statement?
         this.db = creatorStmt != null ? creatorStmt.getCurrentDatabase() : conn.getDatabase();
         this.owningStatement = creatorStmt;
 
@@ -1804,7 +1804,7 @@ public class ResultSetImpl extends NativeResultset implements ResultSetInternalM
      * @return true if the new current is valid; false if there are no more rows
      * 
      * @exception java.sql.SQLException
-     *                if a database access error occurs
+     *                if a ExamplesAndReferences.database access error occurs
      */
     public boolean prev() throws java.sql.SQLException {
         synchronized (checkClosed().getConnectionMutex()) {

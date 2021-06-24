@@ -884,7 +884,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for BUG#9320 - PreparedStatement.getMetaData() inserts blank row in database under certain conditions when not using server-side prepared
+     * Tests fix for BUG#9320 - PreparedStatement.getMetaData() inserts blank row in ExamplesAndReferences.database under certain conditions when not using server-side prepared
      * statements.
      * 
      * @throws Exception
@@ -899,7 +899,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for BUG#9778, DBMD.getTables() shouldn't return tables if views are asked for, even if the database version doesn't support views.
+     * Tests fix for BUG#9778, DBMD.getTables() shouldn't return tables if views are asked for, even if the ExamplesAndReferences.database version doesn't support views.
      * 
      * @throws Exception
      */
@@ -968,13 +968,13 @@ public class MetaDataRegressionTest extends BaseTestCase {
                     .getValue();
             assertEquals(false, defaultDbConfig);
 
-            // we use the table name which also exists in `mysql' database
+            // we use the table name which also exists in `mysql' ExamplesAndReferences.database
             createTable(dbname + "." + tableName, "(field1 int)");
             createTable(tableName, "(field1 int)");
             String currentDb = ((JdbcConnection) this.conn).getPropertySet().<DatabaseTerm>getEnumProperty(PropertyKey.databaseTerm)
                     .getValue() == DatabaseTerm.SCHEMA ? this.conn.getSchema() : this.conn.getCatalog();
 
-            // default 'false' means 'any database'
+            // default 'false' means 'any ExamplesAndReferences.database'
             // we should get at least two rows here
             this.rs = this.conn.getMetaData().getTables(null, null, tableName, null);
             int totalCnt = 0;
@@ -991,7 +991,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
             assertTrue(totalCnt >= 2);
             this.rs.close();
 
-            // 'true' means only current database to be checked
+            // 'true' means only current ExamplesAndReferences.database to be checked
             Connection con = getConnectionWithProps("nullCatalogMeansCurrent=true");
             try {
                 this.rs = con.getMetaData().getTables(null, null, tableName, null);
@@ -1540,7 +1540,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for BUG#18258 - Nonexistent catalog/database causes SQLException to be raised, rather than returning empty result set.
+     * Tests fix for BUG#18258 - Nonexistent catalog/ExamplesAndReferences.database causes SQLException to be raised, rather than returning empty result set.
      * 
      * @throws Exception
      */
@@ -2435,7 +2435,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
             }
         }
 
-        assertTrue(found, "Didn't find any columns for table named 'testBug31187' in database " + this.conn.getCatalog());
+        assertTrue(found, "Didn't find any columns for table named 'testBug31187' in ExamplesAndReferences.database " + this.conn.getCatalog());
     }
 
     @Test
@@ -2568,7 +2568,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
     /**
      * Tests fix for BUG#61150 - First call to SP fails with "No Database Selected"
      * The workaround introduced in DatabaseMetaData.getCallStmtParameterTypes to fix the bug in server where SHOW CREATE PROCEDURE was not respecting
-     * lower-case table names is misbehaving when connection is not attached to database and on non-casesensitive OS.
+     * lower-case table names is misbehaving when connection is not attached to ExamplesAndReferences.database and on non-casesensitive OS.
      * 
      * @throws Exception
      */
@@ -2693,7 +2693,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
             Properties props = getPropertiesFromTestsuiteUrl();
             String dbname = props.getProperty(PropertyKey.DBNAME.getKeyName());
             if (dbname == null) {
-                assertTrue(false, "No database selected");
+                assertTrue(false, "No ExamplesAndReferences.database selected");
             }
 
             createUser("'bug61203user'@'%'", "identified by 'foo'");
@@ -2820,7 +2820,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
         try {
             Properties props = getPropertiesFromTestsuiteUrl();
             String dbname = props.getProperty(PropertyKey.DBNAME.getKeyName());
-            assertFalse(StringUtils.isNullOrEmpty(dbname), "No database selected");
+            assertFalse(StringUtils.isNullOrEmpty(dbname), "No ExamplesAndReferences.database selected");
 
             for (boolean useIS : new boolean[] { false, true }) {
                 for (boolean dbMapsToSchema : new boolean[] { false, true }) {
@@ -4082,7 +4082,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
                     }
                 } catch (SQLException e) {
                     if (e.getMessage().matches("FUNCTION `testBug20504139(:?`{2})?[fp]` does not exist")) {
-                        fail(testCase + "." + i + ". failed to retrieve function columns, with getProcedureColumns(), from database meta data.");
+                        fail(testCase + "." + i + ". failed to retrieve function columns, with getProcedureColumns(), from ExamplesAndReferences.database meta data.");
                     }
                     throw e;
                 }
@@ -4105,7 +4105,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
                     }
                 } catch (SQLException e) {
                     if (e.getMessage().matches("PROCEDURE `testBug20504139(:?`{2})?[fp]` does not exist")) {
-                        fail(testCase + "." + i + ". failed to retrieve prodedure columns, with getProcedureColumns(), from database meta data.");
+                        fail(testCase + "." + i + ". failed to retrieve prodedure columns, with getProcedureColumns(), from ExamplesAndReferences.database meta data.");
                     }
                     throw e;
                 }
@@ -4131,7 +4131,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
                     }
                 } catch (SQLException e) {
                     if (e.getMessage().matches("FUNCTION `testBug20504139(:?`{2})?[fp]` does not exist")) {
-                        fail(testCase + "." + i + ". failed to retrieve function columns, with getFunctionColumns(), from database meta data.");
+                        fail(testCase + "." + i + ". failed to retrieve function columns, with getFunctionColumns(), from ExamplesAndReferences.database meta data.");
                     }
                     throw e;
                 }
@@ -4151,7 +4151,7 @@ public class MetaDataRegressionTest extends BaseTestCase {
                     }
                 } catch (SQLException e) {
                     if (e.getMessage().matches("PROCEDURE `testBug20504139(:?`{2})?[fp]` does not exist")) {
-                        fail(testCase + "." + i + ". failed to retrieve procedure columns, with getFunctionColumns(), from database meta data.");
+                        fail(testCase + "." + i + ". failed to retrieve procedure columns, with getFunctionColumns(), from ExamplesAndReferences.database meta data.");
                     }
                     throw e;
                 }

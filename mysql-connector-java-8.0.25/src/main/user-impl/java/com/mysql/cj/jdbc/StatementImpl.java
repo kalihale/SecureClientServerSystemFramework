@@ -197,7 +197,7 @@ public class StatementImpl implements JdbcStatement {
      * @param c
      *            the Connection instance that creates us
      * @param db
-     *            the database name in use when we were created
+     *            the ExamplesAndReferences.database name in use when we were created
      * 
      * @throws SQLException
      *             if an error occurs.
@@ -409,7 +409,7 @@ public class StatementImpl implements JdbcStatement {
 
     /**
      * In many cases, it is desirable to immediately release a Statement's
-     * database and JDBC resources instead of waiting for this to happen when it
+     * ExamplesAndReferences.database and JDBC resources instead of waiting for this to happen when it
      * is automatically closed. The close method provides this immediate
      * release.
      * 
@@ -419,7 +419,7 @@ public class StatementImpl implements JdbcStatement {
      * </p>
      * 
      * @exception SQLException
-     *                if a database access error occurs
+     *                if a ExamplesAndReferences.database access error occurs
      */
     @Override
     public void close() throws SQLException {
@@ -458,7 +458,7 @@ public class StatementImpl implements JdbcStatement {
      * Close all result sets in this statement. This includes multi-results
      * 
      * @throws SQLException
-     *             if a database access error occurs
+     *             if a ExamplesAndReferences.database access error occurs
      */
     protected void implicitlyCloseAllOpenResults() throws SQLException {
         this.isImplicitlyClosingResults = true;
@@ -546,7 +546,7 @@ public class StatementImpl implements JdbcStatement {
      *            query
      * @return result set
      * @throws SQLException
-     *             if a database access error occurs or this method is called on a closed Statement
+     *             if a ExamplesAndReferences.database access error occurs or this method is called on a closed Statement
      */
     private ResultSetInternalMethods createResultSetUsingServerFetch(String sql) throws SQLException {
         synchronized (checkClosed().getConnectionMutex()) {
@@ -621,7 +621,7 @@ public class StatementImpl implements JdbcStatement {
      * @param con
      *            created this statement
      * @throws SQLException
-     *             if a database error occurs
+     *             if a ExamplesAndReferences.database error occurs
      */
     protected void setupStreamingTimeout(JdbcConnection con) throws SQLException {
         int netTimeoutForStreamingResults = this.session.getPropertySet().getIntegerProperty(PropertyKey.netTimeoutForStreamingResults).getValue();
@@ -941,7 +941,7 @@ public class StatementImpl implements JdbcStatement {
      * 
      * @return update counts in the same manner as executeBatch()
      * @throws SQLException
-     *             if a database access error occurs or this method is called on a closed PreparedStatement
+     *             if a ExamplesAndReferences.database access error occurs or this method is called on a closed PreparedStatement
      */
     private long[] executeBatchUsingMultiQueries(boolean multiQueriesEnabled, int nbrCommands, int individualStatementTimeout) throws SQLException {
 
@@ -1298,7 +1298,7 @@ public class StatementImpl implements JdbcStatement {
 
                 statementBegins();
 
-                // null database: force read of field info on DML
+                // null ExamplesAndReferences.database: force read of field info on DML
                 rs = ((NativeSession) locallyScopedConn.getSession()).execSQL(this, sql, -1, null, false, getResultSetFactory(), null, isBatch);
 
                 if (timeoutTask != null) {
@@ -1896,7 +1896,7 @@ public class StatementImpl implements JdbcStatement {
      * @param concurrencyFlag
      *            concurrency flag
      * @throws SQLException
-     *             if a database access error occurs or this method is called on a closed PreparedStatement
+     *             if a ExamplesAndReferences.database access error occurs or this method is called on a closed PreparedStatement
      */
     void setResultSetConcurrency(int concurrencyFlag) throws SQLException {
         try {
@@ -1916,7 +1916,7 @@ public class StatementImpl implements JdbcStatement {
      * @param typeFlag
      *            {@link com.mysql.cj.protocol.Resultset.Type}
      * @throws SQLException
-     *             if a database access error occurs or this method is called on a closed PreparedStatement
+     *             if a ExamplesAndReferences.database access error occurs or this method is called on a closed PreparedStatement
      */
     void setResultSetType(Resultset.Type typeFlag) throws SQLException {
         try {

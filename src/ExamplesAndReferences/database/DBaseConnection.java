@@ -1,9 +1,9 @@
-package database;
+package ExamplesAndReferences.database;
 
 // -- download MySQL from: http://dev.mysql.com/downloads/
 //    Community Server version
 // -- Installation instructions are here: http://dev.mysql.com/doc/refman/5.7/en/installing.html
-// -- open MySQL Workbench to see the contents of the database
+// -- open MySQL Workbench to see the contents of the ExamplesAndReferences.database
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -17,7 +17,7 @@ import java.sql.Statement;
 // https://docs.oracle.com/javase/tutorial/jdbc/basics/prepared.html for example SQL statements
 public class DBaseConnection {
 
-	// -- objects to be used for database access
+	// -- objects to be used for ExamplesAndReferences.database access
     private static Connection conn = null;
     private static Statement stmt = null;
     private static ResultSet rset = null;
@@ -25,9 +25,9 @@ public class DBaseConnection {
     private static String result = null;
 
     // -- root/admin
-    // -- connect to the world database
-    // -- this is the connector to the database, default port is 3306
-    //    <<Your schema name here>> is the schema (database) you created using the workbench
+    // -- connect to the world ExamplesAndReferences.database
+    // -- this is the connector to the ExamplesAndReferences.database, default port is 3306
+    //    <<Your schema name here>> is the schema (ExamplesAndReferences.database) you created using the workbench
     private static String userdatabaseURL = "jdbc:mysql://localhost:3306/userdata?useSSL=false";
     
     // -- this is the username/password, created during installation and in MySQL Workbench
@@ -40,11 +40,11 @@ public class DBaseConnection {
 		String sqlcmd; 
 		
 		try {
-            // -- make the connection to the database
+            // -- make the connection to the ExamplesAndReferences.database
 			//    performs functionality of SQL: use <<your schema>>;
 			conn = DriverManager.getConnection(userdatabaseURL, user, password);
             
-			// -- These will be used to send queries to the database
+			// -- These will be used to send queries to the ExamplesAndReferences.database
             stmt = conn.createStatement();
             
             // -- simple SQL strings as they would be typed into the workbench
@@ -102,8 +102,8 @@ public class DBaseConnection {
 
 
             // -- test an insert statement. Note that this will throw an exception if
-            //    the key already exists in the database            
-            System.out.println("inserting into the database");
+            //    the key already exists in the ExamplesAndReferences.database
+            System.out.println("inserting into the ExamplesAndReferences.database");
             String uname = "ccrdoc2";
             String pword = "ccrdoc1234";
             String email = "ccrdoc@gmail.com";

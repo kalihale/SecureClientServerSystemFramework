@@ -32,7 +32,7 @@ package com.mysql.cj.xdevapi;
 import java.util.List;
 
 /**
- * A client-side representation of a database schema. Provides access to the schema contents.
+ * A client-side representation of a ExamplesAndReferences.database schema. Provides access to the schema contents.
  */
 public interface Schema extends DatabaseObject {
 

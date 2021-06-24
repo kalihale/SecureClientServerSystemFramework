@@ -127,7 +127,7 @@ public class NativeAuthenticationProvider implements AuthenticationProvider<Nati
      * @param pass
      *            password
      * @param db
-     *            database name
+     *            ExamplesAndReferences.database name
      */
     @Override
     public void connect(ServerSession sessState, String user, String pass, String db) {
@@ -351,7 +351,7 @@ public class NativeAuthenticationProvider implements AuthenticationProvider<Nati
     }
 
     /**
-     * Performs an authentication handshake to authorize connection to a given database as a given MySQL user.
+     * Performs an authentication handshake to authorize connection to a given ExamplesAndReferences.database as a given MySQL user.
      * This can happen upon initial connection to the server, after receiving Auth Challenge Packet, or
      * at any moment during the connection life-time via a Change User request.
      * 
@@ -581,7 +581,7 @@ public class NativeAuthenticationProvider implements AuthenticationProvider<Nati
      * @param pass
      *            password
      * @param db
-     *            database name
+     *            ExamplesAndReferences.database name
      */
     @Override
     public void changeUser(ServerSession serverSession, String user, String pass, String db) {
@@ -658,7 +658,7 @@ public class NativeAuthenticationProvider implements AuthenticationProvider<Nati
         if (this.useConnectWithDb) {
             last_sent.writeBytes(StringSelfDataType.STRING_TERM, StringUtils.getBytes(this.database, enc));
         } else {
-            /* For empty database */
+            /* For empty ExamplesAndReferences.database */
             last_sent.writeInteger(IntegerDataType.INT1, 0);
         }
 

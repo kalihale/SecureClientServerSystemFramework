@@ -94,7 +94,7 @@ public class SchemaTest extends DevApiBaseTestCase {
         if (!this.isSetForXTests) {
             return;
         }
-        // this will pass as long as the test database doesn't require identifier quoting
+        // this will pass as long as the test ExamplesAndReferences.database doesn't require identifier quoting
         assertEquals("Schema(" + getTestDatabase() + ")", this.schema.toString());
         Schema needsQuoted = this.session.getSchema("terrible'schema`name");
         assertEquals("Schema(`terrible'schema``name`)", needsQuoted.toString());

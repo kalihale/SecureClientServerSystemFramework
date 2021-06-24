@@ -90,7 +90,7 @@ public class ServerPreparedStatement extends ClientPreparedStatement {
      * @param sql
      *            the SQL containing the statement to prepare.
      * @param db
-     *            the database in use when we were created.
+     *            the ExamplesAndReferences.database in use when we were created.
      * @param resultSetType
      *            ResultSet type
      * @param resultSetConcurrency
@@ -112,7 +112,7 @@ public class ServerPreparedStatement extends ClientPreparedStatement {
      * @param sql
      *            the SQL containing the statement to prepare.
      * @param db
-     *            the database in use when we were created.
+     *            the ExamplesAndReferences.database in use when we were created.
      * @param resultSetType
      *            ResultSet type
      * @param resultSetConcurrency
@@ -464,7 +464,7 @@ public class ServerPreparedStatement extends ClientPreparedStatement {
      *            is this for a stream?
      * @return {@link ServerPreparedQueryBindValue}
      * @throws SQLException
-     *             if a database access error occurs or this method is called on a closed PreparedStatement
+     *             if a ExamplesAndReferences.database access error occurs or this method is called on a closed PreparedStatement
      */
     protected ServerPreparedQueryBindValue getBinding(int parameterIndex, boolean forLongData) throws SQLException {
         synchronized (checkClosed().getConnectionMutex()) {
@@ -624,7 +624,7 @@ public class ServerPreparedStatement extends ClientPreparedStatement {
      *            use this metadata instead of the one provided on wire
      * @return result set
      * @throws SQLException
-     *             if a database access error occurs or this method is called on a closed PreparedStatement
+     *             if a ExamplesAndReferences.database access error occurs or this method is called on a closed PreparedStatement
      */
     protected ResultSetInternalMethods serverExecute(int maxRowsToRetrieve, boolean createStreamingResultSet, ColumnDefinition metadata) throws SQLException {
         synchronized (checkClosed().getConnectionMutex()) {

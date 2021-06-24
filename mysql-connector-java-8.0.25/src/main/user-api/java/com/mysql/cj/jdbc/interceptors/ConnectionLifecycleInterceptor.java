@@ -151,7 +151,7 @@ public interface ConnectionLifecycleInterceptor {
      * for setCatalog() or setSchema(), or "false" if not.
      * 
      * @param db
-     *            database name
+     *            ExamplesAndReferences.database name
      * @return "true" if the driver should perform
      *         its own internal logic for setCatalog() or setSchema(), or "false" if not.
      * 

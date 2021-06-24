@@ -54,7 +54,7 @@ import com.mysql.cj.jdbc.ha.ReplicationConnectionProxy;
 import com.mysql.cj.util.StringUtils;
 
 /**
- * The Java SQL framework allows for multiple database drivers. Each driver should supply a class that implements the Driver interface
+ * The Java SQL framework allows for multiple ExamplesAndReferences.database drivers. Each driver should supply a class that implements the Driver interface
  * 
  * <p>
  * The DriverManager will try to load as many drivers as it can find and then for any given connection request, it will ask each driver in turn to try to
@@ -123,7 +123,7 @@ public class NonRegisteringDriver implements java.sql.Driver {
      * Construct a new driver and register it with DriverManager
      * 
      * @throws SQLException
-     *             if a database error occurs.
+     *             if a ExamplesAndReferences.database error occurs.
      */
     public NonRegisteringDriver() throws SQLException {
         // Required for Class.forName().newInstance()
@@ -140,7 +140,7 @@ public class NonRegisteringDriver implements java.sql.Driver {
      * @return true if this driver accepts the given URL
      * 
      * @exception SQLException
-     *                if a database access error occurs or the url is null
+     *                if a ExamplesAndReferences.database access error occurs or the url is null
      */
     @Override
     public boolean acceptsURL(String url) throws SQLException {
@@ -148,16 +148,16 @@ public class NonRegisteringDriver implements java.sql.Driver {
     }
 
     //
-    // return the database name property
+    // return the ExamplesAndReferences.database name property
     //
 
     /**
-     * Try to make a database connection to the given URL. The driver should return "null" if it realizes it is the wrong kind of driver to connect to the given
+     * Try to make a ExamplesAndReferences.database connection to the given URL. The driver should return "null" if it realizes it is the wrong kind of driver to connect to the given
      * URL. This will be common, as when the JDBC driverManager is asked to connect to a given URL, it passes the URL to each loaded driver in turn.
      * 
      * <p>
      * The driver should raise an SQLException if the URL is null or if it is the right driver to connect to the given URL, but has trouble connecting to the
-     * database.
+     * ExamplesAndReferences.database.
      * </p>
      * 
      * <p>
@@ -166,18 +166,18 @@ public class NonRegisteringDriver implements java.sql.Driver {
      * </p>
      * 
      * <p>
-     * MySQL protocol takes the form: jdbc:mysql://host:port/database
+     * MySQL protocol takes the form: jdbc:mysql://host:port/ExamplesAndReferences.database
      * </p>
      * 
      * @param url
-     *            the URL of the database to connect to
+     *            the URL of the ExamplesAndReferences.database to connect to
      * @param info
      *            a list of arbitrary tag/value pairs as connection arguments
      * 
      * @return a connection to the URL or null if it isn't us
      * 
      * @exception SQLException
-     *                if a database access error occurs or the url is {@code null}
+     *                if a ExamplesAndReferences.database access error occurs or the url is {@code null}
      */
     @Override
     public java.sql.Connection connect(String url, Properties info) throws SQLException {

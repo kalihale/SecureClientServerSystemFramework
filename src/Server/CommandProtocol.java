@@ -1,6 +1,7 @@
-package BasicClientServer;
+package Server;
 
-import ObjectsToPass.QueriesClass;
+import Shared.NetworkAccess;
+import ObjectsToPass.Queries;
 
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -68,7 +69,7 @@ public class CommandProtocol {
 	 * @param na: NetworkAccess object for communication
 	 * @param ch: ClientHandler object requesting the processing
 	 */
-	public static void processCommand(QueriesClass obj, NetworkAccess na, ClientHandler ch)
+	public static void processCommand(Queries obj, NetworkAccess na, ClientHandler ch)
 	{
 
 	}

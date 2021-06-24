@@ -102,7 +102,7 @@ public interface Protocol<M extends Message> {
      * @param password
      *            DB user password
      * @param database
-     *            database name
+     *            ExamplesAndReferences.database name
      */
     void connect(String user, String password, String database);
 
@@ -122,7 +122,7 @@ public interface Protocol<M extends Message> {
      * @param password
      *            DB user password
      * @param database
-     *            database name
+     *            ExamplesAndReferences.database name
      * 
      */
     void changeUser(String user, String password, String database);

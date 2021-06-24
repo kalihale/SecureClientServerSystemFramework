@@ -1,6 +1,7 @@
-package BasicClientServer;
+package Client;
 
 
+import Shared.NetworkAccess;
 import ObjectsToPass.User;
 
 public class Client {

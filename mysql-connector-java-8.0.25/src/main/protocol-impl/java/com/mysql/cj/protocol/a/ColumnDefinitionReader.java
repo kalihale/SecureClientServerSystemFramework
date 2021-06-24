@@ -94,7 +94,7 @@ public class ColumnDefinitionReader implements ProtocolEntityReader<ColumnDefini
         int offset, length;
 
         length = (int) packet.readInteger(IntegerDataType.INT_LENENC);
-        packet.setPosition(packet.getPosition() + length); // skip database name
+        packet.setPosition(packet.getPosition() + length); // skip ExamplesAndReferences.database name
 
         length = (int) packet.readInteger(IntegerDataType.INT_LENENC);
         offset = packet.getPosition();

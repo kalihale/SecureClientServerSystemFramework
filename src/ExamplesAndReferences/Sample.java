@@ -6,7 +6,7 @@ package ExamplesAndReferences;
 
 import java.io.Serializable;
 
-public class sample implements Serializable
+public class Sample implements Serializable
 {
     String name;
     String city;

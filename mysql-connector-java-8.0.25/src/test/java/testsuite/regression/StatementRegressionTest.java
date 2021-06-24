@@ -1321,7 +1321,7 @@ public class StatementRegressionTest extends BaseTestCase {
             long deltaOrig = Math.abs(stmtDeltaTWithCal - pointInTimeOffset);
 
             assertTrue((deltaOrig < epsillon), "Difference between original timestamp and timestamp retrieved using java.sql.Statement "
-                    + "set in database using UTC calendar is not ~= " + epsillon + ", it is actually " + deltaOrig);
+                    + "set in ExamplesAndReferences.database using UTC calendar is not ~= " + epsillon + ", it is actually " + deltaOrig);
 
             long pStmtDeltaTWithCal = (ts.getTime() - tsValuePstmtNoCal.getTime());
 
@@ -1329,7 +1329,7 @@ public class StatementRegressionTest extends BaseTestCase {
                     Math.abs(pStmtDeltaTWithCal - pointInTimeOffset) + " < " + epsillon + (Math.abs(pStmtDeltaTWithCal - pointInTimeOffset) < epsillon));
             assertTrue((Math.abs(pStmtDeltaTWithCal - pointInTimeOffset) < epsillon),
                     "Difference between original timestamp and timestamp retrieved using java.sql.PreparedStatement "
-                            + "set in database using UTC calendar is not ~= " + epsillon + ", it is actually " + pStmtDeltaTWithCal);
+                            + "set in ExamplesAndReferences.database using UTC calendar is not ~= " + epsillon + ", it is actually " + pStmtDeltaTWithCal);
 
             System.out.println("Difference between original ts and ts with no calendar: " + (ts.getTime() - tsValuePstmtNoCal.getTime()) + ", offset should be "
                     + pointInTimeOffset);
@@ -1428,12 +1428,12 @@ public class StatementRegressionTest extends BaseTestCase {
             long stmtDeltaTWithCal = (tsValueStmtNoCal.getTime() - ts.getTime());
             long deltaOrig = Math.abs(stmtDeltaTWithCal - pointInTimeOffset);
             assertTrue((deltaOrig < epsillon), "Difference between original timestamp and timestamp retrieved using java.sql.Statement "
-                    + "set in database using UTC calendar is not ~= " + epsillon + " it is actually " + deltaOrig);
+                    + "set in ExamplesAndReferences.database using UTC calendar is not ~= " + epsillon + " it is actually " + deltaOrig);
 
             long pStmtDeltaTWithCal = (tsValuePstmtNoCal.getTime() - ts.getTime());
             deltaOrig = Math.abs(pStmtDeltaTWithCal - pointInTimeOffset);
             assertTrue((deltaOrig < epsillon), "Difference between original timestamp and timestamp retrieved using java.sql.PreparedStatement "
-                    + "set in database using UTC calendar is not ~= " + epsillon + ", it is actually " + deltaOrig);
+                    + "set in ExamplesAndReferences.database using UTC calendar is not ~= " + epsillon + ", it is actually " + deltaOrig);
 
             System.out.println("Difference between original ts and ts with no calendar: " + (tsValuePstmtNoCal.getTime() - ts.getTime()) + ", offset should be "
                     + pointInTimeOffset);
@@ -7004,7 +7004,7 @@ public class StatementRegressionTest extends BaseTestCase {
     /**
      * Tests fix for BUG#68916 - closeOnCompletion doesn't work.
      * 
-     * This test requires help and timezone tables in mysql database to be initialized, see http://dev.mysql.com/doc/refman/5.7/en/time-zone-support.html and
+     * This test requires help and timezone tables in mysql ExamplesAndReferences.database to be initialized, see http://dev.mysql.com/doc/refman/5.7/en/time-zone-support.html and
      * http://dev.mysql.com/doc/refman/5.7/en/server-side-help-support.html
      * 
      * @throws Exception
@@ -10674,7 +10674,7 @@ public class StatementRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for Bug#87534 - UNION ALL query fails when useServerPrepStmts=true on database connection.
+     * Tests fix for Bug#87534 - UNION ALL query fails when useServerPrepStmts=true on ExamplesAndReferences.database connection.
      * Base Bug#27422376 - NEWDATE TYPE IS LEAKING OUT, fixed in MySQL 5.7.22.
      * 
      * @throws Exception

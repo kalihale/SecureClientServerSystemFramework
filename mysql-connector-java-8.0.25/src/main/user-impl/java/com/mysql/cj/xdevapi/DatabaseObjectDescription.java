@@ -40,9 +40,9 @@ public class DatabaseObjectDescription {
      * Constructor.
      * 
      * @param name
-     *            database object name
+     *            ExamplesAndReferences.database object name
      * @param type
-     *            database object type, one of COLLECTION, TABLE, VIEW or COLLECTION_VIEW
+     *            ExamplesAndReferences.database object type, one of COLLECTION, TABLE, VIEW or COLLECTION_VIEW
      */
     public DatabaseObjectDescription(String name, String type) {
         this.objectName = name;
@@ -50,16 +50,16 @@ public class DatabaseObjectDescription {
     }
 
     /**
-     * Get database object name.
+     * Get ExamplesAndReferences.database object name.
      * 
-     * @return database object name
+     * @return ExamplesAndReferences.database object name
      */
     public String getObjectName() {
         return this.objectName;
     }
 
     /**
-     * Get database object type
+     * Get ExamplesAndReferences.database object type
      * 
      * @return {@link DatabaseObject.DbObjectType}
      */

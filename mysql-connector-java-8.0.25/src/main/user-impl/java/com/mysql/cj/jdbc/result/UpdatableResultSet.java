@@ -226,8 +226,8 @@ public class UpdatableResultSet extends ResultSetImpl {
             int primaryKeyCount = 0;
 
             Field[] fields = this.getMetadata().getFields();
-            // We can only do this if we know that there is a currently selected database, or if we're talking to a > 4.1 version of MySQL server (as it returns
-            // database names in field info)
+            // We can only do this if we know that there is a currently selected ExamplesAndReferences.database, or if we're talking to a > 4.1 version of MySQL server (as it returns
+            // ExamplesAndReferences.database names in field info)
             if ((this.db == null) || (this.db.length() == 0)) {
                 this.db = fields[0].getDatabaseName();
 
@@ -283,7 +283,7 @@ public class UpdatableResultSet extends ResultSetImpl {
                         return;
                     }
 
-                    // Can't reference more than one database
+                    // Can't reference more than one ExamplesAndReferences.database
                     if ((dbName == null) || !dbName.equals(otherDbName)) {
                         this.isUpdatable = false;
                         this.notUpdatableReason = Messages.getString("NotUpdatableReason.1");

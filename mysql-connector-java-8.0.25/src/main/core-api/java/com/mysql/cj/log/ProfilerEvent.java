@@ -85,9 +85,9 @@ public interface ProfilerEvent {
     String getHostName();
 
     /**
-     * Returns the database the event occurred on.
+     * Returns the ExamplesAndReferences.database the event occurred on.
      * 
-     * @return the database in use
+     * @return the ExamplesAndReferences.database in use
      */
     String getDatabase();
 

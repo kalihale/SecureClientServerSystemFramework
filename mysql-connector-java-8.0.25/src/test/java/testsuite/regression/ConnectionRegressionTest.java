@@ -234,7 +234,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Tests fix for BUG#3554 - Not specifying database in URL causes MalformedURL exception.
+     * Tests fix for BUG#3554 - Not specifying ExamplesAndReferences.database in URL causes MalformedURL exception.
      * 
      * @throws Exception
      */
@@ -3389,7 +3389,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
             }
 
             String dbname = getPropertiesFromTestsuiteUrl().getProperty(PropertyKey.DBNAME.getKeyName());
-            assertFalse(StringUtils.isNullOrEmpty(dbname), "No database selected");
+            assertFalse(StringUtils.isNullOrEmpty(dbname), "No ExamplesAndReferences.database selected");
 
             // Create proxy users.
             createUser("'wl5851user1'@'%'", "IDENTIFIED WITH test_plugin_server AS 'wl5851user1prx'");
@@ -3444,7 +3444,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
             }
 
             String dbname = getPropertiesFromTestsuiteUrl().getProperty(PropertyKey.DBNAME.getKeyName());
-            assertFalse(StringUtils.isNullOrEmpty(dbname), "No database selected");
+            assertFalse(StringUtils.isNullOrEmpty(dbname), "No ExamplesAndReferences.database selected");
 
             createUser("'wl5851user2'@'%'", "IDENTIFIED WITH two_questions AS 'two_questions_password'");
             this.stmt.executeUpdate("DELETE FROM mysql.db WHERE user='wl5851user2'");
@@ -3495,7 +3495,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
             }
 
             String dbname = getPropertiesFromTestsuiteUrl().getProperty(PropertyKey.DBNAME.getKeyName());
-            assertFalse(StringUtils.isNullOrEmpty(dbname), "No database selected");
+            assertFalse(StringUtils.isNullOrEmpty(dbname), "No ExamplesAndReferences.database selected");
 
             createUser("'wl5851user3'@'%'", "IDENTIFIED WITH three_attempts AS 'three_attempts_password'");
             this.stmt.executeUpdate("DELETE FROM mysql.db WHERE user='wl5851user3'");
@@ -3769,7 +3769,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
             }
 
             String dbname = getPropertiesFromTestsuiteUrl().getProperty(PropertyKey.DBNAME.getKeyName());
-            assertFalse(StringUtils.isNullOrEmpty(dbname), "No database selected");
+            assertFalse(StringUtils.isNullOrEmpty(dbname), "No ExamplesAndReferences.database selected");
 
             createUser("'wl5735user'@'%'", "identified WITH cleartext_plugin_server AS ''");
             this.stmt.executeUpdate("DELETE FROM mysql.db WHERE user='wl5735user'");
@@ -4250,7 +4250,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
         Properties props = getPropertiesFromTestsuiteUrl();
         String dbname = props.getProperty(PropertyKey.DBNAME.getKeyName());
         if (dbname == null) {
-            assertTrue(false, "No database selected");
+            assertTrue(false, "No ExamplesAndReferences.database selected");
         }
 
         props = new Properties();
@@ -6898,7 +6898,7 @@ public class ConnectionRegressionTest extends BaseTestCase {
                 testPstmt.close();
 
                 Statement testStmt = testConn.createStatement();
-                // Get date value from database: Column `dt` - allowing time zone conversion by returning it as is; Column `dtStr` - preventing time zone
+                // Get date value from ExamplesAndReferences.database: Column `dt` - allowing time zone conversion by returning it as is; Column `dtStr` - preventing time zone
                 // conversion by returning it as String and invalidating the date format so that no automatic conversion can ever happen.
                 ResultSet restRs = testStmt.executeQuery("SELECT dt, CONCAT('$', dt) AS dtStr FROM testBug71084 WHERE id = " + id);
                 restRs.next();
@@ -10441,8 +10441,8 @@ public class ConnectionRegressionTest extends BaseTestCase {
      */
     @Test
     public void testBug79612() throws Exception {
-        // The case with database present in URL is covered by testConnectionAttributes() test case.
-        // Testing without database here.
+        // The case with ExamplesAndReferences.database present in URL is covered by testConnectionAttributes() test case.
+        // Testing without ExamplesAndReferences.database here.
         if (versionMeetsMinimum(5, 6)) {
             testConnectionAttributes(getNoDbUrl(dbUrl));
         }
@@ -11020,11 +11020,11 @@ public class ConnectionRegressionTest extends BaseTestCase {
             fail("sha256_password required to run this test");
         }
 
-        this.rs = s1.executeQuery("select database()");
+        this.rs = s1.executeQuery("select ExamplesAndReferences.database()");
         this.rs.next();
         String origDb = this.rs.getString(1);
         System.out.println("URL [" + url + "]");
-        System.out.println("1. Original database [" + origDb + "]");
+        System.out.println("1. Original ExamplesAndReferences.database [" + origDb + "]");
 
         try {
             // create user with required password and sha256_password auth
@@ -11043,10 +11043,10 @@ public class ConnectionRegressionTest extends BaseTestCase {
             Statement s2 = c2.createStatement();
 
             ((JdbcConnection) c2).changeUser("Bug25642226u1", pwd);
-            this.rs = s2.executeQuery("select database()");
+            this.rs = s2.executeQuery("select ExamplesAndReferences.database()");
             this.rs.next();
             System.out.println("2. Database after sha256 changeUser [" + this.rs.getString(1) + "]");
-            assertEquals(origDb, this.rs.getString(1)); // was returning null for database name
+            assertEquals(origDb, this.rs.getString(1)); // was returning null for ExamplesAndReferences.database name
             this.rs = s2.executeQuery("show tables"); // was failing with exception
 
             // create user with required password and caching_sha2_password auth
@@ -11062,10 +11062,10 @@ public class ConnectionRegressionTest extends BaseTestCase {
                 s1.executeUpdate("flush privileges");
 
                 ((JdbcConnection) c2).changeUser("Bug25642226u2", pwd);
-                this.rs = s2.executeQuery("select database()");
+                this.rs = s2.executeQuery("select ExamplesAndReferences.database()");
                 this.rs.next();
                 System.out.println("3. Database after sha2 changeUser [" + this.rs.getString(1) + "]");
-                assertEquals(origDb, this.rs.getString(1)); // was returning null for database name
+                assertEquals(origDb, this.rs.getString(1)); // was returning null for ExamplesAndReferences.database name
                 this.rs = s2.executeQuery("show tables"); // was failing with exception
             }
 

@@ -1,10 +1,7 @@
 package ObjectsToPass;
 
-import java.io.Serializable;
-
-public class QueriesClass implements Serializable
+public class Queries extends QueryObject
 {
-    int queryNum;
     String firstName;
     String lastName;
     String birthdate;
@@ -12,20 +9,15 @@ public class QueriesClass implements Serializable
     String clubSubject;
     String clubDescription;
 
-    public QueriesClass()
+    public Queries()
     {
-        queryNum = -1;
+        super(-1);
         firstName = "";
         lastName = "";
         birthdate = "";
         clubName = "";
         clubSubject = "";
         clubDescription = "";
-    }
-
-    public void setQueryNum(int queryNum)
-    {
-        this.queryNum = queryNum;
     }
 
     public void setFirstName(String firstName)
@@ -56,11 +48,6 @@ public class QueriesClass implements Serializable
     public void setClubDescription(String clubDescription)
     {
         this.clubDescription = clubDescription;
-    }
-
-    public int getQueryNum()
-    {
-        return queryNum;
     }
 
     public String getFirstName()

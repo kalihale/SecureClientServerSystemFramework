@@ -166,7 +166,7 @@ public class SessionTest extends DevApiBaseTestCase {
                 assertEquals(testSchemaName, testSession.getDefaultSchemaName(), testCase);
                 assertNotNull(testSession.getDefaultSchema(), testCase);
                 assertEquals(testSchemaName, testSession.getDefaultSchema().getName(), testCase);
-                assertEquals(testSchemaName, testSession.sql("SELECT database()").execute().fetchOne().getString(0), testCase);
+                assertEquals(testSchemaName, testSession.sql("SELECT ExamplesAndReferences.database()").execute().fetchOne().getString(0), testCase);
                 testSession.close();
 
                 // Test using a properties map.
@@ -183,7 +183,7 @@ public class SessionTest extends DevApiBaseTestCase {
                 assertEquals(testSchemaName, testSession.getDefaultSchemaName(), testCase);
                 assertNotNull(testSession.getDefaultSchema(), testCase);
                 assertEquals(testSchemaName, testSession.getDefaultSchema().getName(), testCase);
-                assertEquals(testSchemaName, testSession.sql("SELECT database()").execute().fetchOne().getString(0), testCase);
+                assertEquals(testSchemaName, testSession.sql("SELECT ExamplesAndReferences.database()").execute().fetchOne().getString(0), testCase);
                 testSession.close();
             }
         } finally {
@@ -220,7 +220,7 @@ public class SessionTest extends DevApiBaseTestCase {
                     assertTrue(testSession.getUri().contains("/?"), testCase);
                     assertEquals("", testSession.getDefaultSchemaName(), testCase);
                     assertNull(testSession.getDefaultSchema(), testCase);
-                    assertNull(testSession.sql("SELECT database()").execute().fetchOne().getString(0), testCase);
+                    assertNull(testSession.sql("SELECT ExamplesAndReferences.database()").execute().fetchOne().getString(0), testCase);
                     testSession.close();
                 }
 
@@ -237,7 +237,7 @@ public class SessionTest extends DevApiBaseTestCase {
                 assertTrue(testSession.getUri().contains("/?"), testCase);
                 assertEquals("", testSession.getDefaultSchemaName(), testCase);
                 assertNull(testSession.getDefaultSchema(), testCase);
-                assertNull(testSession.sql("SELECT database()").execute().fetchOne().getString(0), testCase);
+                assertNull(testSession.sql("SELECT ExamplesAndReferences.database()").execute().fetchOne().getString(0), testCase);
                 testSession.close();
             }
         } finally {
@@ -270,7 +270,7 @@ public class SessionTest extends DevApiBaseTestCase {
                 // Test using a connection String.
                 final String testUri = String.format(testUriPattern, getTestHost(), getTestPort(), testSchemaName, authMech);
 
-                assertThrows(testCase, XProtocolError.class, "ERROR \\d{4} \\(HY000\\) Unknown database '" + testSchemaName + "'", () -> {
+                assertThrows(testCase, XProtocolError.class, "ERROR \\d{4} \\(HY000\\) Unknown ExamplesAndReferences.database '" + testSchemaName + "'", () -> {
                     testSessionFactory.getSession(testUri);
                     return null;
                 });
@@ -284,7 +284,7 @@ public class SessionTest extends DevApiBaseTestCase {
                 testProps.setProperty(PropertyKey.DBNAME.getKeyName(), testSchemaName);
                 testProps.setProperty(PropertyKey.xdevapiAuth.getKeyName(), authMech);
 
-                assertThrows(testCase, XProtocolError.class, "ERROR \\d{4} \\(HY000\\) Unknown database '" + testSchemaName + "'", () -> {
+                assertThrows(testCase, XProtocolError.class, "ERROR \\d{4} \\(HY000\\) Unknown ExamplesAndReferences.database '" + testSchemaName + "'", () -> {
                     testSessionFactory.getSession(testUri);
                     return null;
                 });

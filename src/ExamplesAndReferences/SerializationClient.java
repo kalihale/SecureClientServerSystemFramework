@@ -12,7 +12,7 @@ public class SerializationClient
 {
     public static void main(String[] args) throws Exception
     {
-        sample obj=new sample();
+        Sample obj=new Sample();
         obj.name="Ramesh";
         obj.city="Pune";
         obj.contactnum="9090909090";
@@ -26,12 +26,7 @@ public class SerializationClient
         System.out.println("Sending values to the ServerSocket");
         oos.writeObject(obj);
 
-        sample o2 = new sample();
-
-        System.out.println("Sending values a second time");
-        o2.name = "Kali";
-        o2.city = "TO";
-        o2.contactnum = "123456789";
+        String o2 = "test";
         oos.writeObject(o2);
 
         obj.name = "tryagain";

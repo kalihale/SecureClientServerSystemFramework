@@ -77,7 +77,7 @@ import com.mysql.cj.util.StringUtils;
 /**
  * JDBC Interface to Mysql functions
  * <p>
- * This class provides information about the database as a whole.
+ * This class provides information about the ExamplesAndReferences.database as a whole.
  * </p>
  * <p>
  * Many of the methods here return lists of information in ResultSets. You can use the normal ResultSet methods such as getString and getInt to retrieve the
@@ -736,12 +736,12 @@ public class DatabaseMetaData implements java.sql.DatabaseMetaData {
 
     private static volatile String mysqlKeywords = null;
 
-    /** The connection to the database */
+    /** The connection to the ExamplesAndReferences.database */
     protected JdbcConnection conn;
 
     protected NativeSession session;
 
-    /** The 'current' database name being used */
+    /** The 'current' ExamplesAndReferences.database name being used */
     protected String database = null;
 
     /** What character to use when quoting identifiers */
@@ -775,7 +775,7 @@ public class DatabaseMetaData implements java.sql.DatabaseMetaData {
      * @param connToSet
      *            Connection object
      * @param databaseToSet
-     *            database name
+     *            ExamplesAndReferences.database name
      * @param resultSetFactory
      *            {@link ResultSetFactory}
      */
@@ -1000,10 +1000,10 @@ public class DatabaseMetaData implements java.sql.DatabaseMetaData {
      * @param rs
      *            the result set from 'SHOW CREATE TABLE'
      * @param dbName
-     *            the database name
+     *            the ExamplesAndReferences.database name
      * @return the list of rows with new rows added
      * @throws SQLException
-     *             if a database access error occurs
+     *             if a ExamplesAndReferences.database access error occurs
      */
     public List<Row> extractForeignKeyForTable(ArrayList<Row> rows, java.sql.ResultSet rs, String dbName) throws SQLException {
         byte[][] row = new byte[3][];
@@ -1143,12 +1143,12 @@ public class DatabaseMetaData implements java.sql.DatabaseMetaData {
      * same code to work on extracting the foreign key data
      * 
      * @param dbName
-     *            the database name to extract foreign key info for
+     *            the ExamplesAndReferences.database name to extract foreign key info for
      * @param tableName
      *            the table to extract foreign key info for
      * @return A result set that has the structure of 'show table status'
      * @throws SQLException
-     *             if a database access error occurs.
+     *             if a ExamplesAndReferences.database access error occurs.
      */
     public ResultSet extractForeignKeyFromCreateTable(String dbName, String tableName) throws SQLException {
         ArrayList<String> tableList = new ArrayList<>();
@@ -1446,7 +1446,7 @@ public class DatabaseMetaData implements java.sql.DatabaseMetaData {
                 dbName = StringUtils.quoteIdentifier(db, this.quotedId, this.pedantic);
             }
 
-            // Moved from above so that procName is *without* database as expected by the rest of code
+            // Moved from above so that procName is *without* ExamplesAndReferences.database as expected by the rest of code
             // Removing QuoteChar to get output as it was before PROC_CAT fixes
             String tmpProcName = StringUtils.unQuoteIdentifier(quotedProcName, this.quotedId);
             procNameAsBytes = StringUtils.getBytes(tmpProcName, "UTF-8");
@@ -1841,9 +1841,9 @@ public class DatabaseMetaData implements java.sql.DatabaseMetaData {
     }
 
     /**
-     * Retrieves the database names available on this server. The results are ordered by database name.
+     * Retrieves the ExamplesAndReferences.database names available on this server. The results are ordered by ExamplesAndReferences.database name.
      * 
-     * @return list of database names
+     * @return list of ExamplesAndReferences.database names
      * @throws SQLException
      *             if an error occurs
      */
@@ -1852,11 +1852,11 @@ public class DatabaseMetaData implements java.sql.DatabaseMetaData {
     }
 
     /**
-     * Retrieves the database names matching the dbPattern available on this server. The results are ordered by database name.
+     * Retrieves the ExamplesAndReferences.database names matching the dbPattern available on this server. The results are ordered by ExamplesAndReferences.database name.
      * 
      * @param dbPattern
-     *            database name pattern
-     * @return list of database names
+     *            ExamplesAndReferences.database name pattern
+     * @return list of ExamplesAndReferences.database names
      * @throws SQLException
      *             if an error occurs
      */
@@ -1948,7 +1948,7 @@ public class DatabaseMetaData implements java.sql.DatabaseMetaData {
 
     @Override
     public String getCatalogTerm() throws SQLException {
-        return this.databaseTerm.getValue() == DatabaseTerm.SCHEMA ? "CATALOG" : "database";
+        return this.databaseTerm.getValue() == DatabaseTerm.SCHEMA ? "CATALOG" : "ExamplesAndReferences/database";
     }
 
     protected String getDatabase(String catalog, String schema) {
@@ -3222,7 +3222,7 @@ public class DatabaseMetaData implements java.sql.DatabaseMetaData {
      *            true if functions should be included into result
      * @return result set
      * @throws SQLException
-     *             if a database access error occurs
+     *             if a ExamplesAndReferences.database access error occurs
      */
     protected java.sql.ResultSet getProceduresAndOrFunctions(final Field[] fields, String catalog, String schemaPattern, final String procedureNamePattern,
             final boolean returnProcedures, final boolean returnFunctions) throws SQLException {
@@ -3373,7 +3373,7 @@ public class DatabaseMetaData implements java.sql.DatabaseMetaData {
      * KeysComment is that part of the comment field that follows the "InnoDB free ...;" prefix.
      * 
      * @param db
-     *            the database to use
+     *            the ExamplesAndReferences.database to use
      * @param table
      *            the table keys are being exported from or imported to
      * @param keysComment
@@ -3468,11 +3468,11 @@ public class DatabaseMetaData implements java.sql.DatabaseMetaData {
     }
 
     /**
-     * Get a comma separated list of all a database's SQL keywords that are NOT also SQL92/SQL2003 keywords.
+     * Get a comma separated list of all a ExamplesAndReferences.database's SQL keywords that are NOT also SQL92/SQL2003 keywords.
      * 
      * @return the list
      * @throws SQLException
-     *             if a database access error occurs
+     *             if a ExamplesAndReferences.database access error occurs
      */
     @Override
     public String getSQLKeywords() throws SQLException {
@@ -4897,7 +4897,7 @@ public class DatabaseMetaData implements java.sql.DatabaseMetaData {
      *            query
      * @return PreparedStatement
      * @throws SQLException
-     *             if a database access error occurs
+     *             if a ExamplesAndReferences.database access error occurs
      */
     protected java.sql.PreparedStatement prepareMetaDataSafeStatement(String sql) throws SQLException {
         // Can't use server-side here as we coerce a lot of types to match the spec.

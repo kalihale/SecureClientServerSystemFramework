@@ -82,7 +82,7 @@ public class TableTest extends BaseTableTestCase {
             Table view = this.schema.getTable("viewBasics");
             assertEquals(DbObjectStatus.NOT_EXISTS, view.existsInDatabase());
 
-            // all objects return false for isView() if they don't exist in database 
+            // all objects return false for isView() if they don't exist in ExamplesAndReferences.database
             assertFalse(table.isView());
             assertFalse(view.isView());
 

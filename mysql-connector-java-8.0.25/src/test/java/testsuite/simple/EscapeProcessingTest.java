@@ -144,7 +144,7 @@ public class EscapeProcessingTest extends BaseTestCase {
                 + " -- {escape } processing test\n -- this {fn ucase('comment') is in line 2\r\n"
                 + " -- this in line 3, and previous escape sequence was malformed\n");
         assertTrue(this.rs.next());
-        assertEquals("my{fn ucase(sql)}} -- database", this.rs.getString(1));
+        assertEquals("my{fn ucase(sql)}} -- ExamplesAndReferences.database", this.rs.getString(1));
         assertEquals("SERVER", this.rs.getString(2));
         this.rs.close();
 

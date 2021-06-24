@@ -116,7 +116,7 @@ public class DateTest extends BaseTestCase {
             java.sql.Timestamp thenDatetime = this.rs.getTimestamp(3, calGMT);
 
             java.sql.Time thenTime = this.rs.getTime(4, cal);
-            System.out.println("** Times with given calendar (retrieved from database) **\n");
+            System.out.println("** Times with given calendar (retrieved from ExamplesAndReferences.database) **\n");
             System.out.println("TIMESTAMP:\t" + thenTstamp.getTime() + " -> " + df.format(thenTstamp));
             System.out.println("DATE:\t\t" + thenDate.getTime() + " -> " + df.format(thenDate));
             System.out.println("DATETIME:\t" + thenDatetime.getTime() + " -> " + df.format(thenDatetime));

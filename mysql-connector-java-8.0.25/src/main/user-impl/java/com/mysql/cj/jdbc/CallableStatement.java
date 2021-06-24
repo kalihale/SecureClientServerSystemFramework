@@ -473,7 +473,7 @@ public class CallableStatement extends ClientPreparedStatement implements java.s
      * @param sql
      *            the SQL to prepare
      * @param db
-     *            the current database
+     *            the current ExamplesAndReferences.database
      * @param isFunctionCall
      *            is it a function call or a procedure call?
      * @return CallableStatement
@@ -566,7 +566,7 @@ public class CallableStatement extends ClientPreparedStatement implements java.s
      * @param sql
      *            the SQL to prepare
      * @param db
-     *            the current database
+     *            the current ExamplesAndReferences.database
      * @param isFunctionCall
      *            is it a function call or a procedure call?
      * 
@@ -655,7 +655,7 @@ public class CallableStatement extends ClientPreparedStatement implements java.s
      *            parameter index
      * 
      * @throws SQLException
-     *             if a database access error occurs or this method is called on a closed PreparedStatement
+     *             if a ExamplesAndReferences.database access error occurs or this method is called on a closed PreparedStatement
      */
     private void checkParameterIndexBounds(int paramIndex) throws SQLException {
         synchronized (checkClosed().getConnectionMutex()) {
@@ -669,7 +669,7 @@ public class CallableStatement extends ClientPreparedStatement implements java.s
      * can not stream the results.
      * 
      * @throws SQLException
-     *             if a database access error occurs
+     *             if a ExamplesAndReferences.database access error occurs
      */
     private void checkStreamability() throws SQLException {
         if (this.hasOutputParams && createStreamingResultSet()) {
@@ -2263,7 +2263,7 @@ public class CallableStatement extends ClientPreparedStatement implements java.s
      * 
      * @return true if procedure does not alter data
      * @throws SQLException
-     *             if a database access error occurs or this method is called on a closed PreparedStatement
+     *             if a ExamplesAndReferences.database access error occurs or this method is called on a closed PreparedStatement
      */
     private boolean checkReadOnlyProcedure() throws SQLException {
         synchronized (checkClosed().getConnectionMutex()) {

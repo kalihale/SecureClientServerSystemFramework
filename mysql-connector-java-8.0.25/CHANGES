@@ -316,7 +316,7 @@ Version 8.0.13
 
   - Fix for Bug#72609 (18749544), SETDATE() NOT USING A PROLEPTIC GREGORIAN CALENDAR.
 
-  - Fix for Bug#87534 (26730196), UNION ALL query fails when useServerPrepStmts=true on database connection.
+  - Fix for Bug#87534 (26730196), UNION ALL query fails when useServerPrepStmts=true on ExamplesAndReferences.database connection.
     Test case only. Base bug fixed in MySQL 5.7.22.
 
   - Fix for Bug#89948 (27658489), Batched statements are not committed for useLocalTransactionState=true.
@@ -682,7 +682,7 @@ Version 6.0.6
 
   - Fix for Bug#24301468 X DEVAPI SSL CONNECTION FAILS ON WINDOWS
 
-  - The X DevAPI Table object now represents both database tables and views.
+  - The X DevAPI Table object now represents both ExamplesAndReferences.database tables and views.
 
   - Added support for matching against pattern for X DevAPI list_objects calls.
     Added Schema.getCollections(String pattern) and Schema.getTables(String pattern) interface methods.
@@ -793,7 +793,7 @@ Version 6.0.6
   - Fix for Bug#76859 (20969312), DBMD getColumns using I_S doesn't have column IS_GENERATEDCOLUMN as per JDBC 4.1.
     Added support for GENERATED COLUMNS.
 
-  - Update Time Zone mappings with IANA Time Zone database tsdata2015f and Unicode CLDR v.28.
+  - Update Time Zone mappings with IANA Time Zone ExamplesAndReferences.database tsdata2015f and Unicode CLDR v.28.
 
   - Update DatabaseMetaData SQL keywords.
 
@@ -1341,7 +1341,7 @@ Version 6.0.6
     
   - Implemented JDBC-4.1 methods from Java-7:
   
-       - Connection.setSchema(String) - no-op, until we support database==schema in the driver
+       - Connection.setSchema(String) - no-op, until we support ExamplesAndReferences.database==schema in the driver
        - Connection.getSchema() - see above
        - Connection.abort(Executor executor)
        - Connection.setNetworkTimeout(Executor, int)
@@ -1464,12 +1464,12 @@ Version 6.0.6
     Databases/tables with "_" and/or "%" in their names (escaped or not) will be handled by this code path,
 	although slower, since it's rare to find these characters in table names in SQL. If there's a "_" or "%"
 	in the string, LIKE will take care of that, otherwise we now use = . The only exception is
-	information_schema database which is handled separately. Patch covers both getTables() and getColumns().
+	information_schema ExamplesAndReferences.database which is handled separately. Patch covers both getTables() and getColumns().
 
   - Fix for Bug#61150 - First call to stored procedure fails with "No Database Selected".
 	The workaround introduced in DatabaseMetaData.getCallStmtParameterTypes to fix
 	the bug in server where SHOW CREATE PROCEDURE was not respecting lower-case table names
-	is misbehaving when connection is not attached to database and on non-casesensitive OS.
+	is misbehaving when connection is not attached to ExamplesAndReferences.database and on non-casesensitive OS.
 
   - Fix for Bug#61105 - Avoid a concurrent bottleneck in Java's character set
     encoding/decoding when converting bytes to/from Strings.
@@ -1579,7 +1579,7 @@ Version 6.0.6
 	 server version is done via protocol flags too, where applicable.
 
    - Fix for Bug#57022 - cannot execute a store procedure with output parameters,
-     database parameter was ignored in db.sp notation. The fix is to "sanitize" 
+     ExamplesAndReferences.database parameter was ignored in db.sp notation. The fix is to "sanitize"
 	 db.sp call just like in patch for noAccessToProcedureBodies. BaseTestCase
 	 extended with createDatabase and dropDatabase. Regression test added.
 
@@ -2077,11 +2077,11 @@ Version 6.0.6
 	- Fixed BUG#35489 - Prepared statements from pooled connections cause NPE when closed() under JDBC-4.0.
 	
 	- Added connection property "useLocalTransactionState" which configures if the driver use the in-transaction 
-	  state provided by the MySQL protocol to determine if a commit() or rollback() should actually be sent to the database.
+	  state provided by the MySQL protocol to determine if a commit() or rollback() should actually be sent to the ExamplesAndReferences.database.
 	  (disabled by default).
 	  
 	- Use socket timeouts for JDBC-4.0's Connection.isValid(int timeout) instead of timer tasks, for scalability. As a side effect
-	  internally, any communications with the database can use a timeout different than the configured timeout, but this isn't currently
+	  internally, any communications with the ExamplesAndReferences.database can use a timeout different than the configured timeout, but this isn't currently
 	  used.
 	  
 	- The number and position of columns for "SHOW INNODB STATUS" changed in MySQL-5.1, which caused the 
@@ -2363,7 +2363,7 @@ Version 6.0.6
 
     - The driver now connects with an initial character set
       of "utf-8" solely for the purposes of authentication to
-      allow usernames and database names in any character set to
+      allow usernames and ExamplesAndReferences.database names in any character set to
       be used in the JDBC URL.
 
     - Errors encountered during Statement/PreparedStatement/CallableStatement.executeBatch()
@@ -2865,7 +2865,7 @@ nn-nn-07 - Version 5.0.9
 
     - When "useLocalSessionState" is set to "true" and connected to a MySQL-5.0 or
       later server, the JDBC driver will now determine whether an actual "commit" or
-      "rollback" statement needs to be sent to the database when Connection.commit()
+      "rollback" statement needs to be sent to the ExamplesAndReferences.database when Connection.commit()
       or Connection.rollback() is called.
 
       This is especially helpful for high-load situations with connection pools that
@@ -3693,7 +3693,7 @@ nn-nn-07 - Version 3.1.15
     - CallableStatement.clearParameters() now clears resources associated
       with INOUT/OUTPUT parameters as well as INPUT parameters.
 
-    - Fixed BUG#12417 - Connection.prepareCall() is database name
+    - Fixed BUG#12417 - Connection.prepareCall() is ExamplesAndReferences.database name
       case-sensitive (on Windows systems).
 
     - Fixed BUG#12752 - Cp1251 incorrectly mapped to win1251 for
@@ -3718,7 +3718,7 @@ nn-nn-07 - Version 3.1.15
 
 06-23-05 - Version 3.1.10-stable
 
-	- Fixed connecting without a database specified raised an exception
+	- Fixed connecting without a ExamplesAndReferences.database specified raised an exception
 	  in MysqlIO.changeDatabaseTo().
 
 	- Initial implemention of ParameterMetadata for
@@ -3755,8 +3755,8 @@ nn-nn-07 - Version 3.1.15
 
 	- Added "createDatabaseIfNotExist" property (default is "false"),
 	  which will cause the driver to ask the server to create the
-	  database specified in the URL if it doesn't exist. You must have
-	  the appropriate privileges for database creation for this to
+	  ExamplesAndReferences.database specified in the URL if it doesn't exist. You must have
+	  the appropriate privileges for ExamplesAndReferences.database creation for this to
 	  work.
 
 	- Fixed BUG#10156 - Unsigned SMALLINT treated as signed for ResultSet.getInt(),
@@ -3928,7 +3928,7 @@ nn-nn-07 - Version 3.1.15
 	  to 'false' (for backwards-compatibility with 3.0, it is now set to 'true'
 	  by default, but will most likely default to 'false' in 3.2).
 
-	- Fixed BUG#9320 - PreparedStatement.getMetaData() inserts blank row in database
+	- Fixed BUG#9320 - PreparedStatement.getMetaData() inserts blank row in ExamplesAndReferences.database
 	  under certain conditions when not using server-side prepared statements.
 
 	- Connection.canHandleAsPreparedStatement() now makes 'best effort' to distinguish
@@ -3978,7 +3978,7 @@ nn-nn-07 - Version 3.1.15
     	 Then fallback to our STDERR logging.
 
    	- Fixed BUG#9778, DBMD.getTables() shouldn't return tables if views
-	  are asked for, even if the database version doesn't support views.
+	  are asked for, even if the ExamplesAndReferences.database version doesn't support views.
 
 	- Fixed driver not returning 'true' for '-1' when ResultSet.getBoolean()
 	  was called on result sets returned from server-side prepared statements.
@@ -4090,7 +4090,7 @@ nn-nn-07 - Version 3.1.15
       and only sets autocommit and transaction isolation levels using
       the methods provided on java.sql.Connection, and therefore can
       manipulate these values in many cases without incurring
-      round-trips to the database server.
+      round-trips to the ExamplesAndReferences.database server.
 
     - Added enableStreamingResults() to Statement for connection pool
       implementations that check Statement.setFetchSize() for
@@ -4461,7 +4461,7 @@ nn-nn-07 - Version 3.1.15
       as well as year and month descrepencies in
       ServerPreparedStatement.setTimestamp(), setDate().
 
-    - Added ability to have multiple database/JVM targets for compliance
+    - Added ability to have multiple ExamplesAndReferences.database/JVM targets for compliance
       and regression/unit tests in build.xml.
 
     - Fixed NPE and year/month bad conversions when accessing some
@@ -4771,7 +4771,7 @@ nn-nn-07 - Version 3.1.15
     - Renamed StringUtils.escapeSJISByteStream() to more appropriate
       escapeEasternUnicodeByteStream().
 
-    - Fixed BUG#3554 - Not specifying database in URL caused MalformedURL
+    - Fixed BUG#3554 - Not specifying ExamplesAndReferences.database in URL caused MalformedURL
       exception.
 
     - Auto-convert MySQL encoding names to Java encoding names if used
@@ -4854,7 +4854,7 @@ nn-nn-07 - Version 3.1.15
     - Fix for BUG#1775 - DatabaseMetaData.getSystemFunction() returning
       bad function 'VResultsSion'.
 
-    - Fix for BUG#1592 -- cross-database updatable result sets
+    - Fix for BUG#1592 -- cross-ExamplesAndReferences.database updatable result sets
       are not checked for updatability correctly.
 
     - DatabaseMetaData.getColumns() should return Types.LONGVARCHAR for
@@ -4948,7 +4948,7 @@ nn-nn-07 - Version 3.1.15
 
 	- Backported 4.1 protocol changes from 3.1 branch (server-side SQL
 	  states, new field info, larger client capability flags,
-	  connect-with-database, etc).
+	  connect-with-ExamplesAndReferences.database, etc).
 
 	- Fix UpdatableResultSet to return values for getXXX() when on
 	  insert row (BUG#675).
@@ -5086,7 +5086,7 @@ nn-nn-07 - Version 3.1.15
     - You can now toggle profiling on/off using
       Connection.setProfileSql(boolean).
 
-    - Fixed charset issues with database metadata (charset was not
+    - Fixed charset issues with ExamplesAndReferences.database metadata (charset was not
       getting set correctly).
 
     - Updatable ResultSets can now be created for aliased tables/columns
@@ -5150,7 +5150,7 @@ nn-nn-07 - Version 3.1.15
 
     - Added missing LONGTEXT type to DBMD.getColumns().
 
-    - Retrieve TX_ISOLATION from database for
+    - Retrieve TX_ISOLATION from ExamplesAndReferences.database for
       Connection.getTransactionIsolation() when the MySQL version
       supports it, instead of an instance variable.
 
@@ -5167,7 +5167,7 @@ nn-nn-07 - Version 3.1.15
 
 01-06-03 - Version 3.0.4-gamma
 
-    - Added quoted identifiers to database names for
+    - Added quoted identifiers to ExamplesAndReferences.database names for
       Connection.setCatalog.
 
     - Added support for quoted identifiers in PreparedStatement
@@ -5225,7 +5225,7 @@ nn-nn-07 - Version 3.1.15
 
     - Some MySQL-4.1 protocol support (extended field info from selects)
 
-    - Use non-aliased table/column names and database names to fullly
+    - Use non-aliased table/column names and ExamplesAndReferences.database names to fullly
       qualify tables and columns in UpdatableResultSet (requires
       MySQL-4.1 or newer)
 
@@ -5582,12 +5582,12 @@ nn-nn-07 - Version 3.1.15
      - ResultSet.getBlob() now returns null if column value
        was null.
 
-     - Character sets read from database if useUnicode=true
+     - Character sets read from ExamplesAndReferences.database if useUnicode=true
        and characterEncoding is not set. (thanks to
        Dmitry Vereshchagin)
 
      - Initial transaction isolation level read from
-       database (if avaialable) (thanks to Dmitry Vereshchagin)
+       ExamplesAndReferences.database (if avaialable) (thanks to Dmitry Vereshchagin)
 
      - Fixed DatabaseMetaData.supportsTransactions(), and
        supportsTransactionIsolationLevel() and getTypeInfo()
@@ -5742,7 +5742,7 @@ Fixed PreparedStatement parameter checking
      - Fixes to column numbers in SQLExceptions in ResultSet
        (Thanks to Blas Rodriguez Somoza)
 
-     - The database no longer needs to specified to connect.
+     - The ExamplesAndReferences.database no longer needs to specified to connect.
        (Thanks to Christian Motschke)
 
 07-04-99 - Version 1.2b
@@ -5848,7 +5848,7 @@ Fixed PreparedStatement parameter checking
        (thanks to Chris at Leverage)
 
      - Fixed setDouble in PreparedStatement for large numbers
-       to avoid sending scientific notation to the database.
+       to avoid sending scientific notation to the ExamplesAndReferences.database.
        (thanks to J.S. Ferguson)
 
      - Fixed getScale() and getPrecision() in RSMD.
@@ -5916,7 +5916,7 @@ Fixed PreparedStatement parameter checking
        suggestion goes to Erik Ostrom)
 
      - setObject() in PreparedStatement will now attempt to write a
-       serialized  representation of the object to the database for
+       serialized  representation of the object to the ExamplesAndReferences.database for
        objects of Types.OTHER and objects of unknown type.
 
      - Util now has a static method readObject() which given a ResultSet
@@ -5936,7 +5936,7 @@ Fixed PreparedStatement parameter checking
        maxRows set via properties or url parameters.
 
      - Automatic re-connection is available. Because it has
-       to "ping" the database before each query, it is
+       to "ping" the ExamplesAndReferences.database before each query, it is
        turned off by default. To use it, pass in "autoReconnect=true"
        in the connection URL. You may also change the number of
        reconnect tries, and the initial timeout value via

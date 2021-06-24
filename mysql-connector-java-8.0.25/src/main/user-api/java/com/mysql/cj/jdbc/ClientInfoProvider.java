@@ -70,7 +70,7 @@ public interface ClientInfoProvider {
      * instance belongs to. The connection instance is passed as an argument
      * for convenience's sake.
      * 
-     * Providers can use the connection to communicate with the database,
+     * Providers can use the connection to communicate with the ExamplesAndReferences.database,
      * but it will be within the scope of any ongoing transactions, so therefore
      * implementations should not attempt to change isolation level, autocommit settings
      * or call rollback() or commit() on the connection.
@@ -89,7 +89,7 @@ public interface ClientInfoProvider {
      * instance belongs to. The connection instance is passed as an argument
      * for convenience's sake.
      * 
-     * Providers can use the connection to communicate with the database,
+     * Providers can use the connection to communicate with the ExamplesAndReferences.database,
      * but it will be within the scope of any ongoing transactions, so therefore
      * implementations should not attempt to change isolation level, autocommit settings
      * or call rollback() or commit() on the connection.
@@ -110,7 +110,7 @@ public interface ClientInfoProvider {
      * instance belongs to. The connection instance is passed as an argument
      * for convenience's sake.
      * 
-     * Providers can use the connection to communicate with the database,
+     * Providers can use the connection to communicate with the ExamplesAndReferences.database,
      * but it will be within the scope of any ongoing transactions, so therefore
      * implementations should not attempt to change isolation level, autocommit settings
      * or call rollback() or commit() on the connection.
@@ -131,7 +131,7 @@ public interface ClientInfoProvider {
      * instance belongs to. The connection instance is passed as an argument
      * for convenience's sake.
      * 
-     * Providers can use the connection to communicate with the database,
+     * Providers can use the connection to communicate with the ExamplesAndReferences.database,
      * but it will be within the scope of any ongoing transactions, so therefore
      * implementations should not attempt to change isolation level, autocommit settings
      * or call rollback() or commit() on the connection.

@@ -56,7 +56,7 @@ public class ProfilerEventImpl implements ProfilerEvent {
      * @param hostName
      *            the hostname where the event occurs
      * @param db
-     *            the database in use
+     *            the ExamplesAndReferences.database in use
      * @param connectionId
      *            the connection id (-1 if N/A)
      * @param statementId

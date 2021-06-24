@@ -1,10 +1,10 @@
-package BasicClientServer;
+package Server;
 
 import java.sql.*;
 
 public class ServerDataBase
 {
-    // -- objects to be used for database access
+    // -- objects to be used for ExamplesAndReferences.database access
     private static Connection conn = null;
     private static Statement stmt = null;
     private static ResultSet rset = null;
@@ -13,9 +13,9 @@ public class ServerDataBase
 
 
     // -- root/admin
-    // -- connect to the world database
-    // -- this is the connector to the database, default port is 3306
-    //    <<Your schema name here>> is the schema (database) you created using the workbench
+    // -- connect to the world ExamplesAndReferences.database
+    // -- this is the connector to the ExamplesAndReferences.database, default port is 3306
+    //    <<Your schema name here>> is the schema (ExamplesAndReferences.database) you created using the workbench
    //  <@  "jdbc:mysql://<<IP_address_here>>:<<port_here>>/<<schema_name_here>>?useSSL=false"
     private static String userdatabaseURL = "jdbc:mysql://localhost:3306/serverdata?useSSL=false";
 
@@ -32,11 +32,11 @@ public class ServerDataBase
     {
         String charInfo = "";
 
-        // -- make the connection to the database
+        // -- make the connection to the ExamplesAndReferences.database
         //    performs functionality of SQL: use <<your schema>>;
         conn = DriverManager.getConnection(userdatabaseURL, user, pw);
 
-        // -- These will be used to send queries to the database
+        // -- These will be used to send queries to the ExamplesAndReferences.database
         stmt = conn.createStatement();
 
         //        SELECT * FROM users WHERE username = 'ccrdoc'

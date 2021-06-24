@@ -81,7 +81,7 @@ public abstract class AbstractQuery implements Query {
     /** Currently executing a statement? */
     protected final AtomicBoolean statementExecuting = new AtomicBoolean(false);
 
-    /** The database in use */
+    /** The ExamplesAndReferences.database in use */
     protected String currentDb = null;
 
     /** Has clearWarnings() been called? */

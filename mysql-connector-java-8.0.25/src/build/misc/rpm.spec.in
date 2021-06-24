@@ -61,7 +61,7 @@
 %global lic_tag        GPLv2
 %endif
 
-Summary:        Standardized MySQL database driver for Java
+Summary:        Standardized MySQL ExamplesAndReferences.database driver for Java
 Name:           @MYSQL_CJ_EXTENDED_PROD_NAME@
 Version:        @MYSQL_CJ_VERSION_NUMERIC@
 Release:        @MYSQL_CJ_RPM_RELEASE_FULL@%{?dist}

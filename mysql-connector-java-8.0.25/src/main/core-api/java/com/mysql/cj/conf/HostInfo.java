@@ -68,7 +68,7 @@ public class HostInfo implements DatabaseUrlContainer {
      * Constructs a {@link HostInfo} instance initialized with the provided host, port and user info.
      * 
      * @param url
-     *            a reference to the original database URL that produced this host info
+     *            a reference to the original ExamplesAndReferences.database URL that produced this host info
      * @param host
      *            the host ip or name
      * @param port
@@ -86,7 +86,7 @@ public class HostInfo implements DatabaseUrlContainer {
      * Constructs a {@link HostInfo} instance initialized with the provided host, port, user, password and connection arguments.
      * 
      * @param url
-     *            a reference to the original database URL that produced this host info
+     *            a reference to the original ExamplesAndReferences.database URL that produced this host info
      * @param host
      *            the host ip or name
      * @param port
@@ -176,9 +176,9 @@ public class HostInfo implements DatabaseUrlContainer {
     }
 
     /**
-     * Shortcut to the database connection argument.
+     * Shortcut to the ExamplesAndReferences.database connection argument.
      * 
-     * @return the database name
+     * @return the ExamplesAndReferences.database name
      */
     public String getDatabase() {
         String database = this.hostProperties.get(PropertyKey.DBNAME.getKeyName());
@@ -206,9 +206,9 @@ public class HostInfo implements DatabaseUrlContainer {
     }
 
     /**
-     * Returns the original database URL that produced this host info.
+     * Returns the original ExamplesAndReferences.database URL that produced this host info.
      * 
-     * @return the original database URL
+     * @return the original ExamplesAndReferences.database URL
      */
     @Override
     public String getDatabaseUrl() {

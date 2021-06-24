@@ -1,4 +1,4 @@
-package BasicClientServer;
+package Server;
 
 import ObjectsToPass.User;
 
@@ -24,7 +24,7 @@ public class UserHandler
     private String username;
     private String reply;
 
-    // -- objects to be used for database access
+    // -- objects to be used for ExamplesAndReferences.database access
     private static Connection conn = null;
     private static ResultSet rset = null;
     private static Stack<String>[] results = null;
@@ -32,9 +32,9 @@ public class UserHandler
     private static boolean hadResults = false;
 
     // -- root/admin
-    // -- connect to the world database
-    // -- this is the connector to the database, default port is 3306
-    //    <<Your schema name here>> is the schema (database) you created using the workbench
+    // -- connect to the world ExamplesAndReferences.database
+    // -- this is the connector to the ExamplesAndReferences.database, default port is 3306
+    //    <<Your schema name here>> is the schema (ExamplesAndReferences.database) you created using the workbench
     private static final String userdatabaseURL = "jdbc:mysql://localhost:3306/userData?useSSL=false";
 
     // -- this is the username/password, created during installation and in MySQL Workbench
@@ -45,7 +45,7 @@ public class UserHandler
 
     public String process(User user) throws SQLException
     {
-        // -- make the connection to the database
+        // -- make the connection to the ExamplesAndReferences.database
         //    performs functionality of SQL: use <<your schema>>;
         conn = DriverManager.getConnection(userdatabaseURL, USERNAME, PW);
 
@@ -127,7 +127,7 @@ public class UserHandler
 
     public static Stack<String>[] getLoggedInUsers() throws SQLException
     {
-        // -- make the connection to the database
+        // -- make the connection to the ExamplesAndReferences.database
         //    performs functionality of SQL: use <<your schema>>;
         conn = DriverManager.getConnection(userdatabaseURL, USERNAME, PW);
 
@@ -151,7 +151,7 @@ public class UserHandler
 
     public static Stack<String>[] getLockedOutUsers() throws SQLException
     {
-        // -- make the connection to the database
+        // -- make the connection to the ExamplesAndReferences.database
         //    performs functionality of SQL: use <<your schema>>;
         conn = DriverManager.getConnection(userdatabaseURL, USERNAME, PW);
 
@@ -175,7 +175,7 @@ public class UserHandler
 
     public static String getLoggedInNum() throws SQLException
     {
-        // -- make the connection to the database
+        // -- make the connection to the ExamplesAndReferences.database
         //    performs functionality of SQL: use <<your schema>>;
         conn = DriverManager.getConnection(userdatabaseURL, USERNAME, PW);
 
@@ -196,7 +196,7 @@ public class UserHandler
 
     public static String getRegisteredNum() throws SQLException
     {
-        // -- make the connection to the database
+        // -- make the connection to the ExamplesAndReferences.database
         //    performs functionality of SQL: use <<your schema>>;
         conn = DriverManager.getConnection(userdatabaseURL, USERNAME, PW);
 

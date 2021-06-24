@@ -341,9 +341,9 @@ public class ConnectionUrlTest {
         }
 
         /**
-         * Returns the database part for the current position.
+         * Returns the ExamplesAndReferences.database part for the current position.
          * 
-         * @return the database part
+         * @return the ExamplesAndReferences.database part
          */
         public String getDatabase() {
             int counterIndex = 3; // db (single host)
@@ -913,7 +913,7 @@ public class ConnectionUrlTest {
                 assertEquals("localhost:" + connStr.get(cs), hi.getHostPortPair(), cs + "#hostPortPair");
                 assertNull(hi.getUser(), cs + "#user");
                 assertNull(hi.getPassword(), cs + "#password");
-                assertEquals("", hi.getDatabase(), cs + "#database");
+                assertEquals("", hi.getDatabase(), cs + "#ExamplesAndReferences.database");
             }
         }
     }

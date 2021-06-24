@@ -306,14 +306,14 @@ public abstract class AbstractQueryBindings<T extends BindValue> implements Quer
      * Set the value of a parameter using an object; use the java.lang equivalent objects for integral values.
      * 
      * <P>
-     * The given Java object will be converted to the targetMysqlType before being sent to the database.
+     * The given Java object will be converted to the targetMysqlType before being sent to the ExamplesAndReferences.database.
      * 
      * @param parameterIndex
      *            the first parameter is 1...
      * @param parameterObj
      *            the object containing the input parameter value
      * @param targetMysqlType
-     *            The MysqlType to be send to the database
+     *            The MysqlType to be send to the ExamplesAndReferences.database
      * @param scaleOrLength
      *            For Types.DECIMAL or Types.NUMERIC types
      *            this is the number of digits after the decimal. For all other

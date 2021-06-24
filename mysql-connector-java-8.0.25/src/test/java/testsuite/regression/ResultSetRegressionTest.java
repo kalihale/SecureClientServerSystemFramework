@@ -342,7 +342,7 @@ public class ResultSetRegressionTest extends BaseTestCase {
     }
 
     /**
-     * Checks fix for BUG#1592 -- cross-database updatable result sets are not checked for updatability correctly.
+     * Checks fix for BUG#1592 -- cross-ExamplesAndReferences.database updatable result sets are not checked for updatability correctly.
      * 
      * @throws Exception
      */
@@ -358,7 +358,7 @@ public class ResultSetRegressionTest extends BaseTestCase {
             String message = sqlEx.getMessage();
 
             if ((message != null) && (message.indexOf("denied") != -1)) {
-                System.err.println("WARN: Can't complete testFixForBug1592(), access to 'mysql' database not allowed");
+                System.err.println("WARN: Can't complete testFixForBug1592(), access to 'mysql' ExamplesAndReferences.database not allowed");
             } else {
                 throw sqlEx;
             }
@@ -7137,7 +7137,7 @@ public class ResultSetRegressionTest extends BaseTestCase {
         this.rs = this.stmt.executeQuery(sql);
 
         // JDBC spec:
-        //        When the column value in the database is SQL NULL, it may be returned to the Java
+        //        When the column value in the ExamplesAndReferences.database is SQL NULL, it may be returned to the Java
         //        application as null, 0, or false, depending on the type of the column value.
         //        Column values that map to Java Object types are returned as a Java null; those
         //        that map to numeric types are returned as 0; those that map to a Java boolean are
