@@ -36,7 +36,7 @@ public class ClientHandler extends Thread {
 	 */
 	private Server server;
 
-	//	<@	ClientHandler has-a UserHandler
+	//	／(•ㅅ•)＼	ClientHandler has-a UserHandler
 	private UserHandler userHandler;
 	
 	/**

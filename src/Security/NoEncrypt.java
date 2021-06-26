@@ -1,23 +1,33 @@
 package Security;
 
+import javax.crypto.SealedObject;
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
+import java.util.Base64;
+
 public class NoEncrypt<S extends String> implements Encrypt<S>
 {
-    S message;
-
-    public NoEncrypt(S message)
-    {
-        this.message = message;
-    }
-
     @Override
-    public byte[] encrypt(S message)
+    public SealedObject encryptObject(S message, Key key)
     {
         return null;
     }
 
     @Override
-    public S decrypt(byte[] message)
+    public S decryptObject(SealedObject message, Key key)
     {
         return null;
+    }
+
+    @Override
+    public byte[] encryptString(String message, Key key)
+    {
+        return message.getBytes(StandardCharsets.UTF_8);
+    }
+
+    @Override
+    public String decryptString(byte[] message, Key key)
+    {
+        return new String(Base64.getDecoder().decode(message));
     }
 }

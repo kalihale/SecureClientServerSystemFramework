@@ -30,10 +30,10 @@ public class ServerGUI extends Application
         primaryStage.setMinHeight(550);
         primaryStage.setMinWidth(550);
 
-        //  <@  Set up text area
+        //  ／(•ㅅ•)＼  Set up text area
         TextArea taDisplay = new TextArea();
 
-        //  <@  Buttons
+        //  ／(•ㅅ•)＼  Buttons
         Button btStartServer = new Button("Start server");
         Button btUserReg = new Button("Number of users registered");
         Button btUserLog = new Button("Number of users logged in");
@@ -64,7 +64,7 @@ public class ServerGUI extends Application
                     }
                 }
             );
-        //  <@  Button to get the number of users registered in the system
+        //  ／(•ㅅ•)＼  Button to get the number of users registered in the system
             btUserReg.setOnAction(actionEvent -> {
                 try
                 {
@@ -75,7 +75,7 @@ public class ServerGUI extends Application
                 }
                 taDisplay.appendText("\n");
             });
-        //  <@  Button to get the number of users logged in
+        //  ／(•ㅅ•)＼  Button to get the number of users logged in
         btUserLog.setOnAction(actionEvent -> {
             try
             {
@@ -86,7 +86,7 @@ public class ServerGUI extends Application
             }
             taDisplay.appendText("\n");
         });
-        //  <@  Button to get how many clients are connected to the server
+        //  ／(•ㅅ•)＼  Button to get how many clients are connected to the server
         btUCon.setOnAction(actionEvent -> {
             if(this.server != null)
             {
@@ -98,7 +98,7 @@ public class ServerGUI extends Application
             }
             taDisplay.appendText("\n");
         });
-        //  <@  Button to get which users are logged in
+        //  ／(•ㅅ•)＼  Button to get which users are logged in
         btWhichCon.setOnAction(actionEvent ->
         {
 
@@ -125,7 +125,7 @@ public class ServerGUI extends Application
             }
             taDisplay.appendText("\n");
         });
-        //  <@  Button to get which users are locked out (login attempts >= 3)
+        //  ／(•ㅅ•)＼  Button to get which users are locked out (login attempts >= 3)
         btWhichLock.setOnAction(actionEvent ->
         {
             System.out.println("boop");
@@ -154,7 +154,7 @@ public class ServerGUI extends Application
         btCloseServer.setOnAction(actionEvent ->{
             System.out.println("Close server boop");
         }
-                /*  <@  Add server end here*/);
+                /*  ／(•ㅅ•)＼  Add server end here*/);
         ColumnConstraints column0 = new ColumnConstraints();
         ColumnConstraints column1 = new ColumnConstraints();
         ColumnConstraints column2 = new ColumnConstraints();

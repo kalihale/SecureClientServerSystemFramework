@@ -17,7 +17,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 /*
-<@  bt: button
+／(•ㅅ•)＼  bt: button
     ta: Text Area
     txt: text or label
  */
@@ -116,34 +116,34 @@ public class ClientGUI extends Application
     }
     private void login()
     {
-        //  <@  Set up stage
+        //  ／(•ㅅ•)＼  Set up stage
         Stage loginStage = new Stage();
         loginStage.setMinHeight(MINHEIGHT);
         loginStage.setMinWidth(MINWIDTH);
 
-        //  <@  Set panes
+        //  ／(•ㅅ•)＼  Set panes
         GridPane loginWindowPane = new GridPane();
         loginWindowPane.setBackground(BG);
         Scene scene = new Scene(loginWindowPane);
 
-        //  <@  Set up text areas
+        //  ／(•ㅅ•)＼  Set up text areas
         TextArea taLogUn = new TextArea();
         taLogUn.setMaxHeight(10);
         TextArea taLogPw = new TextArea();
         taLogPw.setMaxHeight(10);
 
-        //  <@  Set up buttons
+        //  ／(•ㅅ•)＼  Set up buttons
         Button btDisconnect = new Button("Disconnect");
         Button btLogin = new Button("Login");
         Button btFPw = new Button("Forgot Password");
         Button btReg = new Button("Register");
-        //  <@  Light green
+        //  ／(•ㅅ•)＼  Light green
         btLogin.setStyle(BTGREEN);
-        //  <@  Light yellow
+        //  ／(•ㅅ•)＼  Light yellow
         btFPw.setStyle("-fx-background-color: #fff380");
-        //  <@  Light red
+        //  ／(•ㅅ•)＼  Light red
         btReg.setStyle("-fx-background-color: #f09292");
-        //  <@  Light gray
+        //  ／(•ㅅ•)＼  Light gray
         btDisconnect.setStyle(BTGRAY);
         btDisconnect.setOnAction(ActionEvent ->
         {
@@ -195,7 +195,7 @@ public class ClientGUI extends Application
              loginStage.close();
         });
 
-        //  <@  Column constraints
+        //  ／(•ㅅ•)＼  Column constraints
         ColumnConstraints column0 = new ColumnConstraints();
         ColumnConstraints column1 = new ColumnConstraints();
         ColumnConstraints column2 = new ColumnConstraints();
@@ -208,7 +208,7 @@ public class ClientGUI extends Application
         column4.setPercentWidth(20);
         loginWindowPane.getColumnConstraints().addAll(column0, column1, column2, column3, column4);
 
-        //  <@  Row constraints
+        //  ／(•ㅅ•)＼  Row constraints
         RowConstraints row0 = new RowConstraints();
         RowConstraints row1 = new RowConstraints();
         RowConstraints row2 = new RowConstraints();
@@ -225,7 +225,7 @@ public class ClientGUI extends Application
         row6.setPercentHeight(33);
         loginWindowPane.getRowConstraints().addAll(row0, row1, row2, row3, row4, row5, row6);
 
-        //  <@  Layout
+        //  ／(•ㅅ•)＼  Layout
         loginWindowPane.add(new Text("USERNAME:"), 1, 1);
         loginWindowPane.add(taLogUn, 1, 2, 3, 1);
         loginWindowPane.add(new Text("PASSWORD:"), 1,3);
@@ -243,7 +243,7 @@ public class ClientGUI extends Application
         GridPane.setHalignment(btDisconnect, HPos.RIGHT);
         GridPane.setValignment(btDisconnect, VPos.TOP);
 
-        //  <@  Set up new stage
+        //  ／(•ㅅ•)＼  Set up new stage
         loginStage.setTitle("Login");
         loginStage.setScene(scene);
         loginStage.getScene().getWindow().addEventFilter(WindowEvent.WINDOW_CLOSE_REQUEST, this::closeWindowEventElse);
@@ -253,23 +253,23 @@ public class ClientGUI extends Application
     private void home()
     {
 
-        //  <@  Set up stage
+        //  ／(•ㅅ•)＼  Set up stage
         Stage homeStage = new Stage();
         homeStage.setMinHeight(MINHEIGHT);
         homeStage.setMinWidth(MINWIDTH);
 
-        //  <@  Set up pane
+        //  ／(•ㅅ•)＼  Set up pane
         GridPane homePane = new GridPane();
         homePane.setBackground(BG);
         Scene scene = new Scene(homePane);
 
-        //  <@  Set up text areas and text
+        //  ／(•ㅅ•)＼  Set up text areas and text
         TextArea taSearch = new TextArea();
         taSearch.setMaxHeight(8);
         Text txtSearch = new Text("SEARCH:");
         TextArea taResults = new TextArea();
 
-        //  <@  Set up buttons
+        //  ／(•ㅅ•)＼  Set up buttons
         Button btLogout = new Button("Logout");
         Button btLD = new Button("Logout & Disconnect");
         Button btPwCh = new Button("Change Password");
@@ -280,7 +280,7 @@ public class ClientGUI extends Application
         btSearch.setStyle(BTGRAY);
         btLogout.setOnAction(actionEvent ->
         {
-            //  <@  Logout
+            //  ／(•ㅅ•)＼  Logout
             this.user = new User();
             this.user.setAction(0);
             this.user.setUsername(this.username);
@@ -308,7 +308,7 @@ public class ClientGUI extends Application
         });
         btLD.setOnAction(actionEvent ->
         {
-            //  <@  Logout and disconnect
+            //  ／(•ㅅ•)＼  Logout and disconnect
             this.user = new User();
             this.user.setAction(0);
             this.user.setUsername(username);
@@ -337,7 +337,7 @@ public class ClientGUI extends Application
         });
         btPwCh.setOnAction(actionEvent ->
         {
-            //  <@  Change password
+            //  ／(•ㅅ•)＼  Change password
             passwordChange();
             homeStage.close();
         });
@@ -357,7 +357,7 @@ public class ClientGUI extends Application
         });
 
 
-        //  <@  Column constraints
+        //  ／(•ㅅ•)＼  Column constraints
         ColumnConstraints column0 = new ColumnConstraints();
         ColumnConstraints column1 = new ColumnConstraints();
         ColumnConstraints column2 = new ColumnConstraints();
@@ -366,7 +366,7 @@ public class ClientGUI extends Application
         column2.setPercentWidth(20);
         homePane.getColumnConstraints().addAll(column0, column1, column2);
 
-        //  <@  Row constraints
+        //  ／(•ㅅ•)＼  Row constraints
         RowConstraints row0 = new RowConstraints();
         RowConstraints row1 = new RowConstraints();
         RowConstraints row2 = new RowConstraints();
@@ -383,7 +383,7 @@ public class ClientGUI extends Application
         row6.setPercentHeight(55);
         homePane.getRowConstraints().addAll(row0, row1, row2, row3, row4, row5, row6);
 
-        //  <@  Layout
+        //  ／(•ㅅ•)＼  Layout
         //      Buttons in upper right
         homePane.add(btLogout, 2, 0);
         GridPane.setValignment(btLogout, VPos.BOTTOM);
@@ -394,7 +394,7 @@ public class ClientGUI extends Application
         GridPane.setValignment(btPwCh, VPos.TOP);
         GridPane.setHalignment(btPwCh, HPos.RIGHT);
 
-        //  <@  Search text and bar
+        //  ／(•ㅅ•)＼  Search text and bar
         homePane.add(txtSearch, 1, 2);
         GridPane.setValignment(txtSearch, VPos.BOTTOM);
         homePane.add(taSearch, 1, 3);
@@ -410,34 +410,34 @@ public class ClientGUI extends Application
     }
     private void passwordChange()
     {
-        //  <@  Set up stage
+        //  ／(•ㅅ•)＼  Set up stage
         Stage pwChangeStage = new Stage();
         pwChangeStage.setMinHeight(MINHEIGHT);
         pwChangeStage.setMinWidth(MINWIDTH);
 
-        //  <@  Set up pane
+        //  ／(•ㅅ•)＼  Set up pane
         GridPane pwChangePane = new GridPane();
         pwChangePane.setBackground(BG);
         Scene scene = new Scene(pwChangePane);
 
-        //  <@  Set up text areas
+        //  ／(•ㅅ•)＼  Set up text areas
         TextArea taOldPass = new TextArea();
         TextArea taNewPass = new TextArea();
         taOldPass.setMaxHeight(10);
         taNewPass.setMaxHeight(10);
 
-        //  <@  Set up text
+        //  ／(•ㅅ•)＼  Set up text
         Text txtOldPass = new Text("Old password: ");
         Text txtNewPass = new Text("New Password: ");
 
-        //  <@  Set up buttons
+        //  ／(•ㅅ•)＼  Set up buttons
         Button btConfirm = new Button("Confirm");
         Button btBack = new Button("Back");
         btBack.setStyle(BTGRAY);
         btConfirm.setStyle(BTGREEN);
         btBack.setOnAction(actionEvent ->
         {
-            //  <@  Nothing else needs to be done here, as nothing has been done
+            //  ／(•ㅅ•)＼  Nothing else needs to be done here, as nothing has been done
             home();
             pwChangeStage.close();
         });
@@ -502,7 +502,7 @@ public class ClientGUI extends Application
             }
         });
 
-        //  <@  Add column constraints
+        //  ／(•ㅅ•)＼  Add column constraints
         ColumnConstraints column0 = new ColumnConstraints();
         ColumnConstraints column1 = new ColumnConstraints();
         ColumnConstraints column2 = new ColumnConstraints();
@@ -511,7 +511,7 @@ public class ClientGUI extends Application
         column2.setPercentWidth(20);
         pwChangePane.getColumnConstraints().addAll(column0, column1, column2);
 
-        //  <@  Add row constraints
+        //  ／(•ㅅ•)＼  Add row constraints
         RowConstraints row0 = new RowConstraints();
         RowConstraints row1 = new RowConstraints();
         RowConstraints row2 = new RowConstraints();
@@ -524,23 +524,23 @@ public class ClientGUI extends Application
         row4.setPercentHeight(20);
         pwChangePane.getRowConstraints().addAll(row0, row1, row2, row3, row4);
 
-        //  <@  Layout
+        //  ／(•ㅅ•)＼  Layout
         //      Back button
         pwChangePane.add(btBack, 2, 0);
         GridPane.setValignment(btBack, VPos.TOP);
         GridPane.setHalignment(btBack, HPos.RIGHT);
-        //  <@  Old password
+        //  ／(•ㅅ•)＼  Old password
         pwChangePane.add(txtOldPass, 1, 0);
         GridPane.setValignment(txtOldPass, VPos.BOTTOM);
         GridPane.setHalignment(txtOldPass, HPos.LEFT);
         pwChangePane.add(taOldPass, 1, 1);
-        //  <@  New password
+        //  ／(•ㅅ•)＼  New password
         pwChangePane.add(txtNewPass, 1, 2);
         GridPane.setValignment(txtNewPass, VPos.BOTTOM);
         GridPane.setHalignment(txtNewPass, HPos.LEFT);
         pwChangePane.add(taNewPass, 1, 3);
         GridPane.setValignment(taNewPass, VPos.TOP);
-        //  <@  Confirm button
+        //  ／(•ㅅ•)＼  Confirm button
         pwChangePane.add(btConfirm, 1, 3);
         GridPane.setValignment(btConfirm, VPos.BOTTOM);
         GridPane.setHalignment(btConfirm, HPos.CENTER);
@@ -555,28 +555,28 @@ public class ClientGUI extends Application
     }
     private void forgotPassword()
     {
-        //  <@  Set up stage
+        //  ／(•ㅅ•)＼  Set up stage
         Stage fPwStage = new Stage();
         fPwStage.setMinHeight(MINHEIGHT);
         fPwStage.setMinWidth(MINWIDTH);
 
-        //  <@  Set up pane
+        //  ／(•ㅅ•)＼  Set up pane
         GridPane fPwPane = new GridPane();
         fPwPane.setBackground(BG);
         Scene scene = new Scene(fPwPane);
 
-        //  <@  Set up text area
+        //  ／(•ㅅ•)＼  Set up text area
         TextArea taEmail = new TextArea();
         taEmail.setMaxHeight(10);
 
-        //  <@  Set up buttons
+        //  ／(•ㅅ•)＼  Set up buttons
         Button btBack = new Button("Back");
         Button btEmail = new Button("Confirm");
         btBack.setStyle(BTGRAY);
         btEmail.setStyle(BTGRAY);
         btBack.setOnAction(actionEvent ->
         {
-            //  <@  Nothing to do
+            //  ／(•ㅅ•)＼  Nothing to do
             login();
             fPwStage.close();
         });
@@ -620,7 +620,7 @@ public class ClientGUI extends Application
             }
         });
 
-        //  <@  Column constraints
+        //  ／(•ㅅ•)＼  Column constraints
         ColumnConstraints column0 = new ColumnConstraints();
         ColumnConstraints column1 = new ColumnConstraints();
         ColumnConstraints column2 = new ColumnConstraints();
@@ -633,7 +633,7 @@ public class ClientGUI extends Application
         column4.setPercentWidth(20);
         fPwPane.getColumnConstraints().addAll(column0, column1, column2, column3, column4);
 
-        //  <@  Row constraints
+        //  ／(•ㅅ•)＼  Row constraints
         RowConstraints row0 = new RowConstraints();
         RowConstraints row1 = new RowConstraints();
         RowConstraints row2 = new RowConstraints();
@@ -648,7 +648,7 @@ public class ClientGUI extends Application
         row5.setPercentHeight(21);
         fPwPane.getRowConstraints().addAll(row0, row1, row2, row3, row4, row5);
 
-        //  <@  Layout (column first, then row)
+        //  ／(•ㅅ•)＼  Layout (column first, then row)
         fPwPane.add(btBack, 4,0);
         fPwPane.add(new Text("Please enter your Username." +
                 "\nA temporary password will be sent to your registered email."), 1, 1, 3, 1);

@@ -56,13 +56,13 @@ public class UserHandler
             switch (user.getAction())
             {
                 case 0:
-                    //  <@  Logout with stored procedure
+                    //  ／(•ㅅ•)＼  Logout with stored procedure
                     System.out.println("Logged out " + this.username);
                     statement = conn.prepareCall("{call logout(?)}");
                     statement.setString("un", user.getUsername());
                     return "logoutSuccess";
                 case 1:
-                    //  <@  Login with stored procedure
+                    //  ／(•ㅅ•)＼  Login with stored procedure
                     statement = conn.prepareCall("{? = call login(?,?)}");
                     statement.registerOutParameter(1, Types.BOOLEAN);
                     statement.setString(2, user.getUsername());
@@ -79,7 +79,7 @@ public class UserHandler
                         return "loginFailure";
                     }
                 case 2:
-                    //  <@  Change password
+                    //  ／(•ㅅ•)＼  Change password
                     System.out.println("Changed password for " + this.username);
                     statement = conn.prepareCall("{? = call changePassword(?, ?, ?)}");
                     statement.registerOutParameter(1, Types.BOOLEAN);
@@ -98,11 +98,11 @@ public class UserHandler
                         return "password change failure";
                     }
                 case 3:
-                    //  <@  Forgot password
+                    //  ／(•ㅅ•)＼  Forgot password
                     System.out.println("Forgot password " + user.getEmail());
                     return "forgotPasswordSuccessful";
                 case 4:
-                    //  <@  Registration
+                    //  ／(•ㅅ•)＼  Registration
                     statement = conn.prepareCall("{call register(?, ?, ?, ?, ?, ?)}");
                     statement.setString("id", user.getUserID());
                     statement.setString("un", user.getUsername());
