@@ -38,4 +38,18 @@ public interface Encrypt<T extends Serializable>
      * @return String
      */
     String decryptString(byte[] message, Key key);
+
+    /** ／(•ㅅ•)＼
+     * bytesToString will turn a byte array into a String
+     * @param message: The byte array to turn into a String
+     * @return String
+     */
+    String bytesToString(byte[] message);
+
+    /** ／(•ㅅ•)＼
+     * stringToBytes will turn a String into a byte array
+     * @param message: The String to turn into a byte array
+     * @return byte[]
+     */
+    byte[] stringToBytes(String message);
 }

@@ -7,6 +7,7 @@ import java.security.Key;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.SecureRandom;
+import java.util.Base64;
 
 /** ／(•ㅅ•)＼
  * RSA is an asymmetric algorithm with utilizes a public and a private key. The public key is given to the
@@ -16,7 +17,7 @@ import java.security.SecureRandom;
  * @param <S extends Serializable>
  */
 
-public class RSA<S extends Serializable> implements Encrypt
+public class RSA<S extends Serializable> implements AsymmetricEncrypt<S>
 {
     private static final String RSA = "RSA/ECB/OAEPWITHSHA-512ANDMGF1PADDING";
 
@@ -25,7 +26,8 @@ public class RSA<S extends Serializable> implements Encrypt
      * the public key should be sent to the client(s), while the private key stays on the server
      * @return KeyPair
      */
-    public static KeyPair generateRSAKeys()
+    @Override
+    public KeyPair getKeyPair()
     {
         try
         {
@@ -126,5 +128,27 @@ public class RSA<S extends Serializable> implements Encrypt
             e.printStackTrace();
         }
         return null;
+    }
+
+    /** ／(•ㅅ•)＼
+     * bytesToString will take a byte array and return a String.
+     * @param message: The byte array to cast to String
+     * @return String
+     */
+    @Override
+    public String bytesToString(byte[] message)
+    {
+        return Base64.getEncoder().encodeToString(message);
+    }
+
+    /** ／(•ㅅ•)＼
+     * stringToBytes will take a String and return a byte array.
+     * @param message: The String to cast to a byte array
+     * @return byte[]
+     */
+    @Override
+    public byte[] stringToBytes(String message)
+    {
+        return Base64.getDecoder().decode(message);
     }
 }

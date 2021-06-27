@@ -32,6 +32,12 @@ public class User extends QueryObject
         this.userRole = userRole;
     }
 
+    public void printEverything()
+    {
+        System.out.println(this.action + " " + this.userID + " " + this.username + " " + this.password + " " +
+                this.oldPassword + " " + this.email + " " + this.userRole);
+    }
+
     public void setUserID(String userID)
     {
         this.userID = userID;

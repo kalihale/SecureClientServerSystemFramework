@@ -23,7 +23,7 @@ import java.util.Base64;
  * messages.
  * @param <S extends Serializable>
  */
-public class AES256<S extends Serializable> implements Encrypt<S>
+public class AES256<S extends Serializable> implements SymmetricEncrypt<S>
 {
 
     /** ／(•ㅅ•)＼
@@ -34,7 +34,8 @@ public class AES256<S extends Serializable> implements Encrypt<S>
      * @throws NoSuchAlgorithmException: If SecretKeyFactory.getInstance is given an invalid algorithm to create the key.
      * @throws InvalidKeySpecException: If factory.generateSecret is given invalid KeySpec.
      */
-    public static SecretKey getKeyFromPassword(String password, String salt) throws NoSuchAlgorithmException, InvalidKeySpecException
+    @Override
+    public Key getKeyFromPassword(String password, String salt) throws NoSuchAlgorithmException, InvalidKeySpecException
     {
         SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
         KeySpec spec = new PBEKeySpec(password.toCharArray(), salt.getBytes(), 65536, 256);
@@ -148,21 +149,23 @@ public class AES256<S extends Serializable> implements Encrypt<S>
         return null;
     }
 
-    /** ／(•ㅅ•)＼ TODO this method will not override from Encrypt since it is not in Encrypt.
+    /** ／(•ㅅ•)＼
      * Takes a byte array and casts it to a String.
      * @param message: The byte array to be sent to a String
      * @return String
      */
+    @Override
     public String bytesToString(byte[] message)
     {
         return Base64.getEncoder().encodeToString(message);
     }
 
-    /** ／(•ㅅ•)＼ TODO this method will not override from Encrypt since it is not in Encrypt.
+    /** ／(•ㅅ•)＼
      * Takes a String and returns its corresponding byte array.
      * @param message: The String to be turned into a byte array
      * @return byte[]
      */
+    @Override
     public byte[] stringToBytes(String message)
     {
         return message.getBytes(StandardCharsets.UTF_8);

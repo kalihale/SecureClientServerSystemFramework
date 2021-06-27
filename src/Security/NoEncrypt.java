@@ -30,4 +30,16 @@ public class NoEncrypt<S extends String> implements Encrypt<S>
     {
         return new String(Base64.getDecoder().decode(message));
     }
+
+    @Override
+    public String bytesToString(byte[] message)
+    {
+        return null;
+    }
+
+    @Override
+    public byte[] stringToBytes(String message)
+    {
+        return new byte[0];
+    }
 }
