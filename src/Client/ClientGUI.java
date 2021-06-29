@@ -43,6 +43,11 @@ public class ClientGUI extends Application
     {
         disconnected();
     }
+
+    /** ／(•ㅅ•)＼
+     * The disconnected state is the state that the GUI will be in before the client connects to a server.
+     * All that is in this state are two text boxes for the host and IP.
+     */
     private void disconnected()
     {
         Stage disconnectedStage = new Stage();
@@ -119,6 +124,12 @@ public class ClientGUI extends Application
 
 
     }
+
+    /** ／(•ㅅ•)＼
+     * The login state is the state the GUI is in when the client is connected to a server, but the user is not yet
+     * signed in. This page has buttons to go to the register page, the forgot password page, or to disconnect, and
+     * there are text boxes to log in with a username and password.
+     */
     private void login()
     {
         //  ／(•ㅅ•)＼  Set up stage
@@ -255,6 +266,11 @@ public class ClientGUI extends Application
         loginStage.show();
 
     }
+
+    /** ／(•ㅅ•)＼
+     * This is the home page state. This state has buttons to go to the change password page and there is a text box
+     * to search for results from the server (this will be refined).
+     */
     private void home()
     {
 
@@ -413,6 +429,11 @@ public class ClientGUI extends Application
         homeStage.show();
 
     }
+
+    /** ／(•ㅅ•)＼
+     * The passwordChange state is where users can change their password if they are logged in. This requires username,
+     * old password, and new password.
+     */
     private void passwordChange()
     {
         //  ／(•ㅅ•)＼  Set up stage
@@ -558,6 +579,11 @@ public class ClientGUI extends Application
         pwChangeStage.show();
 
     }
+
+    /** ／(•ㅅ•)＼
+     * This is the forgot password page which is accessed from the login page. This page can only be accessed if a user
+     * is logged out. This requires an email only.
+     */
     private void forgotPassword()
     {
         //  ／(•ㅅ•)＼  Set up stage
@@ -668,6 +694,12 @@ public class ClientGUI extends Application
 
 
     }
+
+    /** ／(•ㅅ•)＼
+     * This is the register page which is accessed from the login page. This page can only be accessed if a user is
+     * logged out. This requires a user ID, username, user password, user email, and user role
+     * (again, this will be refined).
+     */
     private void register()
     {
         // ** Set up stage
@@ -818,12 +850,26 @@ public class ClientGUI extends Application
 
 
     }
+
+    /** ／(•ㅅ•)＼
+     * This tells the program that if the window is closed while a user is logged in, the user should be logged out,
+     * the client disconnected, and then the program should be ended.
+     * @param t
+     * @param <T>
+     */
     private <T extends Event> void closeWindowEventLoggedIn(T t)
     {
         String reply = client.sendString("u/o/thisuser");
         client.disconnect();
         System.exit(0);
     }
+
+    /** ／(•ㅅ•)＼
+     * This tells the program that if the window is closed while a user is logged out, the client should be disconnected
+     * adn the program should be ended.
+     * @param t
+     * @param <T>
+     */
     private <T extends Event> void closeWindowEventElse(T t)
     {
         client.disconnect();

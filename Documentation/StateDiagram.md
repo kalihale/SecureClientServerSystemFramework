@@ -1,3 +1,5 @@
+Client side state diagram
+
 ```mermaid
 stateDiagram-v2
     state "Not Connected" as s1

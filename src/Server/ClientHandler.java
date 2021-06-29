@@ -121,29 +121,35 @@ public class ClientHandler extends Thread {
 		// -- server thread runs until the client terminates the connection
 		while (go) {
 			try {
-				Object reply = null;
-				SealedObject sealedObject = (SealedObject) networkaccess.readObject();
-				Object cmd = encrypt.decryptObject(sealedObject, this.keyPair.getPrivate());
-				if(cmd instanceof User)
+				Object obj = networkaccess.readObject();
+				// ／(•ㅅ•)＼ If object is a String
+				if(obj instanceof byte[])
 				{
-					System.out.println("ClientHandler sending object cmd to UserHandler");
-					networkaccess.sendObject(this.userHandler.process((User) cmd), false);
-				}
-				else if(cmd instanceof Queries)
-				{
-					System.out.println("ClientHandler sending object cmd to CommandProtocol");
-					CommandProtocol.processCommand((Queries)cmd, this.networkaccess, this.clientHandler);
-				}
-				else if(cmd instanceof String)
-				{
+					String cmd = encrypt.decryptString((byte[]) obj, this.keyPair.getPrivate());
 					System.out.println("cmd is String");
 					CommandProtocol.processCommand((String)cmd, networkaccess, this);
 				}
+				// ／(•ㅅ•)＼ If object is an object of another type
+				else if(obj instanceof SealedObject)
+				{
+					SealedObject sealedObject = (SealedObject) obj;
+					Object cmd = encrypt.decryptObject(sealedObject, this.keyPair.getPrivate());
+					if(cmd instanceof User)
+					{
+						System.out.println("ClientHandler sending object cmd to UserHandler");
+						networkaccess.sendObject(this.userHandler.process((User) cmd), false);
+					}
+					else if(cmd instanceof Queries)
+					{
+						System.out.println("ClientHandler sending object cmd to CommandProtocol");
+						CommandProtocol.processCommand((Queries)cmd, this.networkaccess, this.clientHandler);
+					}
+				}
 				else
 				{
-					if(cmd == null)
+					if(obj == null)
 					{
-						System.out.println("ClientHandler: cmd is null");
+						System.out.println("object is null");
 					}
 					else
 					{

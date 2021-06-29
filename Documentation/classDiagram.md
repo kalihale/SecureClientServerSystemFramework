@@ -1,18 +1,26 @@
 ```mermaid
 classDiagram
+Encrypt <.. AsymmetricEncrypt : <<extends>>
+Encrypt <.. SymmetricEncrypt : <<extends>>
+SymmetricEncrypt <.. AES256 : <<implements>>
+AsymmetricEncrypt <.. RSA : <<implements>>
 ClientGUI ..> JavaFX : <<extends>>
-ClientGUI "1"*--|> "1" Client
+Client "1"<|--* "1" ClientGUI
 Client *--|> NetworkAccess : <<private>>
+AsymmetricEncrypt "1" *--|> "1" Client
 NetworkAccess <|--* ClientHandler : <<private>>
 ClientHandler ..> Thread : <<extends>>
 ClientHandler "1" *--|> "1" UserHandler
 ClientHandler ..> CommandProtocol : <<uses statically>>
+AsymmetricEncrypt "1" <|--* "1" ClientHandler
 CommandProtocol ..> ServerDataBase : <<uses>>
-Server *--|> ClientHandler
+ClientHandler <|--* Server
 Server *--|> ServerSocket : <<private>>
 Server "1"*--|>"1" ServerGUI
 ServerGUI ..> UserHandler : <<uses>>
 ServerGUI ..> JavaFX : <<extends>>
+UserHandler "1"*--|> "1" SymmetricEncrypt
+ServerDataBase "1" *--|> "1" SymmetricEncrypt
 
 class ClientGUI{
     -username : String
@@ -120,6 +128,50 @@ class ServerGUI{
     -BTgray : String
     -serverRunning : boolean
     +start(Stage primaryStage) void
+}
+
+class Encrypt~T extends Serializable~{
+<<interface>>
++encryptObject(T message, Key key) SealedObject
++decryptObject(SealedObject message, Key key) T
++encryptString(String message, Key key) byte[]
++decryptString(byte[] message, Key key) String
++bytesToString(byte[] message) String
++stringToBytes(String message) byte[]
+}
+
+class AsymmetricEncrypt~T extends Serializable~{
+<<interface>>
++getKeyPair() KeyPair
+}
+
+class SymmetricEncrypt~T extends Serializable~{
+<<interface>>
++getKeyFromPassword(String password, String salt) Key
++generateSalt() String
+}
+
+class AES256~T extends Serializable~{
++getKeyFromPassword(String password, String salt) Key
++generateSalt() String
+-generateIV() IVParameterSpec
++encryptObject(T message, Key key) SealedObject
++decryptObject(SealedObject message, Key key) T
++encryptString(String message, Key key) byte[]
++decryptString(byte[] message, Key key) String
++bytesToString(byte[] message) String
++stringToBytes(String message) byte[]
+}
+
+class RSA~T extends Serializable~{
+-static final RSA: String
++getKeyPair() KeyPair
++encryptObject(T message, Key key) SealedObject
++decryptObject(SealedObject message, Key key) T
++encryptString(String message, Key key) byte[]
++decryptString(byte[] message, Key key) String
++bytesToString(byte[] message) String
++stringToBytes(String message) byte[]
 }
 
 class ServerSocket{

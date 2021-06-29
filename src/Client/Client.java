@@ -68,17 +68,35 @@ public class Client {
 		networkaccess.close();		
 	}
 
+	/** ／(•ㅅ•)＼
+	 * sendString will send a String to the server and a String that is sent back from the Server.
+	 * @param info: The String to be sent to the server
+	 * @return String received from Server
+	 */
 	public String sendString(String info)
 	{
 		String reply = (String)networkaccess.sendObject(encrypt.encryptString(info, this.serverPublicKey), true);
 		System.out.println("Client recieves: " + reply);
 		return reply;
 	}
+
+	/** ／(•ㅅ•)＼
+	 * This sends an object to the server and returns whatever is sent back.
+	 * @param obj: The serializable object to be sent to the server
+	 * @return: Whatever object that the server sends back.
+	 */
 	public Object sendObject(Serializable obj)
 	{
 		Object reply = networkaccess.sendObject(encrypt.encryptObject(obj, this.serverPublicKey), true);
 		return reply;
 	}
+
+	/** ／(•ㅅ•)＼
+	 * readObject reads an object from the stream.
+	 * @return Object
+	 * @throws IOException: When attempting to read object from stream
+	 * @throws ClassNotFoundException: If class is not found (not an issue, the "else" will catch any object")
+	 */
 	public Object readObject() throws IOException, ClassNotFoundException
 	{
 		Object obj = networkaccess.readObject();
