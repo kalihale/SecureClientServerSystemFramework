@@ -36,7 +36,7 @@ public class EcryptionTests
         System.out.println("Original message: " + message);
 
         SymmetricEncrypt<Serializable> aes = new AES256<>();
-        Key key = aes.getKeyFromPassword("password", "random");
+        Key key = aes.getKeyFromPassword("rosegarden", "saltsaltsalt");
 
         String encryptedAES = aes.bytesToString(aes.encryptString(message, key));
         SealedObject encryptedObjAES = aes.encryptObject(user, key);

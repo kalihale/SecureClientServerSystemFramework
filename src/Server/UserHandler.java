@@ -52,6 +52,14 @@ public class UserHandler
     // ／(•ㅅ•)＼ Declare encryption module
     private SymmetricEncrypt<Serializable> encrypt;
 
+    /** ／(•ㅅ•)＼
+     * process will do all functions possible with a User object in relation to the database
+     * @param user: the User object sent from the ClientGUI
+     * @return String (indication of success or failure)
+     * @throws SQLException if SQL statement is wrong
+     * @throws NoSuchAlgorithmException if SymmetricEncrypt is wrong
+     * @throws InvalidKeySpecException if encrypt.getKeyFromPassword throws an exception
+     */
     public String process(User user) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException
     {
         // -- make the connection to the ExamplesAndReferences.database
@@ -71,15 +79,17 @@ public class UserHandler
                 case 0:
                     //  ／(•ㅅ•)＼  Logout with stored procedure
                     System.out.println("Logged out " + this.username);
-                    statement = conn.prepareCall("{call logout(?)}");
-                    statement.setString("un", user.getUsername());
+                    statement = conn.prepareCall("{call userData.logout(?)}");
+                    statement.setString(1, encrypt.bytesToString(encrypt.encryptString(user.getUsername(), key)));
+                    statement.execute();
+                    statement.close();
                     return "logoutSuccess";
                 case 1:
                     //  ／(•ㅅ•)＼  Login with stored procedure
                     statement = conn.prepareCall("{? = call login(?,?)}");
                     statement.registerOutParameter(1, Types.BOOLEAN);
-                    statement.setString(2, user.getUsername());
-                    statement.setString(3, user.getPassword());
+                    statement.setString(2, encrypt.bytesToString(encrypt.encryptString(user.getUsername(), key)));
+                    statement.setString(3, encrypt.bytesToString(encrypt.encryptString(user.getPassword(), key)));
                     statement.execute();
                     boolean exists = statement.getBoolean(1);
                     statement.close();
@@ -96,9 +106,9 @@ public class UserHandler
                     System.out.println("Changed password for " + this.username);
                     statement = conn.prepareCall("{? = call changePassword(?, ?, ?)}");
                     statement.registerOutParameter(1, Types.BOOLEAN);
-                    statement.setString("un", user.getUsername());
-                    statement.setString("oldpass", user.getOldPassword());
-                    statement.setString("newpass", user.getPassword());
+                    statement.setString("un", encrypt.bytesToString(encrypt.encryptString(user.getUsername(), key)));
+                    statement.setString("oldpass", encrypt.bytesToString(encrypt.encryptString(user.getOldPassword(), key)));
+                    statement.setString("newpass", encrypt.bytesToString(encrypt.encryptString(user.getPassword(), key)));
                     statement.execute();
                     boolean success = statement.getBoolean(1);
                     statement.close();
@@ -117,12 +127,12 @@ public class UserHandler
                 case 4:
                     //  ／(•ㅅ•)＼  Registration
                     statement = conn.prepareCall("{call register(?, ?, ?, ?, ?, ?)}");
-                    statement.setString("id", user.getUserID());
-                    statement.setString("un", user.getUsername());
-                    statement.setString("pass", user.getPassword());
-                    statement.setString("email", user.getEmail());
-                    statement.setString("uRole", user.getUserRole());
-                    statement.setString("createdBy", "css");
+                    statement.setString("id", encrypt.bytesToString(encrypt.encryptString(user.getUserID(), key)));
+                    statement.setString("un", encrypt.bytesToString(encrypt.encryptString(user.getUsername(), key)));
+                    statement.setString("pass", encrypt.bytesToString(encrypt.encryptString(user.getPassword(), key)));
+                    statement.setString("email", encrypt.bytesToString(encrypt.encryptString(user.getEmail(), key)));
+                    statement.setString("uRole", encrypt.bytesToString(encrypt.encryptString(user.getUserRole(), key)));
+                    statement.setString("createdBy", encrypt.bytesToString(encrypt.encryptString("css", key)));
                     statement.execute();
                     statement.close();
 
@@ -135,10 +145,10 @@ public class UserHandler
         {
             System.out.println(e);
         }
-        return "SQLerror";
+        return "SQLError";
     }
 
-    public static Stack<String>[] getLoggedInUsers() throws SQLException
+    public static Stack<String>[] getLoggedInUsers(SymmetricEncrypt<Serializable> encrypt, Key key) throws SQLException
     {
         // -- make the connection to the ExamplesAndReferences.database
         //    performs functionality of SQL: use <<your schema>>;
@@ -154,15 +164,15 @@ public class UserHandler
             rset = statement.getResultSet();
             while(rset.next())
             {
-                results[0].add(rset.getString("userID"));
-                results[1].add(rset.getString("username"));
+                results[0].add(encrypt.decryptString(encrypt.stringToBytes(rset.getString("userID")), key));
+                results[1].add(encrypt.decryptString(encrypt.stringToBytes(rset.getString("username")), key));
             }
             hadResults = statement.getMoreResults();
         }
         return results;
     }
 
-    public static Stack<String>[] getLockedOutUsers() throws SQLException
+    public static Stack<String>[] getLockedOutUsers(SymmetricEncrypt<Serializable> encrypt, Key key) throws SQLException
     {
         // -- make the connection to the ExamplesAndReferences.database
         //    performs functionality of SQL: use <<your schema>>;
@@ -178,8 +188,8 @@ public class UserHandler
             rset = statement.getResultSet();
             while(rset.next())
             {
-                results[0].add(rset.getString("userID"));
-                results[1].add(rset.getString("username"));
+                results[0].add(encrypt.decryptString(encrypt.stringToBytes(rset.getString("userID")), key));
+                results[1].add(encrypt.decryptString(encrypt.stringToBytes(rset.getString("username")), key));
             }
             hadResults = statement.getMoreResults();
         }
@@ -207,7 +217,7 @@ public class UserHandler
         return result;
     }
 
-    public static String getRegisteredNum() throws SQLException
+    public static String getRegisteredNum(SymmetricEncrypt<Serializable> encrypt, Key key) throws SQLException
     {
         // -- make the connection to the ExamplesAndReferences.database
         //    performs functionality of SQL: use <<your schema>>;
@@ -226,5 +236,40 @@ public class UserHandler
             hadResults = statement.getMoreResults();
         }
         return result;
+    }
+
+    public static void main(String[] args)
+    {
+        SymmetricEncrypt<Serializable> encrypt = new AES256<>();
+        Key key = null;
+        try
+        {
+            key = encrypt.getKeyFromPassword("rosegarden", "saltsaltsalt");
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e)
+        {
+            e.printStackTrace();
+        }
+        String[] roles = {"manager", "estimator", "office staff"};
+        try
+        {
+            conn = DriverManager.getConnection(userdatabaseURL, USERNAME, PW);
+        } catch (SQLException throwables)
+        {
+            throwables.printStackTrace();
+        }
+
+        try
+        {
+            PreparedStatement statement = conn.prepareStatement("insert into userData.userRoles(userRoleName) values (?)");
+            for(String S : roles)
+            {
+                statement.setString(1, encrypt.bytesToString(encrypt.encryptString(S, key)));
+                statement.execute();
+            }
+            statement.close();
+        } catch (SQLException throwables)
+        {
+            throwables.printStackTrace();
+        }
     }
 }

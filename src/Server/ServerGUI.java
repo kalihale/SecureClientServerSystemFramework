@@ -1,5 +1,7 @@
 package Server;
 
+import Security.AES256;
+import Security.SymmetricEncrypt;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -9,6 +11,10 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.io.Serializable;
+import java.security.Key;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 import java.util.Stack;
 
@@ -18,11 +24,21 @@ public class ServerGUI extends Application
     private final String BTGRAY = "-fx-background-color: #cbccd1";
     private boolean serverRunning = false;
     private Stack<String>[] users;
-
+    private SymmetricEncrypt<Serializable> encrypt;
+    private Key key;
 
     @Override
     public void start(Stage primaryStage) throws SQLException
     {
+        encrypt = new AES256<>();
+
+        try
+        {
+            key = encrypt.getKeyFromPassword("rosegarden", "saltsaltsalt");
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e)
+        {
+            e.printStackTrace();
+        }
 
         GridPane serverPane = new GridPane();
         serverPane.setBackground(new Background(new BackgroundFill(Color.BISQUE, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -68,7 +84,7 @@ public class ServerGUI extends Application
             btUserReg.setOnAction(actionEvent -> {
                 try
                 {
-                    taDisplay.appendText("Number of users registered: " + UserHandler.getRegisteredNum() + "\n");
+                    taDisplay.appendText("Number of users registered: " + UserHandler.getRegisteredNum(encrypt, key) + "\n");
                 } catch (SQLException throwables)
                 {
                     throwables.printStackTrace();
@@ -106,7 +122,7 @@ public class ServerGUI extends Application
             users = null;
             try
             {
-                users = UserHandler.getLoggedInUsers();
+                users = UserHandler.getLoggedInUsers(encrypt, key);
             } catch (SQLException throwables)
             {
                 throwables.printStackTrace();
@@ -132,7 +148,7 @@ public class ServerGUI extends Application
             users = null;
             try
             {
-                users = UserHandler.getLockedOutUsers();
+                users = UserHandler.getLockedOutUsers(encrypt, key);
             } catch (SQLException throwables)
             {
                 throwables.printStackTrace();
