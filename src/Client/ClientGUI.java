@@ -16,6 +16,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import java.io.IOException;
+
 /*
 ／(•ㅅ•)＼  bt: button
     ta: Text Area
@@ -77,6 +79,9 @@ public class ClientGUI extends Application
             }catch(NumberFormatException numberFormatException)
             {
                 System.out.println("Could not parse int");
+            } catch (IOException | ClassNotFoundException e)
+            {
+                e.printStackTrace();
             }
             taIpAddress.clear();
             taPortNum.clear();

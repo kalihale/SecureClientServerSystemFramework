@@ -7,5 +7,7 @@ import java.security.spec.InvalidKeySpecException;
 
 public interface SymmetricEncrypt<T extends Serializable> extends Encrypt<T>
 {
-    public Key getKeyFromPassword(String password, String salt) throws NoSuchAlgorithmException, InvalidKeySpecException;
+    Key getKeyFromPassword(String password, String salt) throws NoSuchAlgorithmException, InvalidKeySpecException;
+
+    String generateSalt();
 }

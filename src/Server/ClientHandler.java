@@ -1,11 +1,19 @@
 package Server;
 
-import Shared.NetworkAccess;
 import ObjectsToPass.Queries;
 import ObjectsToPass.User;
+import Security.AsymmetricEncrypt;
+import Security.RSA;
+import Shared.NetworkAccess;
 
+import javax.crypto.SealedObject;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.Socket;
+import java.security.KeyPair;
+import java.security.NoSuchAlgorithmException;
+import java.security.PublicKey;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 
 
@@ -38,6 +46,15 @@ public class ClientHandler extends Thread {
 
 	//	／(•ㅅ•)＼	ClientHandler has-a UserHandler
 	private UserHandler userHandler;
+
+	// ／(•ㅅ•)＼ Encryption module
+	private AsymmetricEncrypt<Serializable> encrypt;
+
+	// ／(•ㅅ•)＼ Key pair
+	private KeyPair keyPair;
+
+	// ／(•ㅅ•)＼ The public key from the client
+	private PublicKey clientPublicKey;
 	
 	/**
 	 * Constructor saves the ID, socket, and reference to the server
@@ -47,15 +64,23 @@ public class ClientHandler extends Thread {
 	 * @param socket: the peer-to-peer socket for connection to the client
 	 * @param server: reference to the server that "has" this ClientHandler
 	 */
-	public ClientHandler (int id, Socket socket, Server server) 
+	public ClientHandler (int id, Socket socket, Server server)
 	{
 		this.userHandler = new UserHandler();
 		this.server = server;
 		this.id = id;
 		this.name = Integer.toString(id);
 		go = true;
+		// ／(•ㅅ•)＼ Create encryption module
+		this.encrypt = new RSA<>();
+
+		// ／(•ㅅ•)＼ Create Server keypair
+		this.keyPair = this.encrypt.getKeyPair();
 		
-		networkaccess = new NetworkAccess(socket);		
+		networkaccess = new NetworkAccess(socket);
+		// ／(•ㅅ•)＼ Sending server's public key (unique for each client),
+		//           receiving client's public key (unique for each client)
+		this.clientPublicKey = (PublicKey)networkaccess.sendObject(this.keyPair.getPublic(), true);
 	}
 	
 
@@ -97,7 +122,8 @@ public class ClientHandler extends Thread {
 		while (go) {
 			try {
 				Object reply = null;
-				Object cmd = networkaccess.readObject();
+				SealedObject sealedObject = (SealedObject) networkaccess.readObject();
+				Object cmd = encrypt.decryptObject(sealedObject, this.keyPair.getPrivate());
 				if(cmd instanceof User)
 				{
 					System.out.println("ClientHandler sending object cmd to UserHandler");
@@ -125,13 +151,10 @@ public class ClientHandler extends Thread {
 					}
 				}
 			} 
-			catch (IOException | ClassNotFoundException | SQLException e) {
-				
+			catch (IOException | ClassNotFoundException | SQLException | NoSuchAlgorithmException | InvalidKeySpecException e) {
 				e.printStackTrace();
 				go = false;
-				
 			}
-			
 		}
 	}
 }

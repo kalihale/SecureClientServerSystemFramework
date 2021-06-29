@@ -1,7 +1,13 @@
 package Server;
 
 import ObjectsToPass.User;
+import Security.AES256;
+import Security.SymmetricEncrypt;
 
+import java.io.Serializable;
+import java.security.Key;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.*;
 import java.util.Stack;
 
@@ -43,11 +49,18 @@ public class UserHandler
     private static final String USERNAME = "root";
     private static final String PW = "rosegarden";
 
-    public String process(User user) throws SQLException
+    // ／(•ㅅ•)＼ Declare encryption module
+    private SymmetricEncrypt<Serializable> encrypt;
+
+    public String process(User user) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException
     {
         // -- make the connection to the ExamplesAndReferences.database
         //    performs functionality of SQL: use <<your schema>>;
         conn = DriverManager.getConnection(userdatabaseURL, USERNAME, PW);
+
+        // ／(•ㅅ•)＼ Initialize encryption module
+        encrypt = new AES256<>();
+        Key key = encrypt.getKeyFromPassword(PW, "saltsaltsalt");
 
         this.username = user.getUsername();
         System.out.println(user.getUsername() + " " + user.getAction());

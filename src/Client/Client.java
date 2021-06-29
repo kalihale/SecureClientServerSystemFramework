@@ -1,8 +1,16 @@
 package Client;
 
 
-import Shared.NetworkAccess;
 import ObjectsToPass.User;
+import Security.AsymmetricEncrypt;
+import Security.RSA;
+import Shared.NetworkAccess;
+
+import javax.crypto.SealedObject;
+import java.io.IOException;
+import java.io.Serializable;
+import java.security.KeyPair;
+import java.security.PublicKey;
 
 public class Client {
 	
@@ -29,6 +37,10 @@ public class Client {
 	 * provides a peer-to-peer connection to the server
 	 */
 	private NetworkAccess networkaccess;
+
+	private AsymmetricEncrypt<Serializable> encrypt;
+	private PublicKey serverPublicKey;
+	private KeyPair keys;
   	
 	/**
 	 * Creates a peer-to-peer connection to the server
@@ -36,9 +48,13 @@ public class Client {
 	 * @param ip: the IP address of the server
 	 * @param port: the port on which the server is listening
 	 */
-	public Client (String ip, int port)
+	public Client (String ip, int port) throws IOException, ClassNotFoundException
 	{
 		networkaccess = new NetworkAccess(ip, port);
+		encrypt = new RSA<>();
+		keys = encrypt.getKeyPair();
+		serverPublicKey = (PublicKey)readObject();
+
 	}
 	
 	
@@ -54,14 +70,36 @@ public class Client {
 
 	public String sendString(String info)
 	{
-		String reply = (String)networkaccess.sendObject(info, true);
+		String reply = (String)networkaccess.sendObject(encrypt.encryptString(info, this.serverPublicKey), true);
 		System.out.println("Client recieves: " + reply);
 		return reply;
 	}
-	public Object sendObject(Object obj)
+	public Object sendObject(Serializable obj)
 	{
-		Object reply = networkaccess.sendObject(obj, true);
+		Object reply = networkaccess.sendObject(encrypt.encryptObject(obj, this.serverPublicKey), true);
 		return reply;
+	}
+	public Object readObject() throws IOException, ClassNotFoundException
+	{
+		Object obj = networkaccess.readObject();
+		if(obj instanceof byte[])
+		{
+			return encrypt.decryptString((byte[]) obj, keys.getPrivate());
+		}
+		else if(obj instanceof SealedObject)
+		{
+			return encrypt.decryptObject((SealedObject) obj, keys.getPrivate());
+		}
+		else if(obj instanceof PublicKey)
+		{
+			System.out.println("Sending client public key");
+			networkaccess.sendObject(this.keys.getPublic(), false);
+			return obj;
+		}
+		else
+		{
+			return obj;
+		}
 	}
 	
 	
@@ -138,7 +176,14 @@ public class Client {
 		String host = "localhost";
 		int port = 8000;
 		System.out.println("Creating new client");
-		Client client = new Client(host, port);
+		Client client = null;
+		try
+		{
+			client = new Client(host, port);
+		} catch (IOException | ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		}
 
 		User kali = new User(4,"k301", "kali", "password", "",
 				"kalihale@callutheran.edu", "manager");
