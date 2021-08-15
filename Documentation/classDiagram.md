@@ -21,6 +21,8 @@ ServerGUI ..> UserHandler : <<uses>>
 ServerGUI ..> JavaFX : <<extends>>
 UserHandler "1"*--|> "1" SymmetricEncrypt
 ServerDataBase "1" *--|> "1" SymmetricEncrypt
+ClientGUI "1" *--|> "*" User
+User "1" <|--* "1" UserHandler
 
 class ClientGUI{
     -username : String
