@@ -4,13 +4,22 @@
 
 package ExamplesAndReferences;
 
-import java.io.*;
-import java.net.*;
+import org.whispersystems.libsignal.IdentityKeyPair;
+import org.whispersystems.libsignal.SignalProtocolAddress;
+
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 public class SerializationServer
 {
     public static void main(String[] args) throws Exception
     {
+        // ／(•ㅅ•)＼ Generate identity key pair
+        //           This has a public and a private key
+        IdentityKeyPair serverIPK = IdentityKeyPair.generate();
+        SignalProtocolAddress server = new SignalProtocolAddress("server", 0);
         ServerSocket ss = new ServerSocket(7000);
         System.out.println("ServerSocket awaiting connections...");
         Socket socket = ss.accept();

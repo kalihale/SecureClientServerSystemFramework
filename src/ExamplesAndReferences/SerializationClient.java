@@ -4,14 +4,33 @@
 
 package ExamplesAndReferences;
 
+import org.whispersystems.libsignal.IdentityKeyPair;
+import org.whispersystems.libsignal.SignalProtocolAddress;
+import org.whispersystems.libsignal.state.SignedPreKeyRecord;
+
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 public class SerializationClient
 {
     public static void main(String[] args) throws Exception
     {
+
+        SignalProtocolAddress client = new SignalProtocolAddress("client", 1);
+        // ／(•ㅅ•)＼ Generate identity key pair
+        //           This has a public and a private key
+        IdentityKeyPair clientIPK = IdentityKeyPair.generate();
+        // ／(•ㅅ•)＼ TODO Generate signed pre-keys
+        //           TODO Difference between IdentityKeyPair and ECKeyPair????
+        SignedPreKeyRecord spkClient = new SignedPreKeyRecord(0, LocalDateTime.now().toEpochSecond(ZoneOffset.UTC), clientIPK, 7);
+        // ／(•ㅅ•)＼ TODO Create SignalProtocolStore
+        // ／(•ㅅ•)＼ TODO Create a pre key signal message and exchange
+        // ／(•ㅅ•)＼ TODO Build a session using SessionBuilder
+
+
         Sample obj=new Sample();
         obj.name="Ramesh";
         obj.city="Pune";
