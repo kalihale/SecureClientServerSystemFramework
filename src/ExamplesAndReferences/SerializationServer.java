@@ -4,8 +4,8 @@
 
 package ExamplesAndReferences;
 
-import org.whispersystems.libsignal.IdentityKeyPair;
-import org.whispersystems.libsignal.SignalProtocolAddress;
+import org.signal.libsignal.protocol.IdentityKeyPair;
+import org.signal.libsignal.protocol.SignalProtocolAddress;
 
 import java.io.InputStream;
 import java.io.ObjectInputStream;
