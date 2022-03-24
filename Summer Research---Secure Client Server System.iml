@@ -10,6 +10,6 @@
     <orderEntry type="library" name="javafx15" level="application" />
     <orderEntry type="library" name="mysql-connector-java-8.0.25" level="project" />
     <orderEntry type="library" name="javafx15" level="application" />
-    <orderEntry type="library" name="signal-client-java-0.13.0" level="project" />
+    <orderEntry type="library" name="libsignal-client-0.15.0" level="project" />
   </component>
 </module>

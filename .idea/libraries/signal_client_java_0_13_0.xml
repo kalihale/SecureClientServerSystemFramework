@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="signal-client-java-0.13.0">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../libsignal-protocol-java/libsignal-client/java/java/build/libs/signal-client-java-0.13.0.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

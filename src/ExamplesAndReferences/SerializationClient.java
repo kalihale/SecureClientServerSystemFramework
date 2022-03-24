@@ -4,9 +4,11 @@
 
 package ExamplesAndReferences;
 
-import org.whispersystems.libsignal.IdentityKeyPair;
-import org.whispersystems.libsignal.SignalProtocolAddress;
-import org.whispersystems.libsignal.state.SignedPreKeyRecord;
+
+import org.signal.libsignal.protocol.IdentityKeyPair;
+import org.signal.libsignal.protocol.SignalProtocolAddress;
+import org.signal.libsignal.protocol.ecc.Curve;
+import org.signal.libsignal.protocol.state.SignedPreKeyRecord;
 
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
@@ -23,9 +25,10 @@ public class SerializationClient
         // ／(•ㅅ•)＼ Generate identity key pair
         //           This has a public and a private key
         IdentityKeyPair clientIPK = IdentityKeyPair.generate();
-        // ／(•ㅅ•)＼ TODO Generate signed pre-keys
-        //           TODO Difference between IdentityKeyPair and ECKeyPair????
-        SignedPreKeyRecord spkClient = new SignedPreKeyRecord(0, LocalDateTime.now().toEpochSecond(ZoneOffset.UTC), clientIPK, 7);
+        // ／(•ㅅ•)＼ Generate signed pre-keys
+        //           ECKeyPair is generated with Curve
+        SignedPreKeyRecord spkClient = new SignedPreKeyRecord(0, LocalDateTime.now().toEpochSecond(ZoneOffset.UTC),
+                Curve.generateKeyPair(), new byte[]{7});
         // ／(•ㅅ•)＼ TODO Create SignalProtocolStore
         // ／(•ㅅ•)＼ TODO Create a pre key signal message and exchange
         // ／(•ㅅ•)＼ TODO Build a session using SessionBuilder
