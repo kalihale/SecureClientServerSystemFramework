@@ -38,6 +38,16 @@ public class sps implements SignalProtocolStore
 
     HashMap<Sender, SenderKeyRecord> senderKeys = new HashMap<>();
 
+    SignalProtocolAddress sender;
+    UUID uuid;
+    SenderKeyRecord senderKeyRecord;
+    IdentityKeyPair ipk;
+
+    sps(IdentityKeyPair ipk)
+    {
+        this.ipk = ipk;
+    }
+
     /**
      * Commit to storage the {@link org.signal.libsignal.protocol.groups.state.SenderKeyRecord} for a
      * given (distributionId + senderName + deviceId) tuple.
@@ -49,7 +59,10 @@ public class sps implements SignalProtocolStore
     @Override
     public void storeSenderKey(SignalProtocolAddress sender, UUID distributionId, SenderKeyRecord record)
     {
-        senderKeys.put(new Sender(sender, distributionId), record);
+        this.sender = sender;
+        this.uuid = distributionId;
+        this.senderKeyRecord = record;
+//        senderKeys.put(new Sender(sender, distributionId), record);
     }
 
     /**
@@ -70,7 +83,12 @@ public class sps implements SignalProtocolStore
     @Override
     public SenderKeyRecord loadSenderKey(SignalProtocolAddress sender, UUID distributionId)
     {
-        return senderKeys.get(new Sender(sender, distributionId));
+//        return senderKeys.get(new Sender(sender, distributionId));
+        if(this.sender == sender && this.uuid == distributionId)
+        {
+            return this.senderKeyRecord;
+        }
+        return null;
     }
 
     /**
