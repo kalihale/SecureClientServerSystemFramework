@@ -5,7 +5,9 @@
 package ExamplesAndReferences;
 
 
+import Shared.sps;
 import org.signal.libsignal.protocol.IdentityKeyPair;
+import org.signal.libsignal.protocol.SessionBuilder;
 import org.signal.libsignal.protocol.SignalProtocolAddress;
 import org.signal.libsignal.protocol.ecc.Curve;
 import org.signal.libsignal.protocol.state.SignedPreKeyRecord;
@@ -21,7 +23,9 @@ public class SerializationClient
     public static void main(String[] args) throws Exception
     {
 
-        SignalProtocolAddress client = new SignalProtocolAddress("client", 1);
+        // ／(^ㅅ^)＼ Client needs to get: Server's identity key, server's signed prekey, server's prekey signature, and
+        //           one of server's one-time prekeys
+
         // ／(•ㅅ•)＼ Generate identity key pair
         //           This has a public and a private key
         IdentityKeyPair clientIPK = IdentityKeyPair.generate();
@@ -30,9 +34,10 @@ public class SerializationClient
         SignedPreKeyRecord spkClient = new SignedPreKeyRecord(0, LocalDateTime.now().toEpochSecond(ZoneOffset.UTC),
                 Curve.generateKeyPair(), new byte[]{7});
         // ／(•ㅅ•)＼ TODO Create SignalProtocolStore
-        // ／(•ㅅ•)＼ TODO Create a pre key signal message and exchange
-        // ／(•ㅅ•)＼ TODO Build a session using SessionBuilder
-
+        sps sps = new sps(clientIPK);
+        // ／(•ㅅ•)＼ Build a session using SessionBuilder
+        SessionBuilder sb = new SessionBuilder(sps, new SignalProtocolAddress("server", 0));
+        SignalProtocolAddress serverSPA = new SignalProtocolAddress("server", 0);
 
         Sample obj=new Sample();
         obj.name="Ramesh";

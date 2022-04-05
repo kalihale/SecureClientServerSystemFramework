@@ -43,7 +43,7 @@ public class sps implements SignalProtocolStore
     SenderKeyRecord senderKeyRecord;
     IdentityKeyPair ipk;
 
-    sps(IdentityKeyPair ipk)
+    public sps(IdentityKeyPair ipk)
     {
         this.ipk = ipk;
     }
