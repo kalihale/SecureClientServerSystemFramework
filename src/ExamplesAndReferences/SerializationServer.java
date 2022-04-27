@@ -4,8 +4,18 @@
 
 package ExamplesAndReferences;
 
+import org.signal.libsignal.protocol.IdentityKey;
 import org.signal.libsignal.protocol.IdentityKeyPair;
 import org.signal.libsignal.protocol.SignalProtocolAddress;
+import org.signal.libsignal.protocol.ecc.Curve;
+import org.signal.libsignal.protocol.ecc.ECKeyPair;
+import org.signal.libsignal.protocol.ecc.ECPublicKey;
+import org.signal.libsignal.protocol.state.PreKeyBundle;
+import org.signal.libsignal.protocol.state.PreKeyRecord;
+import org.signal.libsignal.protocol.state.SignalProtocolStore;
+import org.signal.libsignal.protocol.state.SignedPreKeyRecord;
+import org.signal.libsignal.protocol.state.impl.InMemorySignalProtocolStore;
+import org.signal.libsignal.protocol.util.KeyHelper;
 
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -16,10 +26,38 @@ public class SerializationServer
 {
     public static void main(String[] args) throws Exception
     {
-        // ／(•ㅅ•)＼ Generate identity key pair
-        //           This has a public and a private key
-        IdentityKeyPair serverIPK = IdentityKeyPair.generate();
+        // ／(^ㅅ^)＼ Create server address
         SignalProtocolAddress server = new SignalProtocolAddress("server", 0);
+        // ／(^ㅅ^)＼ Generate identity key pair
+        IdentityKeyPair identityKeyPair = IdentityKeyPair.generate();
+        // ／(^ㅅ^)＼ Generate SignalProtocolStore for the server
+        SignalProtocolStore serverStore = new InMemorySignalProtocolStore(identityKeyPair, KeyHelper.generateRegistrationId(false));
+        // ／(^ㅅ^)＼ RegistrationID
+        int registrationID = serverStore.getLocalRegistrationId();
+
+        // ／(^ㅅ^)＼ Generate preKeyPairs (signed and unsigned) using Curve
+        ECKeyPair preKeyPair = Curve.generateKeyPair();
+        ECKeyPair signedPreKeyPair = Curve.generateKeyPair();
+        int deviceID = server.getDeviceId();
+        long timestamp = System.currentTimeMillis();
+
+        // ／(^ㅅ^)＼ Generate signed prekey signature
+        byte[] signedPreKeySignature = Curve.calculateSignature(identityKeyPair.getPrivateKey(), signedPreKeyPair.getPublicKey().serialize());
+
+        // ／(^ㅅ^)＼ Public keys
+        IdentityKey identityKey = identityKeyPair.getPublicKey();
+        ECPublicKey preKeyPublic = preKeyPair.getPublicKey();
+        ECPublicKey signedPreKeyPublic = signedPreKeyPair.getPublicKey();
+
+        // ／(^ㅅ^)＼ Create preKeyBundle
+        PreKeyBundle preKeyBundle = new PreKeyBundle(registrationID, deviceID, 0, preKeyPublic, 0, signedPreKeyPublic
+                , signedPreKeySignature, identityKey);
+
+        // ／(^ㅅ^)＼ Create preKeyRecord
+        PreKeyRecord preKeyRecord = new PreKeyRecord(preKeyBundle.getPreKeyId(), preKeyPair);
+        SignedPreKeyRecord signedPreKeyRecord = new SignedPreKeyRecord(0, timestamp, signedPreKeyPair,
+                signedPreKeySignature);
+
         ServerSocket ss = new ServerSocket(7000);
         System.out.println("ServerSocket awaiting connections...");
         Socket socket = ss.accept();

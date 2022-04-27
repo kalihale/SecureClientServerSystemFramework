@@ -5,18 +5,22 @@
 package ExamplesAndReferences;
 
 
-import Shared.sps;
+import org.signal.libsignal.protocol.IdentityKey;
 import org.signal.libsignal.protocol.IdentityKeyPair;
-import org.signal.libsignal.protocol.SessionBuilder;
 import org.signal.libsignal.protocol.SignalProtocolAddress;
 import org.signal.libsignal.protocol.ecc.Curve;
+import org.signal.libsignal.protocol.ecc.ECKeyPair;
+import org.signal.libsignal.protocol.ecc.ECPublicKey;
+import org.signal.libsignal.protocol.state.PreKeyBundle;
+import org.signal.libsignal.protocol.state.PreKeyRecord;
+import org.signal.libsignal.protocol.state.SignalProtocolStore;
 import org.signal.libsignal.protocol.state.SignedPreKeyRecord;
+import org.signal.libsignal.protocol.state.impl.InMemorySignalProtocolStore;
+import org.signal.libsignal.protocol.util.KeyHelper;
 
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 
 public class SerializationClient
 {
@@ -26,18 +30,43 @@ public class SerializationClient
         // ／(^ㅅ^)＼ Client needs to get: Server's identity key, server's signed prekey, server's prekey signature, and
         //           one of server's one-time prekeys
 
+        // ／(^ㅅ^)＼ Client signal protocol address
+        SignalProtocolAddress client = new SignalProtocolAddress("client", 1);
         // ／(•ㅅ•)＼ Generate identity key pair
         //           This has a public and a private key
-        IdentityKeyPair clientIPK = IdentityKeyPair.generate();
-        // ／(•ㅅ•)＼ Generate signed pre-keys
-        //           ECKeyPair is generated with Curve
-        SignedPreKeyRecord spkClient = new SignedPreKeyRecord(0, LocalDateTime.now().toEpochSecond(ZoneOffset.UTC),
-                Curve.generateKeyPair(), new byte[]{7});
-        // ／(•ㅅ•)＼ TODO Create SignalProtocolStore
-        sps sps = new sps(clientIPK);
-        // ／(•ㅅ•)＼ Build a session using SessionBuilder
-        SessionBuilder sb = new SessionBuilder(sps, new SignalProtocolAddress("server", 0));
-        SignalProtocolAddress serverSPA = new SignalProtocolAddress("server", 0);
+        IdentityKeyPair clientIKP = IdentityKeyPair.generate();
+        // ／(•ㅅ•)＼ Create SignalProtocolStore
+        SignalProtocolStore store = new InMemorySignalProtocolStore(clientIKP, KeyHelper.generateRegistrationId(false));
+        int registrationID = store.getLocalRegistrationId();
+
+        // ／(•ㅅ•)＼ Generate prekeypair
+        ECKeyPair preKeyPair = Curve.generateKeyPair();
+        // ／(^ㅅ^)＼ Generate signed pre key pair
+        ECKeyPair signedPreKeyPair = Curve.generateKeyPair();
+        int deviceID = 1;
+        long timestamp = System.currentTimeMillis();
+
+        // ／(^ㅅ^)＼ Create signed pre key signature
+        byte[] signedPreKeySignature = Curve.calculateSignature(clientIKP.getPrivateKey(),
+                signedPreKeyPair.getPublicKey().serialize());
+
+        // ／(^ㅅ^)＼ Public identity key
+        IdentityKey publicIK = clientIKP.getPublicKey();
+        // ／(^ㅅ^)＼ Public pre keys
+        ECPublicKey preKeyPublic = preKeyPair.getPublicKey();
+        ECPublicKey signedPreKeyPublic = signedPreKeyPair.getPublicKey();
+
+        // ／(^ㅅ^)＼ Create preKeyBundle
+        PreKeyBundle preKeyBundle = new PreKeyBundle(registrationID, deviceID, 0, preKeyPublic, 0, signedPreKeyPublic
+                , signedPreKeySignature, publicIK);
+        // ／(^ㅅ^)＼ Create preKeyRecord
+        PreKeyRecord preKeyRecord = new PreKeyRecord(preKeyBundle.getPreKeyId(), preKeyPair);
+        // ／(^ㅅ^)＼ Create signedPreKeyRecord
+        SignedPreKeyRecord signedPreKeyRecord = new SignedPreKeyRecord(0, timestamp, signedPreKeyPair,
+                signedPreKeySignature);
+
+        store.storePreKey(0, preKeyRecord);
+        store.storeSignedPreKey(0, signedPreKeyRecord);
 
         Sample obj=new Sample();
         obj.name="Ramesh";
