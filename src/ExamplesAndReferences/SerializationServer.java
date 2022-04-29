@@ -4,12 +4,11 @@
 
 package ExamplesAndReferences;
 
-import org.signal.libsignal.protocol.IdentityKey;
-import org.signal.libsignal.protocol.IdentityKeyPair;
-import org.signal.libsignal.protocol.SignalProtocolAddress;
+import org.signal.libsignal.protocol.*;
 import org.signal.libsignal.protocol.ecc.Curve;
 import org.signal.libsignal.protocol.ecc.ECKeyPair;
 import org.signal.libsignal.protocol.ecc.ECPublicKey;
+import org.signal.libsignal.protocol.message.PreKeySignalMessage;
 import org.signal.libsignal.protocol.state.PreKeyBundle;
 import org.signal.libsignal.protocol.state.PreKeyRecord;
 import org.signal.libsignal.protocol.state.SignalProtocolStore;
@@ -19,8 +18,11 @@ import org.signal.libsignal.protocol.util.KeyHelper;
 
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 
 public class SerializationServer
 {
@@ -63,15 +65,34 @@ public class SerializationServer
         Socket socket = ss.accept();
         System.out.println("Connection from " + socket);
 
+        OutputStream os = socket.getOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(os);
+        System.out.println("Sending values to the ServerSocket");
+        oos.writeObject(preKeyBundle);
+
         //Deserialization
         InputStream is = socket.getInputStream();
         ObjectInputStream ois = new ObjectInputStream(is);
-        Sample obj1=(Sample)ois.readObject();
+        PreKeyBundle clientBundle = (PreKeyBundle) ois.readObject();
+
+        is = socket.getInputStream();
+        ois = new ObjectInputStream(is);
+        PreKeySignalMessage obj1 = (PreKeySignalMessage) ois.readObject();
+
+        SignalProtocolAddress client = new SignalProtocolAddress("client", 1);
+
+        SessionBuilder builder = new SessionBuilder(serverStore, client);
+
+        builder.process(clientBundle);
+
+        SessionCipher cipher = new SessionCipher(serverStore, client);
+
+        byte[] decrypted = cipher.decrypt(obj1);
 
         System.out.println("Values received from Client are:-");
-        System.out.println("Name:"+obj1.name);
-        System.out.println("City:"+obj1.city);
-        System.out.println("Contact No.:"+obj1.contactnum);
+
+        System.out.println(new String(decrypted, StandardCharsets.UTF_8));
+
 
         System.out.println("Closing sockets.");
         ss.close();
