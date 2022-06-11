@@ -73,12 +73,6 @@ public class SerializationClient
 
         // ／(^ㅅ^)＼ Get server prekey
 
-
-        Sample obj=new Sample();
-        obj.name="Ramesh";
-        obj.city="Pune";
-        obj.contactnum="9090909090";
-
         Socket socket = new Socket("localhost", 7000);
         System.out.println("Connected");
 
@@ -112,10 +106,6 @@ public class SerializationClient
 
         String o2 = "test";
         oos.writeObject(o2);
-
-        obj.name = "tryagain";
-
-        oos.writeObject(obj);
 
         System.out.println("Closing socket and terminating program.");
         socket.close();

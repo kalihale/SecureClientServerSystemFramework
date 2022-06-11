@@ -8,7 +8,9 @@ import org.signal.libsignal.protocol.*;
 import org.signal.libsignal.protocol.ecc.Curve;
 import org.signal.libsignal.protocol.ecc.ECKeyPair;
 import org.signal.libsignal.protocol.ecc.ECPublicKey;
+import org.signal.libsignal.protocol.message.CiphertextMessage;
 import org.signal.libsignal.protocol.message.PreKeySignalMessage;
+import org.signal.libsignal.protocol.message.SignalMessage;
 import org.signal.libsignal.protocol.state.PreKeyBundle;
 import org.signal.libsignal.protocol.state.PreKeyRecord;
 import org.signal.libsignal.protocol.state.SignalProtocolStore;
@@ -92,6 +94,11 @@ public class SerializationServer
         System.out.println("Values received from Client are:-");
 
         System.out.println(new String(decrypted, StandardCharsets.UTF_8));
+
+        CiphertextMessage message = cipher.encrypt("Server to client".getBytes(StandardCharsets.UTF_8));
+        byte[] rawText = message.serialize();
+
+        SignalMessage signalMessage = new SignalMessage(rawText);
 
 
         System.out.println("Closing sockets.");
